@@ -1,0 +1,31 @@
+<?php
+
+class rex_xform_html extends rex_xform_abstract
+{
+
+	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0) {
+		$form_output[] = $this->elements[2];
+	}
+	
+	function getDescription() {
+		return htmlspecialchars(stripslashes('html -> Beispiel: html|label|<div class="block">'));
+	}
+	
+	function getDefinitions() {
+
+		return array(
+						'type' => 'value',
+						'name' => 'html',
+						'values' => array(
+									array( 'type' => 'name',   'label' => 'Feld' ),
+									array( 'type' => 'textarea',    'label' => 'HTML'),
+		        		),
+						'description' => 'Nur für die Ausgabe gedacht',
+						'dbtype' => 'text'
+					);
+
+	}
+	
+}
+
+?>
