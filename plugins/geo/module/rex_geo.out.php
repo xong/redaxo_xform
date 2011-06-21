@@ -59,7 +59,7 @@ switch($rex_geo_func)
 		if($geo_search_page<0) $geo_search_page = 0;
 		$sql_limit_from = ($geo_search_page*$geo_search_page_size);
 		$sql_limit_to = (($geo_search_page+1)*$geo_search_page_size)+1;
-		$sql_limit = ' LIMIT '.$sql_limit_from.','.$sql_limit_to;
+		$sql_limit = ' order by rand(20)  LIMIT '.$sql_limit_from.','.$sql_limit_to;
 
 		$gd = rex_sql::factory();
 		// $gd->debugsql = 1;
