@@ -267,6 +267,3 @@ var rex_xform_geomap = function(loaded_options) {
 
 };
 
-rex_geo_explorer = new rex_xform_geomap(rex_geo_options); //
-rex_geo_explorer.initialize();
-
