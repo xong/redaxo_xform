@@ -22,7 +22,7 @@ xform_relation_delete_entry = Ausgewählten Datensatz löschen
 
 truncate_table = Daten löschen
 table_truncated = Daten wurden komplett gelöscht
-
+xform_table_overview = Tabellenübersicht
 
 
 # tables.inc.php

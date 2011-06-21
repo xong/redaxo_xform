@@ -14,7 +14,7 @@ $table_id = rex_request("table_id","int");
 
 $show_list = TRUE;
 
-if($func == "update")
+if($func == "update" && $REX['USER']->isAdmin())
 {
 	$t = new rex_xform_manager();
 	$t->generateAll();
@@ -23,7 +23,7 @@ if($func == "update")
 }
 
 // ********************************************* FORMULAR
-if($func == "add" || $func == "edit")
+if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 {
 	
 	$xform = new rex_xform;
@@ -94,7 +94,7 @@ if($func == "add" || $func == "edit")
 
 
 // ********************************************* LOESCHEN
-if($func == "delete"){
+if($func == "delete" && $REX['USER']->isAdmin()){
 
 	// TODO:
 	// querloeschen - bei be_xform_relation, muss die zieltabelle auch bearbeitet werden + die relationentabelle auch geloescht werden
@@ -115,7 +115,7 @@ if($func == "delete"){
 
 
 // ********************************************* LISTE
-if($show_list){
+if($show_list && $REX['USER']->isAdmin()){
   
 	// formatting func fuer status col
 	function rex_xform_status_col($params)
@@ -159,4 +159,28 @@ if($show_list){
 	$list->setColumnParams($I18N->msg("delete"), array("table_id"=>"###id###","func"=>"delete"));
 
 	echo $list->get();
+}
+
+
+// ********************************************* LISTE OF TABLES TO EDIT FOR NOt ADMINS
+
+if(!$REX['USER']->isAdmin())
+{
+	echo '<div class="rex-addon-output">';
+	echo '<h2 class="rex-hl2">'.$I18N->msg("xform_table_overview").'</h2>';
+	echo '<div class="rex-addon-content"><ul>';
+
+	$t = new rex_xform_manager();
+	$tables = $t->getTables();
+	if(is_array($tables)) {
+		foreach($tables as $table) {
+			$table_perm = 'xform[table:'.$table["table_name"].']';
+			if($table['status'] == 1 && $table['hidden'] != 1 && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm($table_perm))) {
+				echo '<li><a href="index.php?page=xform&subpage=manager&tripage=data_edit&table_name='.$table['table_name'].'">'.$table['name'].'</a></li>';
+			}
+		}
+	}
+
+	echo '</ul></div>';
+	echo '</div>';
 }
