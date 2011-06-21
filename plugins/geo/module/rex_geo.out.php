@@ -22,7 +22,7 @@ switch($rex_geo_func)
 		
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 
 		$geo_search_text = rex_request("geo_search_text","string");
 		$geo_search_page = rex_request("geo_search_page","int");
