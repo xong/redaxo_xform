@@ -9,8 +9,17 @@ class rex_xform_checkbox extends rex_xform_abstract
 
 		$checked = "";
 
-		if ((isset($this->elements[3]) && $this->value == $this->elements[3]) || ($send == 0 && isset($this->elements[4]) && $this->elements[4]==1)) {
+		if($this->getElement(3) != "" && $this->getValue() == $this->getElement(3)) {
 			$checked = ' checked="checked"';
+			$v = $this->getElement(3);
+		
+		}elseif($this->getValue() == 1) {
+			$checked = ' checked="checked"';
+			$v = 1;
+			
+		}else {
+			$this->setValue("0");
+			$v = 1;
 		}
 
 		$wc = "";
@@ -20,7 +29,7 @@ class rex_xform_checkbox extends rex_xform_abstract
 
 		$form_output[$this->getId()] = '
 			<p class="formcheckbox formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-				<input type="checkbox" class="checkbox '.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.$this->elements[3].'" '.$checked.' />
+				<input type="checkbox" class="checkbox '.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.$v.'" '.$checked.' />
 				<label class="checkbox '.$wc.'" for="'.$this->getFieldId().'" >'.$this->elements[2].'</label>
 			</p>';
 
