@@ -30,8 +30,8 @@ class rex_xform_validate_email extends rex_xform_validate_abstract
 				'type' => 'validate',
 				'name' => 'email',
 				'values' => array(
-					array( 'type' => 'getname',   	'label' => 'Name' ),
-					array( 'type' => 'text',    		'label' => 'Fehlermeldung'),
+					array( 'type' => 'select_name',   	'label' => 'Name' ),
+					array( 'type' => 'text',    	'label' => 'Fehlermeldung'),
 				),
 				'description' => 'Hiermit wird ein Label überprüft ob es eine E-Mail ist',
 			);

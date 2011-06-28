@@ -402,7 +402,7 @@ if($show_editpage) {
 			$search_field_select->addOption('id',"id");
 			
 			$field_names = array();
-			foreach($fields as $field){ if($field["type_id"] == "value" && $field["search"] == 1) { $search_field_select->addOption($field["f2"].' ['.$field["f1"].']',$field["f1"]); } }
+			foreach($fields as $field){ if($field["type_id"] == "value" && $field["search"] == 1) { $search_field_select->addOption(rex_translate($field["f2"]).' ['.$field["f1"].']',$field["f1"]); } }
 			foreach($rex_xform_searchfields as $cs) { $search_field_select->setSelected($cs); }
 			
 			$suchform = '<table width=770 cellpadding=5 cellspacing=1 border=0 bgcolor=#ffffff class="rex-table">';

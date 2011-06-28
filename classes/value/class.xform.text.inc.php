@@ -22,7 +22,7 @@ class rex_xform_text extends rex_xform_abstract
 
 		$this->params["form_output"][$this->getId()] = '
 			<p class="formtext formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-				<label class="text' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->elements[2] . '</label>
+				<label class="text' . $wc . '" for="' . $this->getFieldId() . '" >' . rex_translate($this->getElement(2)) . '</label>
 				<input type="text" class="text'.$classes.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
 			</p>';
 

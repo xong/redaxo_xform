@@ -16,57 +16,55 @@ class rex_xform_select extends rex_xform_abstract
 
 		$SEL = new rex_select();
 		$SEL->setId("el_" . $this->getId());
-		if($multiple)
-		{
-			if($size == 1)
-			 $size = 2;
+		if($multiple) {
+			if($size == 1) {
+				$size = 2;
+			}
 			$SEL->setName($this->getFormFieldname()."[]");
 			$SEL->setSize($size);
 			$SEL->setMultiple(1);
-		}else
-		{
+		}else {
 			$SEL->setName($this->getFormFieldname());
 			$SEL->setSize(1);
 		}
 
-		foreach (explode(",", $this->elements[3]) as $v)
-		{
+		foreach (explode(",", $this->elements[3]) as $v) {
 			$teile = explode("=", $v);
 			$wert = $teile[0];
-			if (isset ($teile[1]))
-			{
+			if (isset ($teile[1])) {
 				$bezeichnung = $teile[1];
-			}else
-			{
+
+			}else {
 				$bezeichnung = $teile[0];
+
 			}
-			$SEL->addOption($wert, $bezeichnung);
+			$SEL->addOption(rex_translate($wert), $bezeichnung);
 		}
 
-		if (!$send && $this->value=="" && isset($this->elements[5]) && $this->elements[5] != "")
-		$this->value = $this->elements[5];
+		if (!$send && $this->value=="" && isset($this->elements[5]) && $this->elements[5] != ""){
+			$this->value = $this->elements[5];
+		}
 
-		if(!is_array($this->getValue()))
-		{
+		if(!is_array($this->getValue())) {
 			$this->value = explode(",",$this->getValue());
 		}
 
-		foreach($this->getValue() as $v)
-		{
+		foreach($this->getValue() as $v) {
 			$SEL->setSelected($v);
 		}
 
 		$this->value = implode(",",$this->getValue());
 
 		$wc = "";
-		if (isset($warning[$this->getId()]))
-		  $wc = $warning[$this->getId()];
+		if (isset($warning[$this->getId()])) {
+			$wc = $warning[$this->getId()];
+		}
 
 		$SEL->setStyle(' class="select '.$wc.'"');
 
 		$form_output[$this->getId()] = '
       <p class="formselect formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-      <label class="select '.$wc.'" for="el_'.$this->getId().'" >'.$this->elements[2].'</label>'. 
+      <label class="select '.$wc.'" for="el_'.$this->getId().'" >'.rex_translate($this->getElement(2)).'</label>'. 
 		$SEL->get().
       '</p>';
 

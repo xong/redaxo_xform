@@ -40,12 +40,6 @@ class rex_xform_list extends rex_list {
 	}
 
 	// ------------------------------------------------------- VIEWS
-
-
-	
-	
-	
-	
 	
 	function getClassicView()
 	{
@@ -86,9 +80,6 @@ class rex_xform_list extends rex_list {
 		
 		return '<div class="rex-navi-paginate rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
 	}
-	
-	
-	
 	
 	function getPlainView()
 	{
@@ -173,11 +164,6 @@ class rex_xform_list extends rex_list {
 	
 	}
 
-
-	
-	
-	
-	
 	/*
 	on edit page, only back and forward.
 	*/
@@ -247,18 +233,12 @@ class rex_xform_list extends rex_list {
 	
 	}
 	
+	// ---------------------------------------------------
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	function setColumnLabel($columnName, $label)
+    {
+      $this->columnLabels[$columnName] = rex_translate($label);
+    }
 
 
 }

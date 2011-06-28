@@ -8,7 +8,6 @@ class rex_xform_abstract
 	var $elements = array(); // lokale elemente
 	var $element_values = array(); // Werte aller Value Objekte
 
-
 	var $id;
 	var $value;
 	var $name;
@@ -60,10 +59,11 @@ class rex_xform_abstract
 			return $v;
 		}else
 		{
-			if(isset($this->keys[$v]))
-			return $this->keys[$v];
-			else
-			return $v;
+			if(isset($this->keys[$v])) {
+				return $this->keys[$v];
+			}else {
+				return $v;
+			}
 		}
 	}
 
@@ -198,15 +198,12 @@ class rex_xform_abstract
 		return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
 	}
 
-
-	// deprecated
-	function getFormFieldname($k="")
-	{
-		if($k != "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
-		return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
-	}
-
-
+		// deprecated
+		function getFormFieldname($k="")
+		{
+			if($k != "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
+			return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
+		}
 
 
 	function getHTMLId($suffix = "")

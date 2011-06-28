@@ -97,8 +97,8 @@ if($func == "choosenadd")
 	if(!rex_xform_manager_table::hasId($table["table_name"])) {
 
 		?>
-		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo $I18N->msg('idmissing'); ?></h2><div class="rex-addon-content">
-		<p class="rex-tx1"><?php echo $I18N->msg('missingidinfo'); ?></p>
+		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo $I18N->msg('xform_id_is_missing'); ?></h2><div class="rex-addon-content">
+		<p class="rex-tx1"><?php echo $I18N->msg('xform_id_missing_info'); ?></p>
 		</div></div>
 		<?php
 		
@@ -310,13 +310,18 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 				$xform->setValueField("textarea",array("f".$i,$v['label']));
 				break;
 
-				// Todo:
 			case("table.field"):
-				// Todo: Einen Namen aus denanderen FEdern ziehen und als selectbox anbieten
-			case("select_name"):
-				// Todo: Mehrere Namen aus denanderen Federn ziehen und als multiselectbox anbieten
-			case("select_names"):
 				// Todo:
+
+			case("select_name"):
+				$_fields = array();
+				foreach(rex_xform_manager_table::getXFormFieldsByType($table["table_name"]) as $_k => $_v) { $_fields[] = $_k; }
+				$xform->setValueField("select",array("f".$i,$v['label'],implode(",",$_fields),"","",0));
+				break;
+				
+			case("select_names"):
+				// Todo: Mehrere Namen aus denanderen Federn ziehen und als multiselectbox anbieten
+
 			default:
 				// nur beim "Bezeichnungsfeld"
 				if($i == 2 && $type_real_field != "" && !isset($v["value"]))

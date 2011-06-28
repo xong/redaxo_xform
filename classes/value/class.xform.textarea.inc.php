@@ -27,7 +27,7 @@ class rex_xform_textarea extends rex_xform_abstract
 		
 		$form_output[$this->getId()] = '
 		<p class="formtextarea" id="'.$this->getHTMLId().'">
-			<label class="textarea ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+			<label class="textarea ' . $wc . '" for="el_' . $this->id . '" >' . rex_translate($this->getElement(2)) . '</label>
 			<textarea class="textarea' . $classes . $wc . '" name="'.$this->getFormFieldname().'" id="el_' . $this->getId() . '" cols="80" rows="10">' . htmlspecialchars(stripslashes($this->value)) . '</textarea>
 		</p>';
 

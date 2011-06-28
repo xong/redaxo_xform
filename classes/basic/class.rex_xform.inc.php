@@ -497,12 +497,12 @@ class rex_xform
 				{
 					foreach($this->objparams["warning_messages"] as $k => $v)
 					{
-						$warningListOut .= '<li>'. $v .'</li>';
+						$warningListOut .= '<li>'. rex_translate($v) .'</li>';
 					}
 				}
 				if($this->objparams["unique_error"] != '')
 				{
-					$warningListOut .= '<li>'. preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) .'</li>';
+					$warningListOut .= '<li>'. rex_translate( preg_replace($preg_user_vorhanden, "", $this->objparams["unique_error"]) ) .'</li>';
 				}
 
 				if ($warningListOut != '')
