@@ -30,7 +30,7 @@ class rex_xform_checkbox extends rex_xform_abstract
 		$form_output[$this->getId()] = '
 			<p class="formcheckbox formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
 				<input type="checkbox" class="checkbox '.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.$v.'" '.$checked.' />
-				<label class="checkbox '.$wc.'" for="'.$this->getFieldId().'" >'.$this->elements[2].'</label>
+				<label class="checkbox '.$wc.'" for="'.$this->getFieldId().'" >'.rex_translate($this->elements[2]).'</label>
 			</p>';
 
 		$email_elements[$this->elements[1]] = stripslashes($this->value);

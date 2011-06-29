@@ -127,28 +127,23 @@ class rex_xform_abstract
 
 	// ************************** Eventfunctions
 
-	function init()
-	{
+	function init() {
 
 	}
 
-	function preValidateAction()
-	{
+	function preValidateAction() {
 
 	}
 
-	function postValidateAction()
-	{
+	function postValidateAction() {
 
 	}
 
-	function postFormAction()
-	{
+	function postFormAction() {
 
 	}
 
-	function postAction(&$email_elements,&$sql_elements)
-	{
+	function postAction(&$email_elements,&$sql_elements) {
 
 	}
 
@@ -160,8 +155,6 @@ class rex_xform_abstract
 		}
 	}
 
-	// ************************** 
-
 	function getDatabasefieldname()
 	{
 		if (isset($this->elements[1]))
@@ -170,73 +163,65 @@ class rex_xform_abstract
 		}
 	}
 
-
-	function getElement($i)
-	{
-		if(!isset($this->elements[$i]))
+	function getElement($i) {
+		if(!isset($this->elements[$i])) {
 			return FALSE;
-		else
+			
+		}else {
 			return $this->elements[$i];
+			
+		}
 	}
 
 
-	function getId()
-	{
+	function getId() {
 		return $this->id;
 	}
 
-	function getFieldId($k="")
-	{
+	function getFieldId($k="") {
 		if($k === "") return "xform-".$this->params["form_name"]."-field-".$this->getId();
 		return "xform-".$this->params["form_name"]."-field-".$this->getId().'_'.$k;
 		
 	}
 
-	function getFieldName($k="")
-	{
+	function getFieldName($k="") {
 		if($k === "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
 		return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
 	}
 
-		// deprecated
-		function getFormFieldname($k="")
-		{
-			if($k != "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
-			return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
-		}
-
-
-	function getHTMLId($suffix = "")
-	{
-		if($suffix != "")
+	function getHTMLId($suffix = "") {
+		if($suffix != "") {
 			return "xform-".$this->params["form_name"]."-".$this->getName()."-".$suffix;
-		else
+		}else {
 			return "xform-".$this->params["form_name"]."-".$this->getName();
+		}
 	}
 
-	function getDescription()
-	{
+	function getDescription() {
 		return "Es existiert keine Klassenbeschreibung";
 	}
 
-	function getLongDescription()
-	{
+	function getLongDescription() {
 		return "Es existiert keine ausfuehrliche Klassenbeschreibung";
 	}
 
-	function getDefinitions()
-	{
+	function getDefinitions() {
 		return array();
 	}
 
 
-	// ************************** 
 
-	// Default Feldtype.
 
-	function getDBFieldType()
+	// ---------- deprecated
+	function getFormFieldname($k="")
 	{
-		return FALSE;
+		if($k != "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
+		return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
 	}
+
+
+
+
+
 
 }

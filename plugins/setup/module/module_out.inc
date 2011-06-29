@@ -1,6 +1,6 @@
 <?php
 
-// MODUL OUT - XO FORM
+// module:xform_basic_out
 // v0.19
 //--------------------------------------------------------------------------------
 
@@ -16,8 +16,9 @@ $xform->setRedaxoVars(REX_ARTICLE_ID,REX_CLANG_ID);
 // Action/en
 
 // Datein vorher auslesen ?
-if ("REX_VALUE[10]" != "") 
+if ("REX_VALUE[10]" != "") {
 	$xform->setObjectparams("getdata",TRUE); 
+}
 
 $xform->setObjectparams("main_table","REX_VALUE[8]"); // fuer db speicherungen und unique abfragen
 $xform->setObjectparams("form_type","REX_VALUE[1]"); // Aktion einstellen - Nichts, Speichern, E-Mail, beides ? - form_typ
@@ -26,10 +27,11 @@ $xform->setObjectparams("form_type","REX_VALUE[1]"); // Aktion einstellen - Nich
 $xform->setObjectparams("mail_subject","REX_VALUE[4]"); // Mailsubject
 $xform->setObjectparams("mail_body",str_replace("<br />","",rex_xform::unhtmlentities('REX_VALUE[5]'))); // Mailsubject
 $xform->setObjectparams("mail_to",$REX['ERROR_EMAIL']); // Mail to
-if ("REX_VALUE[2]" != "") 
+if ("REX_VALUE[2]" != "") {
 	$xform->setObjectparams("mail_from","REX_VALUE[2]"); // Mail from
-else 
+}else {
 	$xform->setObjectparams("mail_from",$REX['ERROR_EMAIL']); // Mail from
+}
 
 // Individuelle Einstellungen
 ?>REX_PHP_VALUE[9]<?php

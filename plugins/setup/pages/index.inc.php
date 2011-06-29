@@ -5,7 +5,7 @@ rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
 	
 // ------------------------------- Ist Modul schon vorhanden ?
 
-$searchtext = '$xform = new rex_xform';
+$searchtext = 'module:xform_basic_out';
 
 $gm = rex_sql::factory();
 $gm->setQuery('select * from rex_module where ausgabe LIKE "%'.$searchtext.'%"');

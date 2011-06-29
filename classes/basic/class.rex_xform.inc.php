@@ -9,7 +9,7 @@
 class rex_xform
 {
 
-	var $objparams;
+	var $ValueObjectsparams;
 
 	function rex_xform()
 	{
@@ -79,20 +79,17 @@ class rex_xform
 
 	}
 
-	function setDebug($s = TRUE)
-	{
+	function setDebug($s = TRUE) {
 		$this->objparams['debug'] = $s;
 	}
 
-	function setFormData($form_definitions,$refresh = TRUE)
-	{
+	function setFormData($form_definitions,$refresh = TRUE) {
 		$this->setObjectparams("form_data",$form_definitions,$refresh);
 
 		$this->objparams["form_data"] = str_replace("\n\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
 		$this->objparams["form_data"] = str_replace("\r", "\n" ,$this->objparams["form_data"]); // Die Definitionen
 
-		if(!is_array($this->objparams["form_elements"]))
-		{
+		if(!is_array($this->objparams["form_elements"])) {
 			$this->objparams["form_elements"] = array();
 		}
 
@@ -100,43 +97,35 @@ class rex_xform
 		$form_elements_tmp = explode("\n", $this->objparams['form_data']); // Die Definitionen
 
 		// leere Zeilen aus $this->objparams["form_elements"] entfernen
-		foreach($form_elements_tmp as $form_element)
-		{
-			if(trim($form_element)!="")
-			{
+		foreach($form_elements_tmp as $form_element) {
+			if(trim($form_element) != "") {
 				$this->objparams["form_elements"][] = explode("|", trim($form_element));
 			}
 		}
 	}
 
-	function setValueField($type = "",$values = array())
-	{
+	function setValueField($type = "",$values = array()) {
 		$values = array_merge(array($type),$values);
 		$this->objparams["form_elements"][] = $values;
 	}
 
-	function setValidateField($type = "",$values = array())
-	{
+	function setValidateField($type = "",$values = array()) {
 		$values = array_merge(array("validate",$type),$values);
 		$this->objparams["form_elements"][] = $values;
 	}
 
-	function setActionField($type = "",$values = array())
-	{
+	function setActionField($type = "",$values = array()) {
 		$values = array_merge(array("action",$type),$values);
 		$this->objparams["form_elements"][] = $values;
 	}
 
-	function setRedaxoVars($aid = "",$clang = "",$params = array())
-	{
+	function setRedaxoVars($aid = "",$clang = "",$params = array()) {
 		global $REX;
 
-		if ($clang == "")
-		{
+		if ($clang == "") {
 			$clang = $REX["CUR_CLANG"];
 		}
-		if ($aid == "")
-		{
+		if ($aid == "") {
 			$aid = $REX["ARTICLE_ID"];
 		}
 
@@ -150,48 +139,37 @@ class rex_xform
 		$this->setObjectparams("form_action", rex_getUrl($aid, $clang, $params));
 	}
 
-	function setHiddenField($k,$v)
-	{
+	function setHiddenField($k,$v) {
 		$this->objparams["form_hiddenfields"][$k] = $v;
 	}
 
-	function setObjectparams($k,$v,$refresh = TRUE)
-	{
-		if (!$refresh && isset($this->objparams[$k]))
-		{
+	function setObjectparams($k,$v,$refresh = TRUE) {
+		if (!$refresh && isset($this->objparams[$k])) {
 			$this->objparams[$k] .= $v;
-		}else
-		{
+		}else {
 			$this->objparams[$k] = $v;
 		}
 
-		if($k != "form_name")
-		{
+		if($k != "form_name") {
 			return;
 		}
 
-		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"]))
-		{
+		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"])) {
 			$this->objparams["send"] = $_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"];
-		}else
-		{
+		}else {
 			$this->objparams["send"] = 0;
 		}
 
 	}
 
-	function getObjectparams($k)
-	{
-		if(!isset($this->objparams[$k]))
-		{
+	function getObjectparams($k) {
+		if(!isset($this->objparams[$k])) {
 			return FALSE;
 		}
-
 		return $this->objparams[$k];
 	}
 
-	function getForm()
-	{
+	function getForm() {
 
 		global $REX;
 
@@ -199,7 +177,8 @@ class rex_xform
 		$sql_elements = array(); // diese Werte werden beim DB Satz verwendet /update oder insert
 		$email_elements = array(); // hier werden Werte gesetzt die beim Mailversand ersetzt werden. z.B. passwort etc.
 
-		$obj = array();
+		$ValueObjects = array();
+		$ValidateObjects = array();
 
 		// *************************************************** ABGESCHICKT PARAMENTER
 		if (isset($_REQUEST["FORM"][$this->objparams["form_name"]][$this->objparams["form_name"] . "send"]))
@@ -216,27 +195,34 @@ class rex_xform
 		for ($i = 0; $i < $rows; $i++)
 		{
 			$element = $this->objparams["form_elements"][$i];
-			if($element[0] != "validate" && $element[0] != "action")
+			
+			if($element[0] == "validate")
+			{
+			
+			}elseif($element[0] == "action")
+			{
+			
+			}else
 			{
 				foreach($REX['ADDON']['xform']['classpaths']['value'] as $value_path)
 				{
 					$classname = "rex_xform_".trim($element[0]);
 					if (@include_once ($value_path.'class.xform.'.trim($element[0]).'.inc.php'))
 					{
-						$obj[$i] = new $classname;
-						$obj[$i]->loadParams($this->objparams,$element,$obj,$email_elements,$sql_elements);
-						$obj[$i]->setId($i);
-						$obj[$i]->init();
+						$ValueObjects[$i] = new $classname;
+						$ValueObjects[$i]->loadParams($this->objparams,$element,$ValueObjects,$email_elements,$sql_elements);
+						$ValueObjects[$i]->setId($i);
+						$ValueObjects[$i]->init();
 
 						if (isset($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]))
 						{
-							$obj[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
+							$ValueObjects[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
 						}else
 						{
-							$obj[$i]->setValue("");
+							$ValueObjects[$i]->setValue("");
 						}
 
-						$obj[$i]->setObjects($obj);
+						$ValueObjects[$i]->setObjects($ValueObjects);
 
 						// muss hier gesetzt sein, damit ein value objekt die elemente erweitern kann
 						$rows = count($this->objparams["form_elements"]);
@@ -248,17 +234,13 @@ class rex_xform
 			}
 		}
 
-
 		// ----- PRE VALUES
 		// Felder aus Datenbank auslesen - Sofern Aktualisierung
 		$SQLOBJ = rex_sql::factory();
-		if ($this->objparams['getdata'])
-		{
-			$xsSelect = "SELECT * from ".$this->objparams["main_table"]. " WHERE ".$this->objparams["main_where"];
+		if ($this->objparams['getdata']) {
 			$SQLOBJ->debugsql = $this->objparams['debug'];
-			$SQLOBJ->setQuery($xsSelect);
-			if ($SQLOBJ->getRows() > 1 || $SQLOBJ->getRows() == 0)
-			{
+			$SQLOBJ->setQuery("SELECT * from ".$this->objparams["main_table"]. " WHERE ".$this->objparams["main_where"]);
+			if ($SQLOBJ->getRows() > 1 || $SQLOBJ->getRows() == 0) {
 				$this->objparams["warning"][] = $this->objparams["Error-Code-EntryNotFound"];
 				$this->objparams["warning_messages"][] = $this->objparams["Error-Code-EntryNotFound"];
 				$this->objparams["form_show"] = TRUE;
@@ -269,18 +251,14 @@ class rex_xform
 		// ----- Felder mit Werten fuellen, fuer wiederanzeige
 		// Die Value Objekte werden mit den Werten befuellt die
 		// aus dem Formular nach dem Abschicken kommen
-		if (!($this->objparams["send"] == 1) && $this->objparams["main_where"] != "" && $this->objparams['form_type'] != "3")
-		{
-			for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
-			{
+		if (!($this->objparams["send"] == 1) && $this->objparams["main_where"] != "" && $this->objparams['form_type'] != "3") {
+			for ($i = 0; $i < count($this->objparams["form_elements"]); $i++) {
 				$element = $this->objparams["form_elements"][$i];
-				if (($element[0]!="validate" && $element[0]!="action") and $element[1] != "")
-				{
+				if (($element[0]!="validate" && $element[0]!="action") and $element[1] != "") {
 					$_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i] = @addslashes($SQLOBJ->getValue($element[1]));
 				}
-				if($element[0]!="validate" && $element[0]!="action")
-				{
-					$obj[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
+				if($element[0]!="validate" && $element[0]!="action") {
+					$ValueObjects[$i]->setValue($_REQUEST["FORM"][$this->objparams["form_name"]]["el_" . $i]);
 				}
 			}
 		}
@@ -289,8 +267,7 @@ class rex_xform
 		// *************************************************** VALIDATE OBJEKTE
 
 		// ***** PreValidateActions
-		foreach($obj as $value_object)
-		{
+		foreach($ValueObjects as $value_object) {
 			$value_object->preValidateAction();
 		}
 
@@ -305,10 +282,10 @@ class rex_xform
 					if (@include_once ($validate_path.'class.xform.validate_'.trim($element[1]).'.inc.php'))
 					{
 						$count = 0;
-						if (isset($valObj[$element[1]])) $count = count($valObj[$element[1]]);
-						$valObj[$element[1]][$count] = new $classname;
-						$valObj[$element[1]][$count]->loadParams($this->objparams, $element);
-						$valObj[$element[1]][$count]->setObjects($obj);
+						if (isset($ValidateObjects[$element[1]])) $count = count($ValidateObjects[$element[1]]);
+						$ValidateObjects[$element[1]][$count] = new $classname;
+						$ValidateObjects[$element[1]][$count]->loadParams($this->objparams, $element);
+						$ValidateObjects[$element[1]][$count]->setObjects($ValueObjects);
 						break;
 					}
 				}
@@ -317,22 +294,19 @@ class rex_xform
 
 
 		// ***** Validieren
-		if ($this->objparams["send"] == 1)
-		{
-			if (isset($valObj) && count($valObj)>0)
-			{
-				foreach($valObj as $vObj)
-				{
-					foreach($vObj as $xoObject)
-					$xoObject->enterObject($this->objparams["warning"], 1, $this->objparams["warning_messages"]);
+		if ($this->objparams["send"] == 1) {
+			if (isset($ValidateObjects) && count($ValidateObjects)>0) {
+				foreach($ValidateObjects as $vObj) {
+					foreach($vObj as $xoObject) {
+						$xoObject->enterObject($this->objparams["warning"], 1, $this->objparams["warning_messages"]);
+					}
 				}
 			}
 		}
 
 
 		// ***** PostValidateActions
-		foreach($obj as $value_object)
-		{
+		foreach($ValueObjects as $value_object) {
 			$value_object->postValidateAction();
 		}
 
@@ -340,15 +314,13 @@ class rex_xform
 
 		// *************************************************** FORMULAR ERSTELLEN
 
-		foreach($obj as $value_object)
-		{
-			$value_object->enterObject( $email_elements, $sql_elements, $this->objparams["warning"], $this->objparams["form_output"], $this->objparams["send"], $SQLOBJ, $this->objparams );
+		foreach($ValueObjects as $value_object) {
+			$value_object->enterObject( $email_elements, $sql_elements, $this->objparams["warning"], $this->objparams["form_output"], $this->objparams["send"]); // , $SQLOBJ, $this->objparams 
 		}
 
 
 		// ***** PostFormActions
-		foreach($obj as $value_object)
-		{
+		foreach($ValueObjects as $value_object) {
 			$value_object->postFormAction();
 		}
 
@@ -357,21 +329,21 @@ class rex_xform
 		// *************************************************** ACTION OBJEKTE
 
 		// ID setzen, falls vorhanden
-		if($this->objparams["main_id"]>0)
-		$email_elements["ID"] = $this->objparams["main_id"];
+		if($this->objparams["main_id"]>0) {
+			$email_elements["ID"] = $this->objparams["main_id"];
+		}
 
 		// Action Felder auslesen und Validate Objekte erzeugen
-		if ($this->objparams['form_type'] == "0" || $this->objparams['form_type'] == "2")
-		{
+		if ($this->objparams['form_type'] == "0" || $this->objparams['form_type'] == "2") {
 			$this->objparams["actions"][] = array(
-        "type" => "db",
-        "elements" => array(
-          "action", 
-          "db", 
-			$this->objparams["main_table"], // Db Name
-			$this->objparams["main_where"], // Where
-			),
-			);
+				"type" => "db",
+				"elements" => array(
+					"action", 
+					"db", 
+					$this->objparams["main_table"], // Db Name
+					$this->objparams["main_where"], // Where
+					),
+				);
 		}
 
 		for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
@@ -380,8 +352,8 @@ class rex_xform
 			if($element[0]=="action")
 			{
 				$this->objparams["actions"][] = array(
-          "type" => trim($element[1]),
-          "elements" => $element,
+					"type" => trim($element[1]),
+					"elements" => $element,
 				);
 			}
 		}
@@ -389,30 +361,30 @@ class rex_xform
 		if ($this->objparams['form_type'] == "1" || $this->objparams['form_type'] == "2")
 		{
 			$this->objparams["actions"][] = array(
-        "type" => "email",
-        "elements" => array(
-          "action",
-          "email",
-			$this->objparams["mail_from"],
-			$this->objparams["mail_to"],
-			$this->objparams["mail_subject"],
-			$this->objparams["mail_body"],
-			),
+				"type" => "email",
+				"elements" => array(
+					"action",
+					"email",
+					$this->objparams["mail_from"],
+					$this->objparams["mail_to"],
+					$this->objparams["mail_subject"],
+					$this->objparams["mail_body"],
+				),
 			);
 		}
 
 		if ($this->objparams["answertext"]!="")
 		{
 			$this->objparams["actions"][] = array(
-        "type" => "showtext",
-        "elements" => array(
-            "action",
-            "email",
-			$this->objparams["answertext"],
-            '<div class="rex-message"><div class="rex-info"><p>',
-            '</p></div></div>',
-            '0' // nicht als HTML interpretieren
-			),
+				"type" => "showtext",
+				"elements" => array(
+					"action",
+					"email",
+					$this->objparams["answertext"],
+					'<div class="rex-message"><div class="rex-info"><p>',
+					'</p></div></div>',
+					'0' // nicht als HTML interpretieren
+				),
 			);
 		}
 
@@ -440,12 +412,11 @@ class rex_xform
 							$classname = 'rex_xform_'.$type;
 							$actions[$i] = new $classname;
 							$actions[$i]->loadParams($this->objparams,$action,$email_elements,$sql_elements,$this->objparams["warning"],$this->objparams["warning_messages"]);
-							$actions[$i]->setObjects($obj);
+							$actions[$i]->setObjects($ValueObjects);
 						}
 					}
 				}
-				foreach($actions as $action)
-				{
+				foreach($actions as $action) {
 					$action->execute();
 				}
 			}
@@ -453,8 +424,7 @@ class rex_xform
 			$this->objparams["actions_executed"] = TRUE;
 
 			// PostActions
-			foreach($obj as $value_object)
-			{
+			foreach($ValueObjects as $value_object) {
 				$value_object->postAction($email_elements, $sql_elements);
 			}
 
