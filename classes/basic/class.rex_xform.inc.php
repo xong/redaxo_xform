@@ -39,8 +39,6 @@ class rex_xform
 		$this->objparams["main_table"] = ""; // fŸr db speicherungen und unique abfragen
 
 		$this->objparams["error_class"] = 'form_warning'; // CSS Klasse fuer die Fehlermedlungen.
-		$this->objparams["WRAP_BLOCK_START"] = '<div class="element">';
-		$this->objparams["WRAP_BLOCK_END"] = '</div>';
 		$this->objparams["unique_error"] = "";
 		$this->objparams["unique_field_warning"] = "not unique"; // Fehlermeldung die erscheint, wenn ein Unique-Feld von einem anderen User benutzt wird.
 		$this->objparams["article_id"] = 0;
@@ -72,6 +70,10 @@ class rex_xform
 
 		$this->objparams["form_elements"] = array(); // Alle einzelnen Elemente
 		$this->objparams["form_output"] = array(); // Alle einzelnen Elemente
+
+		$this->objparams["value_pool"] = array();
+		$this->objparams["value_pool"]["email"] = array();
+		$this->objparams["value_pool"]["sql"] = array();
 
 		$this->objparams["value"] = array(); // reserver for classes - $this->objparams["value"]["text"] ...
 		$this->objparams["validate"] = array(); // reserver for classes
@@ -174,8 +176,6 @@ class rex_xform
 		global $REX;
 
 		$preg_user_vorhanden = "~\*|:|\(.*\)~Usim"; // Preg der Bestimmte Zeichen/Zeichenketten aus der Bezeichnung entfernt
-		$sql_elements = array(); // diese Werte werden beim DB Satz verwendet /update oder insert
-		$email_elements = array(); // hier werden Werte gesetzt die beim Mailversand ersetzt werden. z.B. passwort etc.
 
 		$ValueObjects = array();
 		$ValidateObjects = array();
@@ -210,7 +210,7 @@ class rex_xform
 					if (@include_once ($value_path.'class.xform.'.trim($element[0]).'.inc.php'))
 					{
 						$ValueObjects[$i] = new $classname;
-						$ValueObjects[$i]->loadParams($this->objparams,$element,$ValueObjects,$email_elements,$sql_elements);
+						$ValueObjects[$i]->loadParams($this->objparams,$element,$ValueObjects,$this->objparams["value_pool"]["email"],$this->objparams["value_pool"]["sql"]);
 						$ValueObjects[$i]->setId($i);
 						$ValueObjects[$i]->init();
 
@@ -315,7 +315,7 @@ class rex_xform
 		// *************************************************** FORMULAR ERSTELLEN
 
 		foreach($ValueObjects as $value_object) {
-			$value_object->enterObject( $email_elements, $sql_elements, $this->objparams["warning"], $this->objparams["form_output"], $this->objparams["send"]); // , $SQLOBJ, $this->objparams 
+			$value_object->enterObject( $this->objparams["value_pool"]["email"], $this->objparams["value_pool"]["sql"], $this->objparams["warning"], $this->objparams["form_output"], $this->objparams["send"]); // , $SQLOBJ, $this->objparams 
 		}
 
 
@@ -330,7 +330,7 @@ class rex_xform
 
 		// ID setzen, falls vorhanden
 		if($this->objparams["main_id"]>0) {
-			$email_elements["ID"] = $this->objparams["main_id"];
+			$this->objparams["value_pool"]["email"]["ID"] = $this->objparams["main_id"];
 		}
 
 		// Action Felder auslesen und Validate Objekte erzeugen
@@ -411,7 +411,7 @@ class rex_xform
 						{
 							$classname = 'rex_xform_'.$type;
 							$actions[$i] = new $classname;
-							$actions[$i]->loadParams($this->objparams,$action,$email_elements,$sql_elements,$this->objparams["warning"],$this->objparams["warning_messages"]);
+							$actions[$i]->loadParams($this->objparams,$action,$this->objparams["value_pool"]["email"],$this->objparams["value_pool"]["sql"],$this->objparams["warning"],$this->objparams["warning_messages"]);
 							$actions[$i]->setObjects($ValueObjects);
 						}
 					}
@@ -425,7 +425,7 @@ class rex_xform
 
 			// PostActions
 			foreach($ValueObjects as $value_object) {
-				$value_object->postAction($email_elements, $sql_elements);
+				$value_object->postAction($this->objparams["value_pool"]["email"], $this->objparams["value_pool"]["sql"]);
 			}
 
 			$this->objparams["postactions_executed"] = TRUE;
