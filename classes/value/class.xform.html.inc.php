@@ -4,7 +4,8 @@ class rex_xform_html extends rex_xform_abstract
 {
 
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0) {
-		$form_output[] = $this->elements[2];
+		if(isset($this->elements[2]))
+			$form_output[] = $this->elements[2];
 	}
 	
 	function getDescription() {
