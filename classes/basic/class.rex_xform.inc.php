@@ -621,9 +621,9 @@ class rex_xform
 
 		?>
 
-<ul class="xform">
-  <li>Value - Typen
-  <ul class="xform">
+<ul class="xform root">
+  <li><strong class="type value">Value</strong>
+  <ul class="xform type value" style="display:none">
   <?php
 
   if (!class_exists('rex_xform_abstract'))
@@ -659,8 +659,8 @@ class rex_xform
   if ($pos>0) echo '</ul></li>';
   ?></ul>
   </li>
-  <li>Validate - Typen
-  <ul class="xform">
+  <li><strong class="type validate">Validate</strong>
+  <ul class="xform type validate" style="display:none">
   <?php
 
   if (!class_exists('rex_xform_validate_abstract'))
@@ -698,8 +698,8 @@ class rex_xform
   ?></ul>
   </li>
 
-  <li>Action - Typen
-  <ul class="xform">
+  <li><strong class="type action">Action</strong>
+  <ul class="xform type action" style="display:none">
   <?php
    
   if (!class_exists('rex_xform_action_abstract'))
@@ -737,6 +737,21 @@ class rex_xform
   ?></ul>
   </li>
 </ul>
+<script type="text/javascript">
+(function($){
+
+  $('ul.xform li strong.type').click(function(){
+    $(this).next('ul.xform').toggle(0);
+    if($(this).next('ul.xform').css('display') == 'block'){
+      $(this).addClass('opened');
+    }else{
+      $(this).removeClass('opened');
+    }
+
+  });
+
+})(jQuery)
+</script>
   <?php
 
 	}
