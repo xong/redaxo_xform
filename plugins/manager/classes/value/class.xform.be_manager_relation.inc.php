@@ -68,7 +68,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 		
 		
 		
-		// ---------- Datensatz existiert bereits, Values aus verknŸpfungstabelle holen
+		// ---------- Datensatz existiert bereits, Values aus verknï¿½pfungstabelle holen
 		if($this->params["main_id"] > 0 && $send == 0)
 		{
 
@@ -345,7 +345,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 	// -------------------------------------------------------------------------
 
 	/*
-	 * postAction wird nach dem Speichern ausgeführt
+	 * postAction wird nach dem Speichern ausgefï¿½hrt
 	 * hier wird entsprechend der entities
 	 */
 	function postAction(&$email_elements, &$sql_elements)
@@ -383,7 +383,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 			$values = $this->getValue();
 		}
 
-		// ----- Datensaetze aus der Relationstabelle lšschen
+		// ----- Datensaetze aus der Relationstabelle lï¿½schen
 		$d = rex_sql::factory();
 		$d->debugsql = $this->params["debug"];
 		$d->setQuery('delete from rex_'.$this->params["manager_type"].'_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
@@ -440,7 +440,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 							array( 'type' => 'name',		'label' => 'Name' ),
 							array( 'type' => 'text',		'label' => 'Bezeichnung'),
 							array( 'type' => 'table',		'label' => 'Ziel Tabelle'),
-							array( 'type' => 'table.field',	'label' => 'Ziel Tabellenfeld zur Anzeige oder Zielfeld'),
+							array( 'type' => 'text',	'label' => 'Ziel Tabellenfeld zur Anzeige oder Zielfeld'),
 							array( 'type' => 'select',    	'label' => 'Mehrfachauswahl', 'default' => '', 'definition' => 'select (single)=0,select (multiple)=1,popup (single)=2,popup (multiple)=3,popup (multiple / relation)=4' ),
 							array( 'type' => 'boolean',		'label' => 'Mit "Leer-Option"' ),
 					   		array( 'type' => 'text',		'label' => 'Fehlermeldung wenn "Leer-Option" nicht aktiviert ist.'),

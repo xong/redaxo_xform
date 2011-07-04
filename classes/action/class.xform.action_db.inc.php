@@ -45,7 +45,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
 			}
 		}
 
-		// SQL Objekt mit Werten füllen
+		// SQL Objekt mit Werten fÃ¼llen
 		foreach($this->elements_sql as $key => $value)
 		{
 			$sql->setValue($key, $value);
@@ -55,11 +55,11 @@ class rex_xform_action_db extends rex_xform_action_abstract
 		if ($where != "")
 		{
 			$sql->setWhere($where);
-			$sql->update();
+			$saved = $sql->update();
 			$flag = "update";
 		}else
 		{
-			$sql->insert();
+			$saved = $sql->insert();
 			$flag = "insert";
 			$id = $sql->getLastId();
 			
@@ -72,6 +72,8 @@ class rex_xform_action_db extends rex_xform_action_abstract
 				$this->params["hasWarnings"] = TRUE;
 				$this->params["warning_messages"][] = $this->params["Error-Code-InsertQueryError"];
 			}
+
+                        rex_register_extension_point('REX_XFORM_SAVED', $saved, array('form' => $this, 'sql' => $sql, 'xform' => true));
 		}
 	}
 
