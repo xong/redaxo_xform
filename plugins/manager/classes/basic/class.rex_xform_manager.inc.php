@@ -128,7 +128,7 @@ class rex_xform_manager
 	function checkField($l,$v,$p)
 	{
 		global $REX;
-		$q = 'select * from '.$p["type"].' where table_name="'.$p["table_name"].'" and '.$l.'="'.$v.'" LIMIT 1';
+		$q = 'select * from rex_xform_field where table_name="'.$p["table_name"].'" and '.$l.'="'.$v.'" LIMIT 1';
 		$c = rex_sql::factory();
 		// $c->debugsql = 1;
 		$c->setQuery($q);
