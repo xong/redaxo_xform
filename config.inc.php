@@ -10,7 +10,7 @@ $mypage = 'xform';
 
 $REX['ADDON']['name'][$mypage] = 'XForm';
 $REX['ADDON']['perm'][$mypage] = 'xform[]';
-$REX['ADDON']['version'][$mypage] = '2.6';
+$REX['ADDON']['version'][$mypage] = '2.6.1';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'www.yakamara.de/tag/xform/';
 $REX['PERM'][] = 'xform[]';
@@ -28,9 +28,9 @@ if($REX['REDAXO'] && $REX['USER'])
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
 	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
-	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , $I18N->msg("xform_overview"));
+	//$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , $I18N->msg("xform_overview"));
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("xform[]")) 
-		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('description' , $I18N->msg("xform_description"));
+		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('' , $I18N->msg("xform_description"));
 	
 	function rex_xform_css($params){
 		global $REX;
