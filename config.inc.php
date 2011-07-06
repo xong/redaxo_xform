@@ -29,7 +29,7 @@ if($REX['REDAXO'] && $REX['USER'])
 	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , $I18N->msg("xform_overview"));
-	if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("xform[]")) 
+	if ($REX['USER']->isAdmin()) 
 		$REX['ADDON'][$mypage]['SUBPAGES'][] = array ('description' , $I18N->msg("xform_description"));
 	
 	function rex_xform_css($params){
