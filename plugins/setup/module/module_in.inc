@@ -1,6 +1,6 @@
 <?php
 
-// module:xform_rexdev_in
+// module:xform_basic_in
 // v0.2
 // --------------------------------------------------------------------------------
 
@@ -66,44 +66,44 @@ if($sel=='' || $sel==0){
 
 <style type="text/css" media="screen">
 <!--
-  /*REXDEV MODUL STYLE*/
-  #rexdev                       {margin:0;padding:0;line-height:25px;}
-  #rexdev fieldset              {background:#E4E1D1;margin:-20px 0 0 0;padding: 4px 10px 10px 10px;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
-  #rexdev fieldset legend       {display:block !important;position:relative !important;height:auto !important;top:0 !important;left:0 !important;width:100% !important;margin:0 0 0 0 !important;padding:30px 0 0 0px !important;background:transparent !important;border-bottom:1px solid #B1B1B1 !important;color:gray;font-size:14px;font-weight:bold;}
-  #rexdev fieldset legend em    {font-size:10px;font-weight:normal;font-style:normal;}
-  #rexdev fieldset strong.label,
-  #rexdev fieldset label        {display:inline-block !important;width:150px !important;font-weight:bold;}
-  #rexdev fieldset label span   {font-weight:normal;}
-  #rexdev input,
-  #rexdev select                {width:460px;border:auto;margin:0 !important;padding:0 !important;}
-  #rexdev input[type="checkbox"]{width:auto;}
-  #rexdev hr                    {border:0;height:0;margin:4px 0 4px 0;padding:0;border-top:1px solid #B1B1B1 !important;clear:left;}
-  #rexdev a.blank               {background:url("../files/addons/be_style/plugins/agk_skin/popup.gif") no-repeat 100% 0;padding-right:17px;}
-  #rexdev #modulinfo            {font-size:10px;text-align:right;}
+  /*BAISC MODUL STYLE*/
+  #xfm                       {margin:0;padding:0;line-height:25px;}
+  #xfm fieldset              {background:#E4E1D1;margin:-20px 0 0 0;padding: 4px 10px 10px 10px;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+  #xfm fieldset legend       {display:block !important;position:relative !important;height:auto !important;top:0 !important;left:0 !important;width:100% !important;margin:0 0 0 0 !important;padding:30px 0 0 0px !important;background:transparent !important;border-bottom:1px solid #B1B1B1 !important;color:gray;font-size:14px;font-weight:bold;}
+  #xfm fieldset legend em    {font-size:10px;font-weight:normal;font-style:normal;}
+  #xfm fieldset strong.label,
+  #xfm fieldset label        {display:inline-block !important;width:150px !important;font-weight:bold;}
+  #xfm fieldset label span   {font-weight:normal;}
+  #xfm input,
+  #xfm select                {width:460px;border:auto;margin:0 !important;padding:0 !important;}
+  #xfm input[type="checkbox"]{width:auto;}
+  #xfm hr                    {border:0;height:0;margin:4px 0 4px 0;padding:0;border-top:1px solid #B1B1B1 !important;clear:left;}
+  #xfm a.blank               {background:url("../files/addons/be_style/plugins/agk_skin/popup.gif") no-repeat 100% 0;padding-right:17px;}
+  #xfm #modulinfo            {font-size:10px;text-align:right;}
   /*XFORM MODUL*/
-  #rexdev pre                   {clear:left;}
-  #rexdev .help                 {display:none;color:#2C8EC0;line-height:12px;}
-  #rexdev .area-wrapper         {background:white;border:1px solid #737373;margin-bottom:10px;width:100%;}
-  #rexdev .fullwidth            {width:100% !important;}
-  #rexdev #thx-markup           {width:auto !important;}
-  #rexdev #thx-markup input     {width:auto !important;}
-  #rexdev #mail-placeholders span:hover {color:red;cursor:pointer;}
-  #rexdev #where-help,
-  #rexdev #classes-showhelp,
-  #rexdev #mail-placeholders    {display:none;}
-  #rexdev #form-definition,
-  #rexdev #mail-body            {width:100%;border:0;border-bottom:1px dotted silver;margin-bottom:0;background:white;}
-  #rexdev #classes-showhelp     {max-height:200px;width:99%:200px;overflow:auto;}
-  #rexdev em.hint               {color:silver;margin:0;padding:0 0 0 10px;}
+  #xfm pre                   {clear:left;}
+  #xfm .help                 {display:none;color:#2C8EC0;line-height:12px;}
+  #xfm .area-wrapper         {background:white;border:1px solid #737373;margin-bottom:10px;width:100%;}
+  #xfm .fullwidth            {width:100% !important;}
+  #xfm #thx-markup           {width:auto !important;}
+  #xfm #thx-markup input     {width:auto !important;}
+  #xfm #mail-placeholders span:hover {color:red;cursor:pointer;}
+  #xfm #where-help,
+  #xfm #classes-showhelp,
+  #xfm #mail-placeholders    {display:none;}
+  #xfm #form-definition,
+  #xfm #mail-body            {width:100%;border:0;border-bottom:1px dotted silver;margin-bottom:0;background:white;}
+  #xfm #classes-showhelp     {max-height:200px;width:99%:200px;overflow:auto;}
+  #xfm em.hint               {color:silver;margin:0;padding:0 0 0 10px;}
   /*SHOWHELP OVERRIDES*/
-  #rexdev ul.xform.root         {border:0;outline:0;margin-top:0;padding-top:0;width:100%;background:transparent;}
-  #rexdev ul.xform              {font-size:1em;line-height:1.4em;}
+  #xfm ul.xform.root         {border:0;outline:0;margin-top:0;padding-top:0;width:100%;background:transparent;}
+  #xfm ul.xform              {font-size:1em;line-height:1.4em;}
 
 -->
 </style>
 
 
-<div id="rexdev">
+<div id="xfm">
 <fieldset>
   <legend>Formular</legend>
 
@@ -193,7 +193,7 @@ if($sel=='' || $sel==0){
 
   </fieldset>
 
-</div><!-- #rexdev -->
+</div><!-- #xfm -->
 
 <script type="text/javascript" src="../files/addons/xform/jquery.autogrow.js"></script>
 <script type="text/javascript">
