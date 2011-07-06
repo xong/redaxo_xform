@@ -21,7 +21,7 @@ foreach($gm->getArray() as $module)
 if (isset($_REQUEST["install"]) && $_REQUEST["install"]==1)
 {
 
-	$xform_module_name = "rex - X-Form";
+	$xform_module_name = "XForm Formbuilder";
 
 	// Daten einlesen
 	$in = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/plugins/setup/module/module_in.inc");
