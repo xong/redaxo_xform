@@ -101,6 +101,11 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
 <fieldset>
   <legend>Formular</legend>
 
+  <label>DebugModus:</label>
+  <?php echo $dbg;?>
+
+  <hr />
+
   <label class="fullwidth">Felddefinitionen:</label>
   <textarea name="VALUE[3]" id="xform-form-definition" class="fullwidth" rows="<?php echo (count(explode("\r",'REX_VALUE[3]'))+$row_pad);?>">REX_VALUE[3]</textarea>
 
@@ -115,11 +120,6 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
     <input type="radio" name="VALUE[11]" value="2" <?php if("REX_VALUE[11]" == "2") echo 'checked="checked"'; ?>> Textile)
   </div><!-- #thx-markup -->
   <textarea name="VALUE[6]" id="xform-thx-message" class="fullwidth" rows="<?php echo (count(explode("\r",'REX_VALUE[6]'))+$row_pad);?>">REX_VALUE[6]</textarea>
-
-  <hr />
-
-  <label>DebugModus:</label>
-  <?php echo $dbg;?>
 
 </fieldset>
 
