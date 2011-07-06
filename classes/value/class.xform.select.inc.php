@@ -28,7 +28,7 @@ class rex_xform_select extends rex_xform_abstract
 			$SEL->setSize(1);
 		}
 
-		foreach (explode(';', $this->elements[3]) as $v) {
+		foreach (explode(',', $this->elements[3]) as $v) {
 			$teile = explode('=', $v);
 			$wert = $teile[0];
 			if (isset ($teile[1])) {
@@ -76,7 +76,7 @@ class rex_xform_select extends rex_xform_abstract
 
 	function getDescription()
 	{
-		return "select -> Beispiel: select|gender|Geschlecht *|Frau=w;Herr=m|[no_db]|defaultwert|multiple=1";
+		return "select -> Beispiel: select|gender|Geschlecht *|Frau=w,Herr=m|[no_db]|defaultwert|multiple=1";
 	}
 
 	function getDefinitions()
