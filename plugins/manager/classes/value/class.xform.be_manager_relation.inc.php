@@ -386,7 +386,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 		// ----- Datensaetze aus der Relationstabelle l�schen
 		$d = rex_sql::factory();
 		$d->debugsql = $this->params["debug"];
-		$d->setQuery('delete from rex_'.$this->params["manager_type"].'_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
+		$d->setQuery('delete from rex_xform_relation where source_table="'.$this->be_em["source_table"].'" and source_name="'.$this->getName().'" and source_id="'.$source_id.'"');
 
 		// ----- Datensaetze in die Relationstabelle eintragen
 		if(count($values)>0)
@@ -396,7 +396,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 			$i->debugsql = $this->params["debug"];
 			foreach($values as $v)
 			{
-				$i->setTable('rex_'.$this->params["manager_type"].'_relation');
+				$i->setTable('rex_xform_relation');
 				$i->setValue('source_table', $this->be_em["source_table"]);
 				$i->setValue('source_name', $this->getName());
 				$i->setValue('source_id', $source_id);
