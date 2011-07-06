@@ -61,8 +61,8 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 	$xform->setValidateField("type",array("list_amount","int",$I18N->msg("xform_manager_enter_number")));
 	
 	$xform->setValueField("checkbox",array("hidden",$I18N->msg("xform_manager_table_hide")));
-	$xform->setValueField("checkbox",array("export",$I18N->msg("xform_manager_table_export")));
-	$xform->setValueField("checkbox",array("import",$I18N->msg("xform_manager_table_import")));
+	$xform->setValueField("checkbox",array("export",$I18N->msg("xform_manager_table_allow_export")));
+	$xform->setValueField("checkbox",array("import",$I18N->msg("xform_manager_table_allow_import")));
   
 	$xform->setValidateField("empty",array("name",$I18N->msg("xform_manager_table_enter_name")));
 	$form = $xform->getForm();
