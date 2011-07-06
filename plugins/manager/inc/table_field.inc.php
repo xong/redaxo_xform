@@ -298,10 +298,10 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 							$_options[$_table->getTableName()] = str_replace("=","-",$_table->getName().' ['.$_table->getTableName().']').'='.$_table->getTableName();
 							$_options[$_table->getTableName()] = str_replace(",",".",$_options[$_table->getTableName()]);
 					}
+					if(!isset($v['default'])) {
+						$v['default'] = "";
+					}
 					$xform->setValueField("select",array("f".$i,$v['label'],implode(",",$_options),"",$v['default'],0));
-					/*
-					$xform->setValueField("text",array("f".$i,$v['label']));
-					*/
 				
 				}
 				break;
