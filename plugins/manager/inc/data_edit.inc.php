@@ -71,7 +71,7 @@ $table["fields"] = $this->getTableFields($table["table_name"]);
 $show_editpage = TRUE;
 $show_editpage = rex_register_extension_point('XFORM_MANAGER_DATA_EDIT_FUNC', $show_editpage,
 			array(
-				'table' => $t,
+				'table' => $table,
 				'link_vars' => $this->getLinkVars(),
 			)
 		);
