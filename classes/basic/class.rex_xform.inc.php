@@ -621,7 +621,7 @@ class rex_xform
 
 		$html = '
 <ul class="xform root">
-  <li><h3 class="toggler">Value</h3>
+  <li class="type value"><strong class="toggler">Value</strong>
   <ul class="xform type value">
   ';
 
@@ -630,7 +630,7 @@ class rex_xform
    
   foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
   {
-  	if ($pos==1) $html .= '<li class="value extras"><h3 class="toggler">Value Extras</h3><ul class="xform type value extras">';
+  	if ($pos==1) $html .= '<li class="value extras"><strong class="toggler opened">Value Extras</strong><ul class="xform type value extras">';
   	if($Verzeichniszeiger = opendir($value_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -658,7 +658,7 @@ class rex_xform
   if ($pos>0) $html .= '</ul></li>';
   $html .= '</ul>
   </li>
-  <li><h3 class="toggler">Validate</h3>
+  <li class="type validate"><strong class="toggler">Validate</strong>
   <ul class="xform type validate">
   ';
 
@@ -667,7 +667,7 @@ class rex_xform
 
   foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
   {
-  	if ($pos==1) $html .= '<li class="validate extras"><h3 class="toggler">Validate Extras</h3><ul class="xform type validate extras">';
+  	if ($pos==1) $html .= '<li class="validate extras"><strong class="toggler opened">Validate Extras</strong><ul class="xform type validate extras">';
   	if($Verzeichniszeiger = opendir($validate_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -697,7 +697,7 @@ class rex_xform
   $html .= '</ul>
   </li>
 
-  <li><h3 class="toggler">Action</h3>
+  <li class="type action"><strong class="toggler">Action</strong>
   <ul class="xform type action">
   ';
    
@@ -706,7 +706,7 @@ class rex_xform
 
   foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
   {
-  	if ($pos==1) $html .= '<li class="action extras"><h3 class="toggler">Action Extras</h3><ul class="xform type action extras">';
+  	if ($pos==1) $html .= '<li class="action extras"><strong class="toggler opened">Action Extras</strong><ul class="xform type action extras">';
   	if($Verzeichniszeiger = opendir($action_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -743,7 +743,7 @@ class rex_xform
 <script type="text/javascript">
 (function($){
 
-  $("ul.xform h3.toggler").click(function(){
+  $("ul.xform strong.toggler").click(function(){
     var me = $(this);
     var target = $(this).next("ul.xform");
     target.toggle("fast", function(){
