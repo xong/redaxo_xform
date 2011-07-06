@@ -1,7 +1,7 @@
 <?php
 
 // module:xform_basic_out
-// v0.19
+// v0.2
 //--------------------------------------------------------------------------------
 
 $xform = new rex_xform;
@@ -40,6 +40,7 @@ if("REX_IS_VALUE[6]" == "true")
 {
   $html = "0";
   if('REX_VALUE[11]' == 1) $html = "1";
+  if('REX_VALUE[11]' == 2) $html = "2";
 
   $xform->setActionField("showtext",array(
 				'REX_HTML_VALUE[6]',

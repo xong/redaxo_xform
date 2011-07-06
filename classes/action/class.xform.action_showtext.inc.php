@@ -15,6 +15,14 @@ class rex_xform_action_showtext extends rex_xform_action_abstract
 		if (isset($this->action["elements"][5]) && $this->action["elements"][5] == "0")
 			$text = nl2br(htmlspecialchars($text));
 
+		if (isset($this->action["elements"][5]) && $this->action["elements"][5] == "2")
+		{
+      $text = htmlspecialchars_decode($text);
+      $text = str_replace('<br />','',$text);
+      $text = str_replace('&#039;','\'',$text);
+      $text = rex_a79_textile($text);
+    }
+
 		if (isset($this->action["elements"][3])) 
 			$text = $this->action["elements"][3].$text;
 
@@ -32,7 +40,7 @@ class rex_xform_action_showtext extends rex_xform_action_abstract
 
 	function getDescription()
 	{
-		return "action|showtext|Antworttext|&lt;p&gt;|&lt;/p&gt;|0/1 html";
+		return "action|showtext|Antworttext|&lt;p&gt;|&lt;/p&gt;|0/1/2 (plaintext/html/textile)";
 	}
 
 }

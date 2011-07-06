@@ -614,24 +614,23 @@ class rex_xform
 	}
 
 
-	function showHelp()
+	function showHelp($return=false,$script=false)
 	{
 
 		global $REX;
 
-		?>
-
-<ul class="xform">
-  <li>Value - Typen
-  <ul class="xform">
-  <?php
+		$html = '
+<ul class="xform root">
+  <li><h3 class="toggler">Value</h3>
+  <ul class="xform type value">
+  ';
 
   if (!class_exists('rex_xform_abstract'))
   require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.value.abstract.inc.php');
    
   foreach($REX['ADDON']['xform']['classpaths']['value'] as $pos => $value_path)
   {
-  	if ($pos==1) echo '<li><b>Extras</b><ul>';
+  	if ($pos==1) $html .= '<li class="value extras"><h3 class="toggler">Value Extras</h3><ul class="xform type value extras">';
   	if($Verzeichniszeiger = opendir($value_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -648,7 +647,7 @@ class rex_xform
   						$class = new $classname;
   						$desc = $class->getDescription();
   						if($desc != "")
-  						echo '<li>'.$desc.'</li>';
+  						$html .= '<li>'.$desc.'</li>';
   					}
   				}
   			}
@@ -656,19 +655,19 @@ class rex_xform
   		closedir($Verzeichniszeiger);
   	}
   }
-  if ($pos>0) echo '</ul></li>';
-  ?></ul>
+  if ($pos>0) $html .= '</ul></li>';
+  $html .= '</ul>
   </li>
-  <li>Validate - Typen
-  <ul class="xform">
-  <?php
+  <li><h3 class="toggler">Validate</h3>
+  <ul class="xform type validate">
+  ';
 
   if (!class_exists('rex_xform_validate_abstract'))
   require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.validate.abstract.inc.php');
 
   foreach($REX['ADDON']['xform']['classpaths']['validate'] as $pos => $validate_path)
   {
-  	if ($pos==1) echo '<li><b>Extras</b><ul>';
+  	if ($pos==1) $html .= '<li class="validate extras"><h3 class="toggler">Validate Extras</h3><ul class="xform type validate extras">';
   	if($Verzeichniszeiger = opendir($validate_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -685,7 +684,7 @@ class rex_xform
   						$class = new $classname;
   						$desc = $class->getDescription();
   						if($desc != "")
-  						echo '<li>'.$desc.'</li>';
+  						$html .= '<li>'.$desc.'</li>';
   					}
   				}
   			}
@@ -693,21 +692,21 @@ class rex_xform
   		closedir($Verzeichniszeiger);
   	}
   }
-  if ($pos>0) echo '</ul></li>';
+  if ($pos>0) $html .= '</ul></li>';
    
-  ?></ul>
+  $html .= '</ul>
   </li>
 
-  <li>Action - Typen
-  <ul class="xform">
-  <?php
+  <li><h3 class="toggler">Action</h3>
+  <ul class="xform type action">
+  ';
    
   if (!class_exists('rex_xform_action_abstract'))
   require_once($REX['INCLUDE_PATH'].'/addons/xform/classes/basic/class.xform.action.abstract.inc.php');
 
   foreach($REX['ADDON']['xform']['classpaths']['action'] as $pos => $action_path)
   {
-  	if ($pos==1) echo '<li><b>Extras</b><ul>';
+  	if ($pos==1) $html .= '<li class="action extras"><h3 class="toggler">Action Extras</h3><ul class="xform type action extras">';
   	if($Verzeichniszeiger = opendir($action_path))
   	{
   		while($Datei = readdir($Verzeichniszeiger))
@@ -724,7 +723,7 @@ class rex_xform
   						$class = new $classname;
   						$desc = $class->getDescription();
   						if($desc != "")
-  						echo '<li>'.$desc.'</li>';
+  						$html .= '<li>'.$desc.'</li>';
   					}
   				}
   			}
@@ -732,12 +731,44 @@ class rex_xform
   		closedir($Verzeichniszeiger);
   	}
   }
-  if ($pos>0) echo '</ul></li>';
+  if ($pos>0) $html .= '</ul></li>';
    
-  ?></ul>
+  $html .= '</ul>
   </li>
-</ul>
-  <?php
+</ul>';
+
+  if($script)
+  {
+    $html .= '
+<script type="text/javascript">
+(function($){
+
+  $("ul.xform h3.toggler").click(function(){
+    var me = $(this);
+    var target = $(this).next("ul.xform");
+    target.toggle("fast", function(){
+      if(target.css("display") == "block"){
+        me.addClass("opened");
+      }else{
+        me.removeClass("opened");
+      }
+    });
+
+  });
+
+})(jQuery)
+</script>
+';
+  }
+
+    if($return)
+    {
+      return $html;
+    }
+    else
+    {
+      echo $html;
+    }
 
 	}
 
