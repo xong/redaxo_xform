@@ -202,6 +202,9 @@ class captcha_x {
                 $no_putenv = true;
             }
         }
+        // Fehler bei Windows
+        if (strtoupper(substr(php_uname('s'), 0, 3)) == "WIN" || substr(PHP_OS, 0, 3) == "WIN")
+          $no_putenv = true;
 
         list ( $padding_top, $padding_right, $padding_bottom, $padding_left) = $this->_split ( $padding);
         $box_width       = ( $width - ( $padding_left + $padding_right)) / $letters_no;
@@ -285,4 +288,3 @@ class captcha_x {
         }
     }     
 }
-?>
