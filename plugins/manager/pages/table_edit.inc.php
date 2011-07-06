@@ -5,8 +5,6 @@
 $table = 'rex_xform_table';
 $table_field = 'rex_xform_field';
 
-$bezeichner = "Tabelle";
-
 $func = rex_request("func","string","");
 $page = rex_request("page","string","");
 $subpage = rex_request("subpage","string","");
@@ -18,7 +16,7 @@ if($func == "update" && $REX['USER']->isAdmin())
 {
 	$t = new rex_xform_manager();
 	$t->generateAll();
-	echo rex_info("Tabelle und Felder wurden erstellt und/oder aktualisiert");
+	echo rex_info($I18N->msg("xform_manager_table_updated"));
 	$func = "";
 }
 
@@ -31,10 +29,10 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 	$xform->setHiddenField("page",$page);
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
-	$xform->setActionField("showtext",array("","Vielen Dank fuer die Eintragung"));
-	$xform->setObjectparams("main_table",$table); // f√ºr db speicherungen und unique abfragen
+	$xform->setActionField("showtext",array("",$I18N->msg("xform_manager_table_entry_saved")));
+	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
 
-	$xform->setValueField("text",array("prio","Priorit&auml;t"));
+	$xform->setValueField("text",array("prio",$I18N->msg("xform_manager_table_prio")));
 	
 	if($func == "edit")
 	{
@@ -46,27 +44,27 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 		$xform->setObjectparams('getdata',true); // Datein vorher auslesen
 	}elseif($func == "add")
 	{
-		$xform->setValueField("text",array("table_name","Name"));
-	    $xform->setValidateField("notEmpty",array("table_name","Bitte tragen Sie den Tabellenname ein"));
-	    $xform->setValidateField("preg_match",array("table_name","/([a-z\_])*/","Bitte tragen Sie beim Tabellenname nur Buchstaben ein"));
-	    $xform->setValidateField("customfunction",array("table_name","rex_xform_manage_checkLabelInTable","","Dieser Tabellenname ist bereits vorhanden"));
+		$xform->setValueField("text",array("table_name",$I18N->msg("xform_manager_table_name")));
+	    $xform->setValidateField("notEmpty",array("table_name",$I18N->msg("xform_manager_table_enter_name")));
+	    $xform->setValidateField("preg_match",array("table_name","/([a-z\_])*/",$I18N->msg("xform_manager_table_enter_specialchars")));
+	    $xform->setValidateField("customfunction",array("table_name","rex_xform_manage_checkLabelInTable","",$I18N->msg("xform_manager_table_exists")));
 		$xform->setActionField("wrapper_value",array('table_name','###value###')); // Tablename
 		$xform->setActionField("db",array($table));
 	}
 	
-	$xform->setValueField("text",array("name","Bezeichnung"));
-	$xform->setValueField("textarea",array("description","Beschreibung"));
-	$xform->setValueField("checkbox",array("status","Aktiv"));
+	$xform->setValueField("text",array("name",$I18N->msg("xform_manager_name")));
+	$xform->setValueField("textarea",array("description",$I18N->msg("xform_manager_table_description")));
+	$xform->setValueField("checkbox",array("status",$I18N->msg("tbl_active")));
 	// $xform->setValueField("fieldset",array("fs-list","Liste"));
-	$xform->setValueField("text",array("list_amount","Datens&auml;tze pro Seite","50"));
-	$xform->setValueField("checkbox",array("search","Suche aktiv"));
-	$xform->setValidateField("type",array("list_amount","int","Bitte geben Sie eine Zahl f&uuml;r die Datens&auml;tze pro Seite ein"));
+	$xform->setValueField("text",array("list_amount",$I18N->msg("xform_manager_entries_per_page"),"50"));
+	$xform->setValueField("checkbox",array("search",$I18N->msg("xform_manager_search_active")));
+	$xform->setValidateField("type",array("list_amount","int",$I18N->msg("xform_manager_enter_number")));
 	
-	$xform->setValueField("checkbox",array("hidden","In Navigation versteckt"));
-	$xform->setValueField("checkbox",array("export","Export der Daten erlauben"));
-	$xform->setValueField("checkbox",array("import","Import von Daten erlauben"));
+	$xform->setValueField("checkbox",array("hidden",$I18N->msg("xform_manager_table_hide")));
+	$xform->setValueField("checkbox",array("export",$I18N->msg("xform_manager_table_export")));
+	$xform->setValueField("checkbox",array("import",$I18N->msg("xform_manager_table_import")));
   
-	$xform->setValidateField("empty",array("name","Bitte den Namen eingeben"));
+	$xform->setValidateField("empty",array("name",$I18N->msg("xform_manager_table_enter_name")));
 	$form = $xform->getForm();
 	
 	if($xform->objparams["form_show"])
@@ -74,7 +72,7 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 		if($func == "edit")
 			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
 		else
-			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzuf√ºgen</h3><div class="rex-area-content">';
+			echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
 		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('xform_back_to_overview').'</b></a></td></tr></table>';
@@ -82,9 +80,9 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 	}else
 	{
 		if($func == "edit")
-			echo rex_info("Vielen Dank f&uuml;r die Aktualisierung.");
+			echo rex_info($I18N->msg("xform_manager_table_updated"));
 		elseif($func == "add")
-			echo rex_info("Vielen Dank f&uuml;r den Eintrag.");
+			echo rex_info($I18N->msg("xform_manager_table_added"));
 	}
 	
 }
@@ -107,7 +105,7 @@ if($func == "delete" && $REX['USER']->isAdmin()){
 	$delsql->setQuery($query);
 	
 	$func = "";
-	echo rex_info($bezeichner." wurde gel&ouml;scht");
+	echo rex_info($I18N->msg("xform_manager_table_deleted"));
 }
 
 
@@ -126,10 +124,10 @@ if($show_list && $REX['USER']->isAdmin()){
 	}
   
 	echo "<table cellpadding=5 class=rex-table><tr><td>
-		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ $bezeichner anlegen</b></a>
+		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ ".$I18N->msg("xform_manager_table_add")."</b></a>
 		 | 
-		<a href=index.php?page=".$page."&subpage=".$subpage."&func=update><b>Tabellen und Felder updaten</b></a>
-		<!-- |  <a href=index.php?page=".$page."&subpage=".$subpage."&func=table_import><b>Tabelle importieren</b></a> -->
+		<a href=index.php?page=".$page."&subpage=".$subpage."&func=update><b>".$I18N->msg("xform_manager_table_update")."</b></a>
+		<!-- |  <a href=index.php?page=".$page."&subpage=".$subpage."&func=table_import><b>".$I18N->msg("xform_manager_table_import")."</b></a> -->
 		
 		</td></tr></table><br />";
 	
