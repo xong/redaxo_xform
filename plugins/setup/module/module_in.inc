@@ -52,14 +52,11 @@ foreach($xform->objparams['form_elements'] as $e)
 
 // OTHERS
 ////////////////////////////////////////////////////////////////////////////////
-$db_display = $mail_display = '';
+$row_pad = 1;
+
 $sel = 'REX_VALUE[1]';
-if($sel=='' || $sel==1){
-  $db_display = 'style="display:none"';
-}
-if($sel=='' || $sel==0){
-  $mail_display = 'style="display:none"';
-}
+$db_display   = ($sel=='' || $sel==1) ?'style="display:none"':'';
+$mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
 
 ?>
 
@@ -107,7 +104,7 @@ if($sel=='' || $sel==0){
 
   <label class="fullwidth">Felddefinitionen: <span>[<a href="#" id="xfm-classes-toggler">verfügbare Klassen einblenden</a>]</span></label>
   <div class="area-wrapper">
-    <textarea name="VALUE[3]" id="xfm-form-definition" rows="<?php echo count(explode("\r",'REX_VALUE[3]'));?>">REX_VALUE[3]</textarea>
+    <textarea name="VALUE[3]" id="xfm-form-definition" rows="<?php echo (count(explode("\r",'REX_VALUE[3]'))+$row_pad);?>">REX_VALUE[3]</textarea>
     <div id="xfm-classes-showhelp">
       <?php echo rex_xform::showHelp(true,true); ?>
     </div><!-- #xfm-classes-showhelp -->
@@ -118,7 +115,7 @@ if($sel=='' || $sel==0){
     <input type="radio" name="VALUE[11]" value="1" <?php if("REX_VALUE[11]" == "1") echo 'checked="checked"'; ?>> HTML
     <input type="radio" name="VALUE[11]" value="2" <?php if("REX_VALUE[11]" == "2") echo 'checked="checked"'; ?>> Textile)
   </div><!-- #thx-markup -->
-  <textarea name="VALUE[6]" id="xfm-thx-message" class="fullwidth">REX_VALUE[6]</textarea>
+  <textarea name="VALUE[6]" id="xfm-thx-message" class="fullwidth" rows="<?php echo (count(explode("\r",'REX_VALUE[6]'))+$row_pad);?>">REX_VALUE[6]</textarea>
 
 </fieldset>
 
@@ -127,7 +124,7 @@ if($sel=='' || $sel==0){
   <legend>Vordefinierte Aktionen</legend>
 
   <label>Bei Submit:</label>
-  <select name="VALUE[1]" id="xfm-action-select" onchange="rex_xform_toggleDb(this);" style="width:auto;">
+  <select name="VALUE[1]" id="xfm-action-select" style="width:auto;">
     <option value=""  <?php if("REX_VALUE[1]" == "")  echo " selected "; ?>>Nichts machen (actions im Formular definieren)</option>
     <option value="0" <?php if("REX_VALUE[1]" == "0") echo " selected "; ?>>Nur in Datenbank speichern oder aktualisieren wenn "main_where" gesetzt ist</option>
     <option value="1" <?php if("REX_VALUE[1]" == "1") echo " selected "; ?>>Nur E-Mail versenden</option>
@@ -149,7 +146,7 @@ if($sel=='' || $sel==0){
   <label class="fullwidth">Mailbody: <span>[<a href="#" id="xfm-placeholders-toggler">Platzhalter anzeigen</a>]</span></label>
 
   <div class="area-wrapper">
-  <textarea id="xfm-mail-body" name="VALUE[5]"rows="<?php echo count(explode("\r",'REX_VALUE[5]'));?>">REX_VALUE[5]</textarea>
+  <textarea id="xfm-mail-body" name="VALUE[5]" rows="<?php echo (count(explode("\r",'REX_VALUE[5]'))+$row_pad);?>">REX_VALUE[5]</textarea>
   <div class="" id="xfm-mail-placeholders">
     <em class="hint">Resultierende Platzhalter aus Formdefinition: (insert via click)</em>
     <p style="float:none;margin:0 0 10px 10px;">
@@ -178,7 +175,7 @@ if($sel=='' || $sel==0){
   <div id="db_data">
     <hr />
     <label>Where Klausel: <span>[<a href="#" id="xfm-xfm-where-help-toggler">?</a>]</span></label>
-    <textarea name="VALUE[9]" cols="30" id="xfm-db-where" class="fullwidth"rows="<?php echo count(explode("\r",'REX_VALUE[9]'));?>">REX_VALUE[9]</textarea>
+    <textarea name="VALUE[9]" cols="30" id="xfm-db-where" class="fullwidth"rows="<?php echo (count(explode("\r",'REX_VALUE[9]'))+$row_pad);?>">REX_VALUE[9]</textarea>
     <ul class="help" id="xfm-where-help">
       <li>PHP erlaubt. Beispiel: <em>$xform-&gt;setObjectparams("main_where",$where);</em></li>
       <li>Die User-Eingaben aus dem Formular können mittels Platzhaltern (Schema: ###<em>FELDNAME</em>###) in der WHERE Klausel verwendet werden - Beispiel: text|myname|Name|1 -> Platzhalter: ###myname###</li>
@@ -198,11 +195,18 @@ if($sel=='' || $sel==0){
 <!--
 (function($){
 
+  // FIX WEBKIT CSS QUIRKS
   if ($.browser.webkit) {
-    $('textarea').css('min-height','70px');
-    $('fieldset').css('width','705px');
+    $('#xform-modul textarea').css('min-height','70px');
+    $('#xform-modul textarea').css('width','701px');
+    $('#xform-modul fieldset').css('width','705px');
   }
 
+  // AUTOGROW BY ROWS
+  $('#xform-modul textarea').keyup(function(){
+    var rows = $(this).val().split(/\r?\n|\r/).length + <?php echo $row_pad;?>;
+    $(this).attr('rows',rows);
+  });
 
   // TOGGLERS
   $('#xfm-classes-toggler').click(function(){
