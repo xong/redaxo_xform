@@ -192,7 +192,7 @@ ul.xform.root {
   border: 0 none;
   outline: 1px solid #CBCBCB;
   font-family:monospace;
-  font-size: 1.1em;
+  font-size: 1.2em;
   background:white;
   margin:10px 0 10px 0;
   padding:6px 0 6px 0;
@@ -206,17 +206,19 @@ ul.xform li  {
 ul.xform li:last-child  {
   border:0;
 }
-ul.xform.type,
-ul.xform.extras {
+ul.xform.type {
   display:none;
 }
-ul.xform h3.toggler {
+ul.xform.type.extras {
+  display:block;
+}
+ul.xform strong.toggler {
   background:url("../../../redaxo/media/folder_off.gif") no-repeat 0 -1px;
-  padding:0 0 0 35px;
+  padding:1px 0 1px 35px;
   margin:0;
   cursor:pointer;
 }
-ul.xform h3.toggler.opened {
+ul.xform strong.toggler.opened {
   background:url("../../../redaxo/media/folder_on.gif") no-repeat 0 -1px;
 }
 ul.xform.type li:nth-child(odd) {
