@@ -746,7 +746,7 @@ class rex_xform
   $("ul.xform strong.toggler").click(function(){
     var me = $(this);
     var target = $(this).next("ul.xform");
-    target.toggle("fast", function(){
+    target.toggle(0, function(){
       if(target.css("display") == "block"){
         me.addClass("opened");
       }else{
