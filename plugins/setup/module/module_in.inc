@@ -52,7 +52,6 @@ foreach($xform->objparams['form_elements'] as $e)
 
 // OTHERS
 ////////////////////////////////////////////////////////////////////////////////
-$rows = count(explode("\r",'REX_VALUE[3]'));
 $db_display = $mail_display = '';
 $sel = 'REX_VALUE[1]';
 if($sel=='' || $sel==1){
@@ -80,6 +79,7 @@ if($sel=='' || $sel==0){
   #xform-modul a.blank               {background:url("../files/addons/be_style/plugins/agk_skin/popup.gif") no-repeat 100% 0;padding-right:17px;}
   #xform-modul #modulinfo            {font-size:10px;text-align:right;}
   /*XFORM MODUL*/
+  #xform-modul textarea              {min-height:30px;}
   #xform-modul pre                   {clear:left;}
   #xform-modul .help                 {display:none;color:#2C8EC0;line-height:12px;}
   #xform-modul .area-wrapper         {background:white;border:1px solid #737373;margin-bottom:10px;width:100%;}
@@ -92,7 +92,7 @@ if($sel=='' || $sel==0){
   #xform-modul #xfm-mail-placeholders{display:none;}
   #xform-modul #xfm-mail-placeholders{width:95%;}
   #xform-modul #xfm-form-definition,
-  #xform-modul #xfm-mail-body        {width:100%;border:0;border-bottom:1px dotted silver;margin-bottom:0;background:white;}
+  #xform-modul #xfm-mail-body        {width:100%;border:0;border-bottom:1px dotted silver;margin-bottom:0;background:transparent;}
   #xform-modul #xfm-classes-showhelp {max-height:200px;width:99%:200px;overflow:auto;}
   #xform-modul em.hint               {color:silver;margin:0;padding:0 0 0 10px;}
   /*SHOWHELP OVERRIDES*/
@@ -107,7 +107,7 @@ if($sel=='' || $sel==0){
 
   <label class="fullwidth">Felddefinitionen: <span>[<a href="#" id="xfm-classes-toggler">verfügbare Klassen einblenden</a>]</span></label>
   <div class="area-wrapper">
-    <textarea name="VALUE[3]" id="xfm-form-definition">REX_VALUE[3]</textarea>
+    <textarea name="VALUE[3]" id="xfm-form-definition" rows="<?php echo count(explode("\r",'REX_VALUE[3]'));?>">REX_VALUE[3]</textarea>
     <div id="xfm-classes-showhelp">
       <?php echo rex_xform::showHelp(true,true); ?>
     </div><!-- #xfm-classes-showhelp -->
@@ -149,7 +149,7 @@ if($sel=='' || $sel==0){
   <label class="fullwidth">Mailbody: <span>[<a href="#" id="xfm-placeholders-toggler">Platzhalter anzeigen</a>]</span></label>
 
   <div class="area-wrapper">
-  <textarea id="xfm-mail-body" name="VALUE[5]">REX_VALUE[5]</textarea>
+  <textarea id="xfm-mail-body" name="VALUE[5]"rows="<?php echo count(explode("\r",'REX_VALUE[5]'));?>">REX_VALUE[5]</textarea>
   <div class="" id="xfm-mail-placeholders">
     <em class="hint">Resultierende Platzhalter aus Formdefinition: (insert via click)</em>
     <p style="float:none;margin:0 0 10px 10px;">
@@ -178,7 +178,7 @@ if($sel=='' || $sel==0){
   <div id="db_data">
     <hr />
     <label>Where Klausel: <span>[<a href="#" id="xfm-xfm-where-help-toggler">?</a>]</span></label>
-    <textarea name="VALUE[9]" cols="30" rows="3" id="xfm-db-where" class="fullwidth">REX_VALUE[9]</textarea>
+    <textarea name="VALUE[9]" cols="30" id="xfm-db-where" class="fullwidth"rows="<?php echo count(explode("\r",'REX_VALUE[9]'));?>">REX_VALUE[9]</textarea>
     <ul class="help" id="xfm-where-help">
       <li>PHP erlaubt. Beispiel: <em>$xform-&gt;setObjectparams("main_where",$where);</em></li>
       <li>Die User-Eingaben aus dem Formular können mittels Platzhaltern (Schema: ###<em>FELDNAME</em>###) in der WHERE Klausel verwendet werden - Beispiel: text|myname|Name|1 -> Platzhalter: ###myname###</li>
@@ -199,11 +199,18 @@ if($sel=='' || $sel==0){
 <!--
 (function($){
 
+  if ($.browser.mozilla) {
   // AUTOGROWS
   $('#xfm-form-definition').autogrow();
   $('#xfm-mail-body').autogrow();
   $('#xfm-db-where').autogrow();
   $('#xfm-thx-message').autogrow();
+  }
+
+  if ($.browser.webkit) {
+    $('textarea').css('min-height','70px');
+    $('fieldset').css('width','705px');
+  }
 
 
   // TOGGLERS
