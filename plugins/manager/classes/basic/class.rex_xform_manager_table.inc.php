@@ -85,10 +85,12 @@ class rex_xform_manager_table {
 	{
 		$tables = rex_xform_manager_table::getTables($f);
 		$return = array();
-		foreach($tables as $t) {
-			$return[] = $t->getTableName();
+		if(count($tables)>0)
+		{
+			foreach($tables as $t) {
+				$return[] = $t->getTableName();
+			}
 		}
-
 		return $return;
 	
 	}
