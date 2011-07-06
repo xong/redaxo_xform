@@ -28,8 +28,8 @@ class rex_xform_select extends rex_xform_abstract
 			$SEL->setSize(1);
 		}
 
-		foreach (explode(",", $this->elements[3]) as $v) {
-			$teile = explode("=", $v);
+		foreach (explode(';', $this->elements[3]) as $v) {
+			$teile = explode('=', $v);
 			$wert = $teile[0];
 			if (isset ($teile[1])) {
 				$bezeichnung = $teile[1];
