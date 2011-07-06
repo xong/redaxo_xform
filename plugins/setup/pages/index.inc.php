@@ -109,7 +109,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_field');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
@@ -119,12 +119,12 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						// relations auslesen und übernehmen
 						$gfs = rex_sql::factory();
-						$gfs->debugsql = 1;
+						// $gfs->debugsql = 1;
 						$gfs->setQuery('select * from rex_em_relation where source_table="'.mysql_real_escape_string($gt['table_name']).'"');
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_relation');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
@@ -134,12 +134,12 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						// table auslesen und übernehmen
 						$gfs = rex_sql::factory();
-						$gfs->debugsql = 1;
+						// $gfs->debugsql = 1;
 						$gfs->setQuery('select * from rex_em_table where table_name="'.mysql_real_escape_string($gt['table_name']).'"');
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_table');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
@@ -176,7 +176,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_field');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
@@ -186,12 +186,12 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						// relations auslesen und übernehmen
 						$gfs = rex_sql::factory();
-						$gfs->debugsql = 1;
+						// $gfs->debugsql = 1;
 						$gfs->setQuery('select * from rex_com_relation where source_table="'.mysql_real_escape_string($gt['table_name']).'"');
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_relation');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
@@ -201,12 +201,12 @@ if(OOPlugIn::isAvailable('xform','manager'))
 						
 						// table auslesen und übernehmen
 						$gfs = rex_sql::factory();
-						$gfs->debugsql = 1;
+						// $gfs->debugsql = 1;
 						$gfs->setQuery('select * from rex_com_table where table_name="'.mysql_real_escape_string($gt['table_name']).'"');
 						
 						foreach($gfs->getArray() as $gf) {
 							$u = rex_sql::factory();
-							$u->debugsql = 1;
+							// $u->debugsql = 1;
 							$u->setTable('rex_xform_table');
 							foreach($gf as $k => $v) {
 								if($k != "id") $u->setValue($k,$v);
