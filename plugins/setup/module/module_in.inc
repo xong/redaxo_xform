@@ -194,18 +194,9 @@ if($sel=='' || $sel==0){
 
 </div><!-- #xform-modul -->
 
-<script type="text/javascript" src="../files/addons/xform/jquery.autogrow.js"></script>
 <script type="text/javascript">
 <!--
 (function($){
-
-  if ($.browser.mozilla) {
-  // AUTOGROWS
-  $('#xfm-form-definition').autogrow();
-  $('#xfm-mail-body').autogrow();
-  $('#xfm-db-where').autogrow();
-  $('#xfm-thx-message').autogrow();
-  }
 
   if ($.browser.webkit) {
     $('textarea').css('min-height','70px');
