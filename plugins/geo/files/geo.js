@@ -18,7 +18,7 @@ var rex_xform_geomap = function(loaded_options) {
 			page_loading: "<p>loading ...</p>",
 			marker_icon_normal: "",
 			marker_icon_active: "",
-			marker_icon_jump: "",
+			marker_icon_jump: ""
 		};
 
 	if (loaded_options) {
@@ -160,7 +160,7 @@ var rex_xform_geomap = function(loaded_options) {
 		return new google.maps.Marker({
 	        position: myLatlng, 
 	        map: self.map,
-	        icon: self.options.marker_icon_normal,
+	        icon: self.options.marker_icon_normal
 	    }); 
 	};
 
