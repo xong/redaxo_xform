@@ -3,11 +3,11 @@
 class rex_xform_timestamp extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
-		$this->value = time();
-		$email_elements[$this->elements[1]] = $this->value;
-		if (!isset($this->elements[2]) || $this->elements[2] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		$this->setValue(time());
+		$this->params["value_pool"]["email"][$this->getElement(1)] = $this->getValue();
+		if ($this->getElement(2) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

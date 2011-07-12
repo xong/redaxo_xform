@@ -3,11 +3,11 @@
 class rex_xform_article extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 		$artikel = new rex_article;
-		$artikel->setArticleId($this->elements[1]);
-		$form_output[] = '<div class="article" id="'.$this->getHTMLId().'">' . $artikel->getArticle() . '</div>';
+		$artikel->setArticleId($this->getElement(1));
+		$this->params["form_output"][] = '<div class="article" id="'.$this->getHTMLId().'">' . $artikel->getArticle() . '</div>';
 	}
 	
 	function getDescription()

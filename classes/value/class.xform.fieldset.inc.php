@@ -3,29 +3,29 @@
 class rex_xform_fieldset extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 
 		$class = '';
-		if (isset($this->elements[3])  && $this->elements[3] != "")
+		if ($this->getElement(3) != "")
 		{
-			$class = ' class="'.$this->elements[3].'" ';
+			$class = ' class="'.$this->getElement(3).'" ';
 		}
 
 		$legend = "";
-		if (isset($this->elements[2]) && $this->elements[2] != "")
+		if ($this->getElement(2) != "")
 		{
-			$legend = '<legend id="'.$this->getFieldId().'">' . $this->elements[2] . '</legend>';
+			$legend = '<legend id="'.$this->getFieldId().'">' . $this->getElement(2) . '</legend>';
 		}
 
 		if($this->params["first_fieldset"])
 		{
 			$this->params["first_fieldset"] = false;
-			$form_output[] = $legend;
+			$this->params["form_output"][] = $legend;
 
 		}else
 		{
-			$form_output[] = '</fieldset><fieldset'.$class.' id="'.$this->getHTMLId().'">'.$legend;
+			$this->params["form_output"][] = '</fieldset><fieldset'.$class.' id="'.$this->getHTMLId().'">'.$legend;
 
 		}
 

@@ -3,21 +3,19 @@
 class rex_xform_text extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 
-		if ($this->getValue() == "" && !$send) {
-			if (isset($this->elements[3])) $this->setValue($this->elements[3]);
+		if ($this->getValue() == "" && !$this->params["send"]) {
+			$this->setValue($this->getElement(3));
 		}
 
 		$classes = "";
-		if (isset($this->elements[5])) {
-			$classes .= " ".$this->elements[5];
-		}
+		$classes .= " ".$this->getElement(5);
 		
 		$wc = "";
-		if (isset($warning[$this->getId()])) {
-			$wc = " ".$warning[$this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) {
+			$wc = " ".$this->params["warning"][$this->getId()];
 		}
 
 		$this->params["form_output"][$this->getId()] = '
@@ -26,10 +24,10 @@ class rex_xform_text extends rex_xform_abstract
 				<input type="text" class="text'.$classes.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
 			</p>';
 
-		$email_elements[$this->elements[1]] = stripslashes($this->getValue());
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db")
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(4) != "no_db")
 		{
-			$sql_elements[$this->elements[1]] = $this->getValue();
+			$this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 		}
 
 	}

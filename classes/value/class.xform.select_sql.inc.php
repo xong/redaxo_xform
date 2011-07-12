@@ -3,7 +3,7 @@
 class rex_xform_select_sql extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 
 		$multiple = (int) $this->getElement(8);
@@ -19,17 +19,17 @@ class rex_xform_select_sql extends rex_xform_abstract
 		
 		if($multiple)
 		{
-			$SEL->setName($this->getFormFieldname().'[]');
+			$SEL->setName($this->getFieldName().'[]');
 			$SEL->setMultiple();
 			$SEL->setSize($size);
 		}else
 		{
-			$SEL->setName($this->getFormFieldname());
+			$SEL->setName($this->getFieldName());
 			$SEL->setSize(1);
 		}
 		
 
-		$sql = $this->elements[3];
+		$sql = $this->getElement(3);
 
 		$teams = rex_sql::factory();
 		$teams->debugsql = $this->params["debug"];
@@ -38,8 +38,8 @@ class rex_xform_select_sql extends rex_xform_abstract
 		$sqlnames = array();
 
 		// mit --- keine auswahl ---
-		if (!$multiple && $this->elements[6] == 1)
-			$SEL->addOption($this->elements[7], "0");
+		if (!$multiple && $this->getElement(6) == 1)
+			$SEL->addOption($this->getElement(7), "0");
 
 		foreach($teams->getArray() as $t)
 		{
@@ -50,20 +50,20 @@ class rex_xform_select_sql extends rex_xform_abstract
 		}
 
 		$wc = "";
-		if (isset($warning["el_" . $this->getId()])) 
-			$wc = $warning["el_" . $this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) 
+			$wc = $this->params["warning"][$this->getId()];
 
 		$SEL->setStyle(' class="select ' . $wc . '"');
 
-		if ($this->value=="" && isset($this->elements[4]) && $this->elements[4] != "") 
-			$this->value = $this->elements[4];
+		if ($this->getValue()=="" && $this->getElement(4) != "") 
+			$this->setValue($this->getElement(4));
 
-		if(!is_array($this->value))
+		if(!is_array($this->getValue()))
 		{
-			$this->value = explode(",",$this->value);
+			$this->setValue(explode(",",$this->getValue()));
 		}
 
-		foreach($this->value as $v)
+		foreach($this->getValue() as $v)
 		{
 			$SEL->setSelected($v);
 		}
@@ -72,21 +72,16 @@ class rex_xform_select_sql extends rex_xform_abstract
 		if ($multiple)
 			$form_class = ' formselect-multiple-'.$size;
 		
-		$form_output[] = '
+		$this->params["form_output"][] = '
 			<p class="formselect'.$form_class.'"  id="'.$this->getHTMLId().'">
-				<label class="select ' . $wc . '" for="' . $this->getHTMLId() . '-s" >' . $this->elements[2] . '</label>
+				<label class="select ' . $wc . '" for="' . $this->getHTMLId() . '-s" >' . $this->getElement(2) . '</label>
 				' . $SEL->get() . '
 			</p>';
 
-		/*
-		if (isset($sqlnames[$this->value])) 
-			$email_elements[$this->elements[1].'_SQLNAME'] = stripslashes($sqlnames[$this->value]);
-		*/
-
-		$this->value = implode(",",$this->value);
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") 
-			$sql_elements[$this->elements[1]] = $this->value;
+		$this->setValue(implode(",",$this->getValue()));
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(5) != "no_db") 
+			$this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 		
 	}
 	

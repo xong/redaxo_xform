@@ -3,9 +3,9 @@
 class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1") {
+		if($this->params["send"]=="1") {
 			$from = (int) $this->getElement(3);
 			$to = (int) $this->getElement(4);
 		
@@ -13,8 +13,8 @@ class rex_xform_validate_intfromto extends rex_xform_validate_abstract
 				$value = $Object->getValue();
 				$value_int = (int) $value;
 				if("$value" != "$value_int" || $value_int<$from || $value_int>$to) {
-					$warning[$Object->getId()] = $this->params["error_class"];
-					$warning_messages[$Object->getId()] = $this->getElement(5);
+					$this->params["warning"][$Object->getId()] = $this->params["error_class"];
+					$this->params["warning_messages"][$Object->getId()] = $this->getElement(5);
 				}
 			}
 		}

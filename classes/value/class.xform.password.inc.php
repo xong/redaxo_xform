@@ -3,27 +3,27 @@
 class rex_xform_password extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{		
-		if ($this->value == "" && !$send)
+		if ($this->getValue() == "" && !$this->params["send"])
 		{
-			if (isset($this->elements[3])) $this->value = $this->elements[3];
+			$this->setValue($this->getElement(3));
 		}
 
 		$wc = "";
-		if (isset($warning[$this->getId()])){
-			$wc = $warning[$this->getId()];
+		if (isset($this->params["warning"][$this->getId()])){
+			$wc = $this->params["warning"][$this->getId()];
 		}
 		
-		$form_output[] = '
+		$this->params["form_output"][] = '
 				<p class="formpassword formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-				<label class="password ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+				<label class="password ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
 				<input type="password" class="password ' . $wc . '" name="FORM[' . 
-				$this->params["form_name"] . '][el_' . $this->id . ']" id="el_' . $this->id . '" value="' . 
-				htmlspecialchars(stripslashes($this->value)) . '" />
+				$this->params["form_name"] . '][el_' . $this->getId() . ']" id="el_' . $this->getId() . '" value="' . 
+				htmlspecialchars(stripslashes($this->getValue())) . '" />
 				</p>';
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

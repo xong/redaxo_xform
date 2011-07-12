@@ -1,57 +1,53 @@
 <?php
 
-// TODO: Formatierung optional änderbar
-// Format: 1972-11-19
-
 class rex_xform_birthday extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 		
 		$day = 0;
 		$month = 0;
 		$year = 0;
 		
-		if (@strlen($this->value) == 10)
+		if (@strlen($this->getValue()) == 10)
 		{
-			$day = (int) substr($this->value,8,2);
-			$month = (int) substr($this->value,5,2);
-			$year = (int) substr($this->value,0,4);
+			$day = (int) substr($this->getValue(),8,2);
+			$month = (int) substr($this->getValue(),5,2);
+			$year = (int) substr($this->getValue(),0,4);
+			
 		}else
 		{
-			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["day"])) $day = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["day"];
-			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["month"])) $month = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["month"];
-			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["year"])) $year = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["year"];
+			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["day"])) $day = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["day"];
+			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["month"])) $month = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["month"];
+			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["year"])) $year = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["year"];
 		}
 		
-		$formname = 'FORM['.$this->params["form_name"].'][el_'.$this->id.']';
+		$formname = 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
 
 		$isodatum = sprintf ("%04d-%02d-%02d", $year, $month, $day);
 		$datum = $isodatum;
 
 		$twarning = "";
-		if (isset($this->elements[4]) && $this->elements[4]==1 && !checkdate($month,$day,$year) && $send == 1)
+		if ($this->getElement(4)==1 && !checkdate($month,$day,$year) && $this->params["send"] == 1)
 		{
 			$twarning = 'border:1px solid #f99;background-color:#f9f3f3;';
-			$warning[] = "Geburtsdatum ist falsch";
+			$this->params["warning"][$this->getId()] = "Geburtsdatum ist falsch";
 		}else
 		{
-			$email_elements[$this->elements[1]] = "$day.$month.$year";
-			$sql_elements[$this->elements[1]] = $datum;
+			$this->params["value_pool"]["email"][$this->getElement(1)] = "$day.$month.$year";
+			$this->params["value_pool"]["sql"][$this->getElement(1)] = $datum;
 		}
-		
 
-		
 		$out = "";
 		$out .= '
 		<p class="formbirthday" id="'.$this->getHTMLId().'">
-					<label class="select" for="'.$this->getFieldId().'" >'.$this->elements[2].'</label>';
+					<label class="select" for="'.$this->getFieldId().'" >'.$this->getElement(2).'</label>';
 					
 		$dsel = new rex_select;
 		$dsel->setName($formname.'[day]');
 		$dsel->setStyle("width:50px;".$twarning);
-		$dsel->setId('el_'.$this->id.'_day');
+		$dsel->setId('el_'.$this->getId().'_day');
 		$dsel->setSize(1);
 		$dsel->addOption("TT","0");
 		for($i=1;$i<32;$i++)
@@ -64,7 +60,7 @@ class rex_xform_birthday extends rex_xform_abstract
 		$msel = new rex_select;
 		$msel->setName($formname.'[month]');
 		$msel->setStyle("width:50px;".$twarning);
-		$msel->setId('el_'.$this->id.'_month');
+		$msel->setId('el_'.$this->getId().'_month');
 		$msel->setSize(1);
 		$msel->addOption("MM","0");
 		for($i=1;$i<13;$i++)
@@ -77,7 +73,7 @@ class rex_xform_birthday extends rex_xform_abstract
 		$ysel = new rex_select;
 		$ysel->setName($formname.'[year]');
 		$ysel->setStyle("width:80px;".$twarning);
-		$ysel->setId('el_'.$this->id.'_year');
+		$ysel->setId('el_'.$this->getId().'_year');
 		$ysel->setSize(1);
 		$ysel->addOption("YYYY","0");
 		for($i=1930;$i<2000;$i++)
@@ -89,7 +85,7 @@ class rex_xform_birthday extends rex_xform_abstract
 
 		$out .= '</p>';
 
-		$form_output[] = $out;
+		$this->params["form_output"][] = $out;
 
 	}
 	function getDescription()

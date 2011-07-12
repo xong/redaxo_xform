@@ -3,9 +3,9 @@
 class rex_xform_validate_size_range extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{		
 			
 			// Wenn leer, dann alles ok
@@ -15,11 +15,11 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 			$w = FALSE;
 			
 			$minsize = -1;
-			if($this->elements[3] != "")
+			if($this->getElement(3) != "")
 				$minsize = (int) $this->getElement(3);
 
 			$maxsize = -1;
-			if($this->elements[4] != "")
+			if($this->getElement(4) != "")
 				$maxsize = (int) $this->getElement(4);
 				
 			$size = strlen($this->obj_array[0]->getValue());
@@ -33,8 +33,8 @@ class rex_xform_validate_size_range extends rex_xform_validate_abstract
 			if($w)
 			{
 				$id = $this->obj_array[0]->getId();
-				$warning[$id]=$this->params["error_class"];
-				$warning_messages[$id] = $this->getElement(5);
+				$this->params["warning"][$id]=$this->params["error_class"];
+				$this->params["warning_messages"][$id] = $this->getElement(5);
 			}
 		}
 	}

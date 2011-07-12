@@ -3,12 +3,12 @@
 class rex_xform_mysql_datetime extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
-		$this->value = date("Y-m-d H-i-s");
-		$email_elements[$this->elements[1]] = $this->value;
-		if (!isset($this->elements[3]) || $this->elements[3] != "no_db") 
-		  $sql_elements[$this->elements[1]] = $this->value;
+		$this->setValue(date("Y-m-d H-i-s"));
+		$this->params["value_pool"]["email"][$this->getElement(1)] = $this->getValue();
+		if ($this->getElement(3) != "no_db") 
+		  $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

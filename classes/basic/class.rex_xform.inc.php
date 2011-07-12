@@ -36,7 +36,7 @@ class rex_xform
 
 		$this->objparams["main_where"] = ""; // z.B. id=12
 		$this->objparams["main_id"] = -1; // unique ID des Datensatzen: z.B. 12
-		$this->objparams["main_table"] = ""; // fŸr db speicherungen und unique abfragen
+		$this->objparams["main_table"] = ""; // fï¿½r db speicherungen und unique abfragen
 
 		$this->objparams["error_class"] = 'form_warning'; // CSS Klasse fuer die Fehlermedlungen.
 		$this->objparams["unique_error"] = "";
@@ -210,7 +210,7 @@ class rex_xform
 					if (@include_once ($value_path.'class.xform.'.trim($element[0]).'.inc.php'))
 					{
 						$ValueObjects[$i] = new $classname;
-						$ValueObjects[$i]->loadParams($this->objparams,$element,$ValueObjects,$this->objparams["value_pool"]["email"],$this->objparams["value_pool"]["sql"]);
+						$ValueObjects[$i]->loadParams($this->objparams,$element);
 						$ValueObjects[$i]->setId($i);
 						$ValueObjects[$i]->init();
 
@@ -298,7 +298,7 @@ class rex_xform
 			if (isset($ValidateObjects) && count($ValidateObjects)>0) {
 				foreach($ValidateObjects as $vObj) {
 					foreach($vObj as $xoObject) {
-						$xoObject->enterObject($this->objparams["warning"], 1, $this->objparams["warning_messages"]);
+						$xoObject->enterObject();
 					}
 				}
 			}
@@ -310,21 +310,16 @@ class rex_xform
 			$value_object->postValidateAction();
 		}
 
-
-
 		// *************************************************** FORMULAR ERSTELLEN
 
 		foreach($ValueObjects as $value_object) {
-			$value_object->enterObject( $this->objparams["value_pool"]["email"], $this->objparams["value_pool"]["sql"], $this->objparams["warning"], $this->objparams["form_output"], $this->objparams["send"]); // , $SQLOBJ, $this->objparams 
+			$value_object->enterObject(); 
 		}
-
 
 		// ***** PostFormActions
 		foreach($ValueObjects as $value_object) {
 			$value_object->postFormAction();
 		}
-
-
 
 		// *************************************************** ACTION OBJEKTE
 
@@ -388,12 +383,10 @@ class rex_xform
 			);
 		}
 
-		// echo count($this->objparams["warning"]);
-
 		$hasWarnings = count($this->objparams["warning"]) != 0;
 		$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 
-		// ----- Actionen ausfŸhren
+		// ----- Actions
 		if ($this->objparams["send"] == 1 && !$hasWarnings && !$hasWarningMessages)
 		{
 			$this->objparams["form_show"] = FALSE;
@@ -411,7 +404,7 @@ class rex_xform
 						{
 							$classname = 'rex_xform_'.$type;
 							$actions[$i] = new $classname;
-							$actions[$i]->loadParams($this->objparams,$action,$this->objparams["value_pool"]["email"],$this->objparams["value_pool"]["sql"],$this->objparams["warning"],$this->objparams["warning_messages"]);
+							$actions[$i]->loadParams($this->objparams,$action["elements"]);
 							$actions[$i]->setObjects($ValueObjects);
 						}
 					}

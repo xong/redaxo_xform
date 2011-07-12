@@ -24,6 +24,8 @@ truncate_table = Daten löschen
 table_truncated = Daten wurden komplett gelöscht
 xform_table_overview = Tabellenübersicht
 
+xform_manager_edit_table = Tabelle editieren
+xform_manager_add_table = Tabelle hinzufügen
 
 # tables.inc.php
 importcsv = CSV Importieren

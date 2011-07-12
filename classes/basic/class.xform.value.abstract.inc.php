@@ -21,9 +21,9 @@ class rex_xform_abstract
   var $id;
   var $value;
   var $name;
+  var $type;
   var $keys = array();
 
-  // Position im Formular. Unique ID
   function setId($id)
   {
     $this->id = $id;
@@ -60,10 +60,10 @@ class rex_xform_abstract
 
   function getValueFromKey($v = "")
   {
+    if($v == "") {
+      $v = $this->getValue();
+    }
 
-    if($v == "")
-    $v = $this->getValue();
-      
     if(is_array($v))
     {
       return $v;
@@ -84,16 +84,12 @@ class rex_xform_abstract
 
   // **************************
 
-  function loadParams(&$params, $elements = array(), &$obj, &$email_elements, &$sql_elements)
+  function loadParams(&$params, $elements = array())
   {
-    // parameter des Formuarmoduls werden übergeben
     $this->params = &$params;
-    // die entsprechende passende Zeile wird als array | übergeben
-    $this->elements = &$elements;
-    $this->obj = &$obj;
-    $this->setName($this->elements[1]);
-    $this->element_values["email"] = &$email_elements;
-    $this->element_values["sql"] = &$sql_elements;
+    $this->elements = $elements;
+    $this->setName($this->getElement(1));
+    $this->type = $this->getElement(0);
   }
 
   function setName($name)
@@ -111,55 +107,28 @@ class rex_xform_abstract
     $this->obj = &$obj;
   }
 
-
-  // Aufruf des Objektes mit den verschiedenen Zeigern
-  function enterObject($email_elements,$sql_elements,$warning,$form_output,$send = 0)
+  function enterObject()
   {
-
-    // fuer email verschicken
-    // $email_elements["feldname"] = "feldwert";
-
-    // Zum Schreiben oder Aktualisieren des Eintrages
-    // $sql_elements["feldname"] = "feldwert";
-
-    // alle formulareintraeg
-    // $form_elements
-
-    // $warning["el_".$this->id] = "Warenkorb ist nicht vorhanden";
-
-    // Formular ausgabe
-    // $form_output[] = "<p>hallo</p>";
-
-    // $send == 1 - formular wurde schonmal abgeschickt
   }
-
-
-
-  // ************************** Eventfunctions
 
   function init()
   {
-
   }
 
   function preValidateAction()
   {
-
   }
 
   function postValidateAction()
   {
-
   }
 
   function postFormAction()
   {
-
   }
 
-  function postAction(&$email_elements,&$sql_elements)
+  function postAction()
   {
-
   }
 
   function postSQLAction($sql,$flag="insert")
@@ -170,23 +139,19 @@ class rex_xform_abstract
     }
   }
 
-  function getDatabasefieldname()
-  {
-    if (isset($this->elements[1]))
-    {
-      return $this->elements[1];
-    }
-  }
-
   function getElement($i)
   {
     if(!isset($this->elements[$i])) {
-      return FALSE;
+      return "";
     }else {
       return $this->elements[$i];
     }
   }
 
+  function setElement($i,$value)
+  {
+    $this->elements[$i] = $value;
+  }
 
   function getId()
   {
@@ -197,7 +162,6 @@ class rex_xform_abstract
   {
     if($k === "") return "xform-".$this->params["form_name"]."-field-".$this->getId();
     return "xform-".$this->params["form_name"]."-field-".$this->getId().'_'.$k;
-    
   }
 
   function getFieldName($k="")
@@ -215,30 +179,18 @@ class rex_xform_abstract
     }
   }
 
+  function getHTMLClass()
+  {
+    return "form".$this->type;
+  }
+
   function getDescription()
   {
     return "Es existiert keine Klassenbeschreibung";
   }
 
-  function getLongDescription()
-  {
-    return "Es existiert keine ausfuehrliche Klassenbeschreibung";
-  }
-
   function getDefinitions() {
     return array();
   }
-
-
-
-
-  // ---------- deprecated
-  function getFormFieldname($k="")
-  {
-    if($k != "") return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']['.$k.']';
-    return 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
-  }
-
-
 
 }

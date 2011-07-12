@@ -3,9 +3,9 @@
 class rex_xform_validate_labelexist extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{
 		
 			// optional, ein oder mehrere felder müssen ausgefüllt sein
@@ -26,19 +26,19 @@ class rex_xform_validate_labelexist extends rex_xform_validate_abstract
 			$value = 0;
 			foreach($this->Objects as $o)
 			{
-				if (in_array($o->getDatabasefieldname(),$fields) && $o->getValue() != "") 
+				if (in_array($o->getName(),$fields) && $o->getValue() != "") 
 					$value++;
 			}
 
 			if ($value < $minamount || $value > $maxamount)
 			{
-				$warning_messages[] = $this->getElement(5);
+				$this->params["warning_messages"][] = $this->getElement(5);
 				
 				foreach($this->Objects as $o)
 				{
-					if (in_array($o->getDatabasefieldname(),$fields))
+					if (in_array($o->getName(),$fields))
 					{
-						$warning[$o->getId()] = $this->params["error_class"];
+						$this->params["warning"][$o->getId()] = $this->params["error_class"];
 					}
 				}
 			}

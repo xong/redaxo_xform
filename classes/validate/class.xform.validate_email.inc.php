@@ -3,17 +3,17 @@
 class rex_xform_validate_email extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 			foreach($this->obj_array as $Object)
 			{
 				if($Object->getValue())
 				{
 					if( !preg_match("#^[\w.+-]{2,}\@[\w.-]{2,}\.[a-z]{2,6}$#",$Object->getValue()) )
 					{
-						$warning[$Object->getId()] = $this->params["error_class"];
-						$warning_messages[] = $this->elements[3];
+						$this->params["warning"][$Object->getId()] = $this->params["error_class"];
+						$this->params["warning_messages"][$Object->getId()] = $this->getElement(3);
 					}
 				}
 			}

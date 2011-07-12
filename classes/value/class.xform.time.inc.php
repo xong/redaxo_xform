@@ -3,7 +3,7 @@
 class rex_xform_time extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 
 		$hour = "";
@@ -11,33 +11,33 @@ class rex_xform_time extends rex_xform_abstract
 
 		if (!is_array($this->getValue()) && (strlen($this->getValue()) == 2 || strlen($this->getValue()) == 4))
 		{
-			$hour = (int) substr($this->value,0,2);
-			$min = (int) substr($this->value,2,2);
+			$hour = (int) substr($this->getValue(),0,2);
+			$min = (int) substr($this->getValue(),2,2);
 		}else
 		{
-			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["hour"])) $hour = $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["hour"];
-			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["min"])) $min = $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["min"];
+			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["hour"])) $hour = $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["hour"];
+			if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["min"])) $min = $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["min"];
 			if($hour != "") { $hour = (int) $hour; $hour = substr($hour,0,2); $hour = str_pad($hour, 2, "0", STR_PAD_LEFT); }
 			if($min != "") { $min = (int) $min; $min = substr($min,0,2); $min = str_pad($min, 2, "0", STR_PAD_LEFT); }
 		}
 		
-		$formname = $this->getFormFieldname();
+		$formname = $this->getFieldName();
 
 		if($hour != "")
 		{
-			$email_elements[$this->getName()] = "$hour$min";
-			$sql_elements[$this->getName()] = "$hour$min";
+			$this->params["value_pool"]["email"][$this->getName()] = "$hour$min";
+			$this->params["value_pool"]["sql"][$this->getName()] = "$hour$min";
 		}
 		
 		$out = "";
 		$out .= '
 		<p class="formtime formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-			<label class="select" for="el_'.$this->getId().'" >'.$this->elements[2].'</label>';
+			<label class="select" for="el_'.$this->getId().'" >'.$this->getElement(2).'</label>';
 					
 		$hsel = new rex_select;
 		$hsel->setName($formname.'[hour]');
 		$hsel->setStyle("width:55px;");
-		$hsel->setId('el_'.$this->id.'_hour');
+		$hsel->setId('el_'.$this->getId().'_hour');
 		$hsel->setSize(1);
 		$hsel->addOption("HH","");
 		$hsel->addOption("01","01");
@@ -70,7 +70,7 @@ class rex_xform_time extends rex_xform_abstract
 		$msel = new rex_select;
 		$msel->setName($formname.'[min]');
 		$msel->setStyle("width:55px;");
-		$msel->setId('el_'.$this->id.'_min');
+		$msel->setId('el_'.$this->getId().'_min');
 		$msel->setSize(1);
 		$msel->addOption("MIN","");
 		$msel->addOption("00","00");
@@ -82,7 +82,7 @@ class rex_xform_time extends rex_xform_abstract
 
 		$out .= '</p>';
 
-		$form_output[] = $out;
+		$this->params["form_output"][] = $out;
 
 	}
 	function getDescription()

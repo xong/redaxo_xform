@@ -3,7 +3,7 @@
 class rex_xform_select_time extends rex_xform_abstract
 {
 
-  function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+  function enterObject()
   {
 
     $hour = date("H");
@@ -20,31 +20,31 @@ class rex_xform_select_time extends rex_xform_abstract
       }
     }
     
-    $formname = 'FORM['.$this->params["form_name"].'][el_'.$this->id.']';
+    $formname = 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
 
     $isotime = sprintf ("%02d:%02d:%02d", $hour, $min, $sec);
 
-    $email_elements[$this->getName()] = $isotime;
-    $sql_elements[$this->getName()] = $isotime;
+    $this->params["value_pool"]["email"][$this->getName()] = $isotime;
+    $this->params["value_pool"]["sql"][$this->getName()] = $isotime;
     
     $out = "";
     $out .= '
     <p class="form_select_time"  id="'.$this->getHTMLId().'">
-          <label class="select" for="el_'.$this->getId().'" >'.$this->elements[2].'</label>';
+          <label class="select" for="el_'.$this->getId().'" >'.$this->getElement(2).'</label>';
         
     $hsel = new rex_select;
     $hsel->setName($formname.'[hour]');
     $hsel->setAttribute('class', 'formdate-hour');
-    $hsel->setId('el_'.$this->id.'_hour');
+    $hsel->setId('el_'.$this->getId().'_hour');
     $hsel->setSize(1);
     // $hsel->addOption("HH","00");
 
     $von_h = 0;
     $bis_h = 24;
     
-    if(isset($this->elements[4]) && trim($this->elements[4]) != "")
+    if(trim($this->getElement(4)) != "")
     {
-      if($a = explode(",",$this->elements[4]))
+      if($a = explode(",",$this->getElement(4)))
       {
         $von_h = (int) $a[0]; 
         $bis_h = (int) $a[1]; 
@@ -66,13 +66,13 @@ class rex_xform_select_time extends rex_xform_abstract
     $msel = new rex_select;
     $msel->setName($formname.'[min]');
     $msel->setAttribute('class', 'formdate-minute');
-    $msel->setId('el_'.$this->id.'_min');
+    $msel->setId('el_'.$this->getId().'_min');
     $msel->setSize(1);
     // $msel->addOption("MM","0");
     
     $mmm = array();
-    if(isset($this->elements[4]) && trim($this->elements[4]) != "")
-      $mmm = explode(",",trim($this->elements[4]));
+    if(trim($this->getElement(4)) != "")
+      $mmm = explode(",",trim($this->getElement(4)));
     
     if(count($mmm)>0)
     {
@@ -92,7 +92,7 @@ class rex_xform_select_time extends rex_xform_abstract
 
     $out .= '</p>';
 
-    $form_output[] = $out;
+    $this->params["form_output"][] = $out;
 
   }
   function getDescription()

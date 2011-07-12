@@ -19,7 +19,7 @@ class rex_xform_validate_abstract
   var $obj_array;
   var $Objects; // die verschiedenen Value Objekte
   
-  function loadParams(&$params, &$elements)
+  function loadParams(&$params, $elements)
   {
     $this->params = &$params;
     $this->elements = $elements;
@@ -27,42 +27,38 @@ class rex_xform_validate_abstract
   
   function setObjects(&$Objects)
   {
-
     $this->obj = &$Objects;
-    $tmp_Objects = explode(",", $this->elements[2]);
+    $tmp_Objects = explode(",", $this->getElement(2));
     
     foreach($tmp_Objects as $tmp_Object)
     {
       $tmp_FoundObject=false;
       foreach($Objects as $Object)
       {
-        if(strcmp($Object->getDatabasefieldname(),trim($tmp_Object))==0)
+        if(strcmp($Object->getName(),trim($tmp_Object))==0)
         {
           $this->obj_array[] = &$Object;
           $tmp_FoundObject = true;
           break;
         }
       }
-      
-      // if(!$tmp_FoundObject && $this->params["debug"])
-      // 	echo "FEHLER: Object ".$tmp_Object." nicht gefunden!";
     }
     
   }
   
   function enterObject()
   {
-    
+    return "";
   }
   
   function getDescription()
   {
-    return "Für dieses Objekt fehlt die Beschreibung";
+    return "";
   }
 
   function getLongDescription()
   {
-    return "Für dieses Objekt fehlt die Beschreibung";
+    return "";
   }
   
   function getDefinitions()
@@ -73,7 +69,7 @@ class rex_xform_validate_abstract
   function getElement($i)
   {
     if(!isset($this->elements[$i]))
-      return FALSE;
+      return "";
     else
       return $this->elements[$i];
   }

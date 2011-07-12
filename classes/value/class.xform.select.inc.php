@@ -3,11 +3,11 @@
 class rex_xform_select extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 
 		$multiple = FALSE;
-		if(isset($this->elements[6]) && $this->elements[6]==1)
+		if($this->getElement(6)==1)
 		$multiple = TRUE;
 
 		$size = (int) $this->getElement(7);
@@ -20,15 +20,15 @@ class rex_xform_select extends rex_xform_abstract
 			if($size == 1) {
 				$size = 2;
 			}
-			$SEL->setName($this->getFormFieldname()."[]");
+			$SEL->setName($this->getFieldName()."[]");
 			$SEL->setSize($size);
 			$SEL->setMultiple(1);
 		}else {
-			$SEL->setName($this->getFormFieldname());
+			$SEL->setName($this->getFieldName());
 			$SEL->setSize(1);
 		}
 
-		foreach (explode(',', $this->elements[3]) as $v) {
+		foreach (explode(',', $this->getElement(3)) as $v) {
 			$teile = explode('=', $v);
 			$wert = $teile[0];
 			if (isset ($teile[1])) {
@@ -41,36 +41,35 @@ class rex_xform_select extends rex_xform_abstract
 			$SEL->addOption(rex_translate($wert), $bezeichnung);
 		}
 
-		if (!$send && $this->value=="" && isset($this->elements[5]) && $this->elements[5] != ""){
-			$this->value = $this->elements[5];
+		if (!$this->params["send"] && $this->getValue()=="" && $this->getElement(5) != ""){
+			$this->setValue($this->getElement(5));
 		}
 
 		if(!is_array($this->getValue())) {
-			$this->value = explode(",",$this->getValue());
+			$this->setValue(explode(",",$this->getValue()));
 		}
 
 		foreach($this->getValue() as $v) {
 			$SEL->setSelected($v);
 		}
 
-		$this->value = implode(",",$this->getValue());
+		$this->setValue(implode(",",$this->getValue()));
 
 		$wc = "";
-		if (isset($warning[$this->getId()])) {
-			$wc = $warning[$this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) {
+			$wc = $this->params["warning"][$this->getId()];
 		}
 
 		$SEL->setStyle(' class="select '.$wc.'"');
 
-		$form_output[$this->getId()] = '
+		$this->params["form_output"][$this->getId()] = '
       <p class="formselect formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
       <label class="select '.$wc.'" for="el_'.$this->getId().'" >'.rex_translate($this->getElement(2)).'</label>'. 
 		$SEL->get().
       '</p>';
 
-		$email_elements[$this->elements[1]] = $this->getValue();
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db")
-		  $sql_elements[$this->elements[1]] = $this->getValue();
+		$this->params["value_pool"]["email"][$this->getElement(1)] = $this->getValue();
+		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 
 	}
 

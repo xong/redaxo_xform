@@ -3,9 +3,9 @@
 class rex_xform_validate_type extends rex_xform_validate_abstract
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{
 			$Object=$this->obj_array[0];
 			
@@ -15,7 +15,7 @@ class rex_xform_validate_type extends rex_xform_validate_abstract
 			
 			$w = FALSE;
 			
-			switch(trim($this->elements[3]))
+			switch(trim($this->getElement(3)))
 			{
 				case "int":
 					$xsRegEx_int = "/^[0-9]+$/i";
@@ -51,15 +51,15 @@ class rex_xform_validate_type extends rex_xform_validate_abstract
 				case "":
 					break;
 				default:			
-					echo "Type ".$this->elements[3]." nicht definiert";
+					echo "Type ".$this->getElement(3)." nicht definiert";
 					$w = TRUE;
 					break;
 			}
 			
 			if ($w)
 			{ 
-					$warning[$Object->getId()]=$this->params["error_class"];
-					$warning_messages[$Object->getId()] = $this->getElement(4);
+					$this->params["warning"][$Object->getId()]=$this->params["error_class"];
+					$this->params["warning_messages"][$Object->getId()] = $this->getElement(4);
 			
 			}
 					

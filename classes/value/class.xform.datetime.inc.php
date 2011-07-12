@@ -3,7 +3,7 @@
 class rex_xform_datetime extends rex_xform_abstract
 {
 
-  function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+  function enterObject()
   {
 
     $day = date("d");
@@ -12,52 +12,52 @@ class rex_xform_datetime extends rex_xform_abstract
     $hour = date("H");
     $min = date("i");
     
-    if (!is_array($this->value) && strlen($this->value) == 12)
+    if (!is_array($this->getValue()) && strlen($this->getValue()) == 12)
     {
-      $min = (int) substr($this->value,13,2);
-      $hour = (int) substr($this->value,11,2);
-      $day = (int) substr($this->value,8,2);
-      $month = (int) substr($this->value,5,2);
-      $year = (int) substr($this->value,0,4);
+      $min = (int) substr($this->getValue(),13,2);
+      $hour = (int) substr($this->getValue(),11,2);
+      $day = (int) substr($this->getValue(),8,2);
+      $month = (int) substr($this->getValue(),5,2);
+      $year = (int) substr($this->getValue(),0,4);
 
     }else
     {
-      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["min"]))
-        $min = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["min"];
-      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["hour"]))
-        $hour = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["hour"];
-      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["day"]))
-        $day = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["day"];
-      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["month"]))
-        $month = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["month"];
-      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["year"]))
-        $year = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->id]["year"];
+      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["min"]))
+        $min = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["min"];
+      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["hour"]))
+        $hour = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["hour"];
+      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["day"]))
+        $day = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["day"];
+      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["month"]))
+        $month = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["month"];
+      if (isset($_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["year"]))
+        $year = (int) $_REQUEST["FORM"][$this->params["form_name"]]['el_'.$this->getId()]["year"];
 
     }
     
-    $formname = 'FORM['.$this->params["form_name"].'][el_'.$this->id.']';
+    $formname = 'FORM['.$this->params["form_name"].'][el_'.$this->getId().']';
 
     $twarning = "";
-    if (!checkdate($month,$day,$year) && $send == 1)
+    if (!checkdate($month,$day,$year) && $this->params["send"] == 1)
     {
       $twarning = 'border:1px solid #f99;background-color:#f9f3f3;';
-      $warning[] = "Datum ist falsch";
+      $this->params["warning"][$this->getId()] = "Datum ist falsch";
     }
     
     $isodatum = sprintf ("%04d-%02d-%02d %02d:%02d:%02d", $year, $month, $day, $hour, $min, 0);
 
-    $email_elements[$this->getName()] = "$day.$month.$year $hour.$min";
-    $sql_elements[$this->getName()] = $isodatum;
+    $this->params["value_pool"]["email"][$this->getName()] = "$day.$month.$year $hour.$min";
+    $this->params["value_pool"]["sql"][$this->getName()] = $isodatum;
     
     $out = "";
     $out .= '
     <p class="formdate">
-          <label class="select" for="el_'.$this->getId().'" >'.$this->elements[2].'</label>';
+          <label class="select" for="el_'.$this->getId().'" >'.$this->getElement(2).'</label>';
         
     $dsel = new rex_select;
     $dsel->setName($formname.'[day]');
     $dsel->setStyle("width:55px;".$twarning);
-    $dsel->setId('el_'.$this->id.'_day');
+    $dsel->setId('el_'.$this->getId().'_day');
     $dsel->setSize(1);
     $dsel->addOption("TT","0");
     for($i=1;$i<32;$i++)
@@ -70,7 +70,7 @@ class rex_xform_datetime extends rex_xform_abstract
     $msel = new rex_select;
     $msel->setName($formname.'[month]');
     $msel->setStyle("width:55px;".$twarning);
-    $msel->setId('el_'.$this->id.'_month');
+    $msel->setId('el_'.$this->getId().'_month');
     $msel->setSize(1);
     $msel->addOption("MM","0");
     for($i=1;$i<13;$i++)
@@ -80,8 +80,8 @@ class rex_xform_datetime extends rex_xform_abstract
     $msel->setSelected($month);
     $out .= $msel->get();
 
-    $year_start = (int) $this->elements[3];
-    $year_end = (int) $this->elements[4];
+    $year_start = (int) $this->getElement(3);
+    $year_end = (int) $this->getElement(4);
     
     if ($year_start == 0) 
       $year_start = 1980;
@@ -93,7 +93,7 @@ class rex_xform_datetime extends rex_xform_abstract
     $ysel = new rex_select;
     $ysel->setName($formname.'[year]');
     $ysel->setStyle("width:88px;".$twarning);
-    $ysel->setId('el_'.$this->id.'_year');
+    $ysel->setId('el_'.$this->getId().'_year');
     $ysel->setSize(1);
     $ysel->addOption("YYYY","0");
     for($i=$year_start;$i<=$year_end;$i++)
@@ -106,7 +106,7 @@ class rex_xform_datetime extends rex_xform_abstract
     $hsel = new rex_select;
     $hsel->setName($formname.'[hour]');
     $hsel->setStyle("width:55px;".$twarning);
-    $hsel->setId('el_'.$this->id.'_hour');
+    $hsel->setId('el_'.$this->getId().'_hour');
     $hsel->setSize(1);
     $hsel->addOption("HH","00");
     for($i=0;$i<24;$i++)
@@ -119,13 +119,13 @@ class rex_xform_datetime extends rex_xform_abstract
     $msel = new rex_select;
     $msel->setName($formname.'[min]');
     $msel->setStyle("width:55px;".$twarning);
-    $msel->setId('el_'.$this->id.'_min');
+    $msel->setId('el_'.$this->getId().'_min');
     $msel->setSize(1);
     $msel->addOption("MM","0");
     
     $mmm = array();
-    if(isset($this->elements[5]) && $this->elements[5] != "")
-      $mmm = explode(",",trim($this->elements[5]));
+    if($this->getElement(5) != "")
+      $mmm = explode(",",trim($this->getElement(5)));
     
     if(count($mmm)>0)
     {
@@ -145,7 +145,7 @@ class rex_xform_datetime extends rex_xform_abstract
 
     $out .= '</p>';
 
-    $form_output[] = $out;
+    $this->params["form_output"][] = $out;
 
   }
   function getDescription()

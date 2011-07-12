@@ -4,11 +4,11 @@ class rex_xform_action_wrapper_value extends rex_xform_action_abstract
 {
 	function execute()
 	{
-		foreach($this->elements_sql as $key => $value)
+		foreach($this->params["value_pool"]["sql"] as $key => $value)
 		{
-			if ($this->action["elements"][2] == $key)
+			if ($this->getElement(2) == $key)
 			{
-				$this->elements_sql[$key] = str_replace("###value###",$this->elements_sql[$key],$this->action["elements"][3]);
+				$this->params["value_pool"]["sql"][$key] = str_replace("###value###",$this->params["value_pool"]["sql"][$key],$this->getElement(3));
 				break;
 			}
 		}

@@ -6,16 +6,14 @@ class rex_xform_action_showtext extends rex_xform_action_abstract
 	function execute()
 	{
 	
-		$text = "";
-		if (isset($this->action["elements"][2])) 
-			$text .= $this->action["elements"][2];
+		$text = $this->getElement(2);
 		if ($text == "") 
 			$text = $this->params["answertext"];
 
-		if (isset($this->action["elements"][5]) && $this->action["elements"][5] == "0")
+		if ($this->getElement(5) == "0")
 			$text = nl2br(htmlspecialchars($text));
 
-		if (isset($this->action["elements"][5]) && $this->action["elements"][5] == "2")
+		if ($this->getElement(5) == "2")
 		{
       $text = htmlspecialchars_decode($text);
       $text = str_replace('<br />','',$text);
@@ -23,14 +21,9 @@ class rex_xform_action_showtext extends rex_xform_action_abstract
       $text = rex_a79_textile($text);
     }
 
-		if (isset($this->action["elements"][3])) 
-			$text = $this->action["elements"][3].$text;
+		$text = $this->getElement(3).$text.$this->getElement(4);
 
-		if (isset($this->action["elements"][4])) 
-			$text .= $this->action["elements"][4];
-
-
-		foreach ($this->elements_email as $search => $replace)
+		foreach ($this->params["value_pool"]["email"] as $search => $replace)
 		{
 			$text = str_replace('###'. $search .'###', $replace, $text);
 		}

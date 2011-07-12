@@ -6,6 +6,9 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
+error_reporting(E_ALL);
+ini_set("display_errors",1);
+    
 $mypage = 'xform';
 
 $REX['ADDON']['name'][$mypage] = 'XForm';

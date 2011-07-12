@@ -8,7 +8,7 @@ class rex_xform_lang_textarea extends rex_xform_abstract
 		return "^^^^°°°°";
 	}
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
 		global $REX;
 
@@ -25,13 +25,13 @@ class rex_xform_lang_textarea extends rex_xform_abstract
 		}
 
 		$wc = "";
-		if (isset($warning[$this->getId()])) {
-			$wc = $warning[$this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) {
+			$wc = $this->params["warning"][$this->getId()];
 		}
 		
 		$tmp = '
 		<div class="formtextarea formlangtextarea " id="'.$this->getHTMLId().'">
-			<p><label class="textarea ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->elements[2] . '</label></p>
+			<p><label class="textarea ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->getElement(2) . '</label></p>
 			';
 		
 		$tmp .= '<div class="tabs">';	
@@ -75,13 +75,13 @@ class rex_xform_lang_textarea extends rex_xform_abstract
 			});
 			</script>';
 
-		$form_output[] = $tmp.$script;
+		$this->params["form_output"][] = $tmp.$script;
 
 		$this->setValue(implode($this->getLangDivider(),$text));
 
-		$email_elements[$this->elements[1]] = stripslashes($this->getValue());
-		if (!isset($this->elements[3]) || $this->elements[3] != "no_db") 
-			$sql_elements[$this->elements[1]] = $this->value;
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(3) != "no_db") 
+			$this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

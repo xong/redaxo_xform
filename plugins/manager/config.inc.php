@@ -11,13 +11,13 @@
  * 
  * TODO:
  * - translate bei den Eingabefeldern setzen
- * - wenn medien im medienpool geloescht werden Ÿber EP auch prŸfen ob in EM etwas vorhanden ist
- * - Einfaches OOF fŸr EM bauen, Datensaetze, Listen, Relationen, Export und Import
+ * - wenn medien im medienpool geloescht werden ï¿½ber EP auch prï¿½fen ob in EM etwas vorhanden ist
+ * - Einfaches OOF fï¿½r EM bauen, Datensaetze, Listen, Relationen, Export und Import
  * - Caching einbauen
  * - onDelete bei Feldern einbauen
  * - Mehrsprachige Felder besser einbauen, XForm erweitern
- * - Generate All immer nach €nderungen bei Tabellen + Feldern
- * - Ÿbersetzung vervollstŠndigen, nur noch tables.inc.php und englisch
+ * - Generate All immer nach ï¿½nderungen bei Tabellen + Feldern
+ * - ï¿½bersetzung vervollstï¿½ndigen, nur noch tables.inc.php und englisch
  * 
  */
 

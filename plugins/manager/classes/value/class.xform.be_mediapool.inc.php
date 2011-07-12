@@ -3,7 +3,7 @@
 class rex_xform_be_mediapool extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
 		global $REX;
 		
@@ -14,29 +14,28 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 		
 		$i = $REX["xform_classes_be_mediapool"];
 		
-		if ($this->value == "" && !$send)
-			if (isset($this->elements[3])) 
-				$this->value = $this->elements[3];
+		if ($this->getValue() == "" && !$this->params["send"])
+			$this->setValue($this->getElement(3));
 
 		$wc = "";
-		if (isset($warning["el_" . $this->getId()])) 
-			$wc = $warning["el_" . $this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) 
+			$wc = $this->params["warning"][$this->getId()];
 
-			$form_output[] = '
+			$this->params["form_output"][] = '
 		<div class="xform-element formbe_mediapool formlabel-'.$this->getName().'">
-        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->elements[2] . '</label>
+        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
         
 			<div class="rex-widget">
 		      <div class="rex-widget-media">
 		        <p class="rex-widget-field">
-		          <input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->value)) . '" />
+		          <input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->getValue())) . '" />
 		        </p>
 		        <p class="rex-widget-icons rex-widget-1col">
 		          <span class="rex-widget-column rex-widget-column-first">
-		            <a href="#" class="rex-icon-file-open" onclick="openREXMedia('.$i.',\'\');return false;" title="Medium auswŠhlen"></a>
-		            <a href="#" class="rex-icon-file-add" onclick="addREXMedia('.$i.');return false;" title="Neues Medium hinzufŸgen"></a>
-		            <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia('.$i.');return false;" title="AusgewŠhltes Medium lšschen"></a>
-		            <a href="#" class="rex-icon-file-view" onclick="viewREXMedia('.$i.');return false;" title="Medium auswŠhlen"></a>
+		            <a href="#" class="rex-icon-file-open" onclick="openREXMedia('.$i.',\'\');return false;" title="Medium auswï¿½hlen"></a>
+		            <a href="#" class="rex-icon-file-add" onclick="addREXMedia('.$i.');return false;" title="Neues Medium hinzufï¿½gen"></a>
+		            <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia('.$i.');return false;" title="Ausgewï¿½hltes Medium lï¿½schen"></a>
+		            <a href="#" class="rex-icon-file-view" onclick="viewREXMedia('.$i.');return false;" title="Medium auswï¿½hlen"></a>
 		          </span>
 		        </p>
 		        <div class="rex-media-preview"></div>
@@ -46,17 +45,8 @@ class rex_xform_be_mediapool extends rex_xform_abstract
     </div>
   ';		
 		
-		
-		
-		
-		
-		
-		
-		
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
-
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
-			$sql_elements[$this->elements[1]] = $this->value;
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

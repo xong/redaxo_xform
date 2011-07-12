@@ -29,8 +29,8 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
       // finde email label in list
       if ($this->getElement(3) != FALSE && $this->getElement(3) != "")
       {
-        foreach($this->elements_email as $key => $value)
-          if ($this->action["elements"][3]==$key)
+        foreach($this->params["value_pool"]["email"] as $key => $value)
+          if ($this->getElement(3)==$key)
           {
             $mail_to = $value;
             break;
@@ -41,7 +41,7 @@ class rex_xform_action_db2email extends rex_xform_action_abstract
       if ($this->getElement(4) != FALSE && $this->getElement(4) != "")
         $mail_to = $this->getElement(4);
     
-      $etpl = rex_xform_emailtemplate::replaceVars($etpl,$this->elements_email);
+      $etpl = rex_xform_emailtemplate::replaceVars($etpl,$this->params["value_pool"]["email"]);
     
       $etpl['mail_to'] = $mail_to;
       $etpl['mail_to_name'] = $mail_to;

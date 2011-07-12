@@ -3,9 +3,9 @@
 class rex_xform_validate_size extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{	
 			// Wenn leer, dann alles ok
 			if($this->obj_array[0]->getValue() == "")
@@ -13,8 +13,8 @@ class rex_xform_validate_size extends rex_xform_validate_abstract
 			
 			if(strlen($this->obj_array[0]->getValue())!=$this->getElement(3))
 			{
-				$warning[$this->obj_array[0]->getId()]=$this->params["error_class"];
-				$warning_messages[$this->obj_array[0]->getId()] = $this->getElement(4);
+				$this->params["warning"][$this->obj_array[0]->getId()]=$this->params["error_class"];
+				$this->params["warning_messages"][$this->obj_array[0]->getId()] = $this->getElement(4);
 			}
 		}
 	}

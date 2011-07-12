@@ -3,28 +3,28 @@
 class rex_xform_validate_customfunction extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{
 		
-			$l = $this->getElement(2);
-			$f = $this->getElement(3);
-			$p = $this->getElement(4);
+			$label = $this->getElement(2);
+			$func = $this->getElement(3);
+			$parameter = $this->getElement(4);
 			
 			foreach($this->obj_array as $Object)
 			{
-				if(function_exists($f))
+				if(function_exists($func))
 				{
-					if($f($l,$Object->getValue(),$p))
+					if($func($label,$Object->getValue(),$parameter))
 					{
-						$warning[$Object->getId()] = $this->params["error_class"];
-						$warning_messages[$Object->getId()] = $this->getElement(5);
+						$this->params["warning"][$Object->getId()] = $this->params["error_class"];
+						$this->params["warning_messages"][$Object->getId()] = $this->getElement(5);
 					}
 				}else
 				{
-					$warning[$Object->getId()] = $this->params["error_class"];
-					$warning_messages[$Object->getId()] = 'ERROR: customfunction "'.$f.'" not found';
+					$this->params["warning"][$Object->getId()] = $this->params["error_class"];
+					$this->params["warning_messages"][$Object->getId()] = 'ERROR: customfunction "'.$func.'" not found';
 				}
 			}
 		}

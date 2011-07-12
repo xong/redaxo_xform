@@ -3,14 +3,14 @@
 class rex_xform_php extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 		ob_start();
-		eval("?>".$this->elements[1]);
+		eval("?>".$this->getElement(1));
 		$out = ob_get_contents();
 		ob_end_clean();
 
-		$form_output[] = $out;
+		$this->params["form_output"][] = $out;
 	}
 	
 	function getDescription()

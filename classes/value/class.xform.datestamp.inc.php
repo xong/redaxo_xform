@@ -3,16 +3,16 @@
 class rex_xform_datestamp extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 		$format = "Y-m-d";
-		if ($this->elements[2] != "")
+		if ($this->getElement(2) != "")
 		{
-			$format = $this->elements[2];
+			$format = $this->getElement(2);
 		}
   
 		 // 0 = immer setzen, 1 = nur wenn leer / create
-		if(!isset($this->elements[4]) || $this->elements[4] != 1) {
+		if($this->getElement(4) != 1) {
 			$set = 0;
 		}else {
 		  $set = 1;
@@ -20,18 +20,18 @@ class rex_xform_datestamp extends rex_xform_abstract
 
 		if($this->getValue() == "" || $set == 0)
 		{
-			$this->value = date($format);
+			$this->setValue(date($format));
 		}
 
-		$form_output[] = '
+		$this->params["form_output"][] = '
 	      <p class="formhidden formlabel-'.$this->getName().'" style="display:hidden;">
 	        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="el_'.$this->getId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
 	      </p>';
 
-		$email_elements[$this->getName()] = $this->getValue();
-		if (!(isset($this->elements[3]) && $this->elements[3] == "no_db"))
+		$this->params["value_pool"]["email"][$this->getName()] = $this->getValue();
+		if (!($this->getElement(3) == "no_db"))
 		{
-			$sql_elements[$this->getName()] = $this->getValue();
+			$this->params["value_pool"]["sql"][$this->getName()] = $this->getValue();
 		}
 	}
 

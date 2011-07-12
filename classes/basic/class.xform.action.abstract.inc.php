@@ -18,16 +18,11 @@ class rex_xform_action_abstract
   var $params = array();
   var $elements = array();
   var $action = array();
-  var $elements_email = array();
-  var $elements_sql = array();
 
-  // $this->objparams["warning"],$this->objparams["warning_messages"]
-  function loadParams(&$params, $action, &$elements_email, &$elements_sql)
+  function loadParams(&$params, &$elements)
   {
     $this->params = &$params;
-    $this->action = $action;
-    $this->elements_email = &$elements_email;
-    $this->elements_sql = &$elements_sql;
+    $this->elements = &$elements;
   }
 
   function setObjects(&$obj)
@@ -57,10 +52,10 @@ class rex_xform_action_abstract
   
   function getElement($i)
   {
-    if(!isset($this->action["elements"][$i]))
+    if(!isset($this->elements[$i]))
       return FALSE;
     else
-      return $this->action["elements"][$i];
+      return $this->elements[$i];
   }
   
   function getParam($param)

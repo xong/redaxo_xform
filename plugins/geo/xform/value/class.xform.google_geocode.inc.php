@@ -3,7 +3,7 @@
 class rex_xform_google_geocode extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
 
 		$labels = explode(",",$this->getElement(2)); // Fields of Position
@@ -16,7 +16,7 @@ class rex_xform_google_geocode extends rex_xform_abstract
 		$address = explode(",",$this->getElement(3)); // Fields of getPosition
 		
 		$label = "";
-		if(isset($this->elements[4])) $label = $this->elements[4];
+		if(isset($this->getElement(4))) $label = $this->getElement(4);
 
 		$map_width = 400;
 		if ($this->getElement(5) != "") $map_width = (int) $this->getElement(5);
@@ -31,12 +31,12 @@ class rex_xform_google_geocode extends rex_xform_abstract
 
 		// rex_com::debug($this->obj);
 	
-		if ($this->getValue() == "" && !$send)
-			if (isset($this->elements[4])) 
-				$this->value = $this->elements[4];
+		if ($this->getValue() == "" && !$this->params["send"])
+			if (isset($this->getElement(4))) 
+				$this->setValue($this->getElement(4));
 
 		$wc = "";
-		if (isset($warning[$this->getId()])) $wc = $warning[$this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) $wc = $this->params["warning"][$this->getId()];
 		
 		$output = "";
 		// Script nur beim ersten mal ausgeben
@@ -153,7 +153,7 @@ class rex_xform_google_geocode extends rex_xform_abstract
 				<div class="form_google_geocode_map" id="'.$map_id.'" style="width:'.$map_width.'px; height:'.$map_height.'px">Google Map</div>
 			</div>';
 			
-		$form_output[] = $output;
+		$this->params["form_output"][] = $output;
 
 
 	}

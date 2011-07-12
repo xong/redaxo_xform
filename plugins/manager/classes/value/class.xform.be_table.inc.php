@@ -3,15 +3,15 @@
 class rex_xform_be_table extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 	
-		$columns = 	(int) $this->elements[3];
+		$columns = 	(int) $this->getElement(3);
 		if ($columns<1) $columns = 1;
 		
-		$column_names = explode(",",$this->elements[4]);
+		$column_names = explode(",",$this->getElement(4));
 
-		$id = $this->id;
+		$id = $this->getId();
 	
 		// "1,1000,121;10,900,1212;100,800,1212;"
 		
@@ -52,7 +52,7 @@ class rex_xform_be_table extends rex_xform_abstract
 		
 		
 		$values = array();
-		if ($send)
+		if ($this->params["send"])
 		{
 
 			// print_r($_REQUEST["v"][$id]);
@@ -69,11 +69,11 @@ class rex_xform_be_table extends rex_xform_abstract
 				$i++;
 			}
 			
-			$this->value = "";
+			$this->setValue("");
 			$i=0;
 			foreach($values as $value)
 			{
-				if ($i>0) $this->value .= ';';
+				if ($i>0) $this->setValue($this->getValue().';');
 				$v = explode(",",$value);
 				$e = "";
 				$j=0;
@@ -83,27 +83,25 @@ class rex_xform_be_table extends rex_xform_abstract
 					$e .= $v[$r];
 					$j++;
 				}
-				$this->value .= $e;
+				$this->setValue($this->getValue().$e);
 				$i++;
 			}
 			
 		
 		}else
 		{
-			$values = explode(";",$this->value);
+			$values = explode(";",$this->getValue());
 		}
 		
-		if($this->value == "" && $send)
+		if($this->getValue() == "" && $this->params["send"])
 		{
-			$warning["el_" . $this->getId()] = $this->params["error_class"];
+			$this->params["warning"][$this->getId()] = $this->params["error_class"];
 		}
-		
-		// echo $this->value;
 		
 		$wc = "";
-		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()];
+		if (isset($this->params["warning"][$this->getId()])) $wc = $this->params["warning"][$this->getId()];
 		
-		$out_row_add .= '<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzuf�gen</a>';
+		$out_row_add .= '<a href="javascript:void(0);" onclick="rex_xform_table_addRow'.$id.'(jQuery(\'#xform_table'.$id.'\'))">+ Reihe hinzufügen</a>';
 		
 		$out .= '<table id="xform_table'.$id.'"><tr>';
 		for($r=0;$r<$columns;$r++)
@@ -132,18 +130,18 @@ class rex_xform_be_table extends rex_xform_abstract
 		}
 		$out .= '</table><br />';
 	
-		$form_output[] = '
+		$this->params["form_output"][] = '
 			<div class="xform-element formtable">
 				<p class="formtable ' . $wc . '">
-				<label class="table ' . $wc . '" for="el_' . $this->id . '" >' . $this->elements[2] . '</label>
+				<label class="table ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
 				'.$out_row_add.'
 				</p>
 				'.$out.'
 			</div>';
 	
 	
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if (!isset($this->elements[5]) || $this->elements[5] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(5) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 		return;
 
 	}

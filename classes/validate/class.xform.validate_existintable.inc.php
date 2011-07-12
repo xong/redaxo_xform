@@ -3,9 +3,9 @@
 class rex_xform_validate_existintable extends rex_xform_validate_abstract 
 {
 
-	function enterObject(&$warning, $send, &$warning_messages)
+	function enterObject()
 	{
-		if($send=="1")
+		if($this->params["send"]=="1")
 		{
 			foreach($this->obj_array as $Object)
 			{
@@ -15,8 +15,8 @@ class rex_xform_validate_existintable extends rex_xform_validate_abstract
 				$cd->setQuery($sql);
 				if ($cd->getRows()!=1)
 				{
-					$warning[$Object->getId()] = $this->params["error_class"];
-					$warning_messages[$Object->getId()] = $this->getElement(5);
+					$this->params["warning"][$Object->getId()] = $this->params["error_class"];
+					$this->params["warning_messages"][$Object->getId()] = $this->getElement(5);
 				}
 			}
 		}

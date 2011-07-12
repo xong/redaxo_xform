@@ -10,19 +10,19 @@ class rex_xform_submitimage extends rex_xform_abstract
 		$this->elements = $elements;
 	}
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
-		$this->value = $this->elements[2];
-		$src = $this->elements[3];
+		$this->setValue($this->getElement(2));
+		$src = $this->getElement(3);
 	
-       	$form_output[] = '
+       	$this->params["form_output"][] = '
 			<p class="formsubmit formlabel-'.$this->getName().'">
 				<input type="image" src="'.$src.'" class="submit " name="FORM[' . 
 				$this->params["form_name"] . '][el_' . $this->getId() . ']" id="el_' . $this->getId() . '" value="' . 
 				htmlspecialchars(stripslashes($this->getValue())) . '" />
 			</p>';
-		$email_elements[$this->elements[1]] = stripslashes($this->getValue());
-		if ($this->elements[4] != "no_db") $sql_elements[$this->elements[1]] = $this->getValue();
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()

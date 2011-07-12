@@ -6,12 +6,12 @@ class rex_xform_action_email extends rex_xform_action_abstract
 	function execute()
 	{
 
-		$mail_from = $this->action["elements"][2];
-		$mail_to = $this->action["elements"][3];
-		$mail_subject = $this->action["elements"][4];
-		$mail_body = $this->action["elements"][5];
+		$mail_from = $this->getElement(2);
+		$mail_to = $this->getElement(3);
+		$mail_subject = $this->getElement(4);
+		$mail_body = $this->getElement(5);
 
-		foreach ($this->elements_email as $search => $replace)
+		foreach ($this->params["value_pool"]["email"] as $search => $replace)
 		{
 			$mail_body = str_replace('###'. $search .'###', $replace, $mail_body);
 		}

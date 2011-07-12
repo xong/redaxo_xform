@@ -3,23 +3,23 @@
 class rex_xform_hidden extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
 		
-		if (isset($this->elements[3]) && $this->elements[3]=="REQUEST" && isset($_REQUEST[$this->getName()]))
+		if ($this->getElement(3)=="REQUEST" && isset($_REQUEST[$this->getName()]))
 		{
 			$this->setValue(stripslashes(rex_request($this->getName())));
-			$form_output[$this->getId()] = "\n".'<input type="hidden" name="'.$this->getName().'" id="'.$this->getHTMLId().'" value="'.htmlspecialchars($this->getValue()).'" />';
+			$this->params["form_output"][$this->getId()] = "\n".'<input type="hidden" name="'.$this->getName().'" id="'.$this->getHTMLId().'" value="'.htmlspecialchars($this->getValue()).'" />';
       
 		}else
 		{
-			$this->setValue($this->elements[2]);
-			$email_elements[$this->getName()] = $this->getValue();
+			$this->setValue($this->getElement(2));
+			$this->params["value_pool"]["email"][$this->getName()] = $this->getValue();
 		}
 
-		$email_elements[$this->getName()] = stripslashes($this->getValue());
-		if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
-			$sql_elements[$this->getName()] = $this->getValue();
+		$this->params["value_pool"]["email"][$this->getName()] = stripslashes($this->getValue());
+		if ($this->getElement(4) != "no_db") 
+			$this->params["value_pool"]["sql"][$this->getName()] = $this->getValue();
 	}
 	
 	function getDescription()

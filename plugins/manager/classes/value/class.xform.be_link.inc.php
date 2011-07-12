@@ -3,7 +3,7 @@
 class rex_xform_be_link extends rex_xform_abstract
 {
 
-  function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+  function enterObject()
   { 
     global $REX;
     
@@ -14,33 +14,32 @@ class rex_xform_be_link extends rex_xform_abstract
     
     $i = $REX["xform_classes_be_link"];
     
-    if ($this->value == "" && !$send)
-      if (isset($this->elements[3])) 
-        $this->value = $this->elements[3];
+    if ($this->getValue() == "" && !$this->params["send"])
+      $this->setValue($this->getElement(3));
 
     $wc = "";
-    if (isset($warning[$this->getId()])) 
-      $wc = $warning[$this->getId()];
+    if (isset($this->params["warning"][$this->getId()])) 
+      $wc = $this->params["warning"][$this->getId()];
 
     $linkname = "";
     if($this->getValue() != "" && $a = OOArticle::getArticleById($this->getValue()))
       $linkname = $a->getName();
       
-      $form_output[] = '
+      $this->params["form_output"][] = '
       
     <div class="xform-element formbe_mediapool formlabel-'.$this->getName().'">
-        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->elements[2] . '</label>
+        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
     <div class="rex-widget">
     <div class="rex-widget-link">
       <p class="rex-widget-field">
-        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->id.']" id="LINK_'.$i.'" value="'.$this->getValue().'" />
+        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="LINK_'.$i.'" value="'.$this->getValue().'" />
         <input type="text" size="30" name="LINK_'.$i.'_NAME" value="'.htmlspecialchars($linkname).'" id="LINK_'.$i.'_NAME" readonly="readonly" />
       </p>
 
        <p class="rex-widget-icons rex-widget-1col">
         <span class="rex-widget-column rex-widget-column-first">
-          <a href="#" class="rex-icon-file-open" onclick="openLinkMap(\'LINK_'.$i.'\', \'&clang=0&category_id=1\');return false;" title="Link auswŠhlen" tabindex="21"></a>
-          <a href="#" class="rex-icon-file-delete" onclick="deleteREXLink('.$i.');return false;" title="AusgewŠhlten Link lšschen" tabindex="22"></a>
+          <a href="#" class="rex-icon-file-open" onclick="openLinkMap(\'LINK_'.$i.'\', \'&clang=0&category_id=1\');return false;" title="Link auswï¿½hlen" tabindex="21"></a>
+          <a href="#" class="rex-icon-file-delete" onclick="deleteREXLink('.$i.');return false;" title="Ausgewï¿½hlten Link lï¿½schen" tabindex="22"></a>
         </span>
       </p>
     </div>
@@ -49,10 +48,8 @@ class rex_xform_be_link extends rex_xform_abstract
     </div>
   ';    
     
-    $email_elements[$this->elements[1]] = stripslashes($this->value);
-
-    if (!isset($this->elements[4]) || $this->elements[4] != "no_db") 
-      $sql_elements[$this->elements[1]] = $this->value;
+    $this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+    if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
   }
   
   function getDescription()

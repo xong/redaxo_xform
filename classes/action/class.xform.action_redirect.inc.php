@@ -17,7 +17,7 @@ class rex_xform_action_redirect extends rex_xform_action_abstract
 				}
 				break;
 			case("label"):
-				if(!isset($this->elements_sql[$this->getElement(4)]))
+				if(!isset($this->params["value_pool"]["sql"][$this->getElement(4)]))
 				{
 					return FALSE;
 				}
@@ -37,8 +37,8 @@ class rex_xform_action_redirect extends rex_xform_action_abstract
 			$url = $u;
 		}
 
-		// Emailkeys ersetzen. Somit auch Weiterleitungen mit neuer ID mšglich. "id=###ID###"
-		foreach ($this->elements_email as $search => $replace)
+		// Emailkeys ersetzen. Somit auch Weiterleitungen mit neuer ID mï¿½glich. "id=###ID###"
+		foreach ($this->params["value_pool"]["email"] as $search => $replace)
 		{
 			$url = str_replace('###'. $search .'###', $replace, $url);
 		}

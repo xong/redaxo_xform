@@ -3,15 +3,15 @@
 class rex_xform_ip extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
 		$sk = "REMOTE_ADDR";
-		if (isset($this->elements[3]) && $this->elements[3] != "") $sk = $this->elements[3];
+		if ($this->getElement(3) != "") $sk = $this->getElement(3);
 		
-		$this->value = $_SERVER[$sk];
+		$this->setValue($_SERVER[$sk]);
 		
-		$email_elements[$this->getName()] = stripslashes($this->value);
-		if (!isset($this->elements[2]) || $this->elements[2] != "no_db") $sql_elements[$this->getName()] = $this->getValue();
+		$this->params["value_pool"]["email"][$this->getName()] = stripslashes($this->getValue());
+		if ($this->getElement(2) != "no_db") $this->params["value_pool"]["sql"][$this->getName()] = $this->getValue();
 	}
 	
 	function getDescription()

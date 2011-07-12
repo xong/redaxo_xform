@@ -46,7 +46,7 @@ class rex_xform_action_createdb extends rex_xform_action_abstract
     }
 
     // wenn Feld nicht in Datenbank, dann als TEXT anlegen.
-    foreach($this->elements_sql as $key => $value)
+    foreach($this->params["value_pool"]["sql"] as $key => $value)
     {
       if(!in_array($key, $cols))
       {

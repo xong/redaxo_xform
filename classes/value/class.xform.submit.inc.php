@@ -8,23 +8,23 @@ class rex_xform_submit extends rex_xform_abstract
 		$this->params["submit_btn_show"] = FALSE; // ist referenz auf alle parameter.
 	}
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{	
-		$this->value = $this->elements[2];
+		$this->setValue($this->getElement(2));
 
 		$css_class = "";
-		if (isset($this->elements[4]) && $this->elements[4] != "") $css_class = $this->elements[4];
+		if ($this->getElement(4) != "") $css_class = $this->getElement(4);
 	
 		$wc = $css_class;
-		if (isset($warning["el_" . $this->getId()])) $wc = $warning["el_" . $this->getId()]." ";
+		if (isset($this->params["warning"][$this->getId()])) $wc = $this->params["warning"][$this->getId()]." ";
 	
-       	$form_output[] = '
+       	$this->params["form_output"][] = '
 				<p class="formsubmit formlabel-'.$this->getName().'">
 				<input type="submit" class="submit ' . $wc . '" name="FORM['.$this->params["form_name"] . '][el_' . $this->getId() . ']" id="el_' . $this->getId() . '" value="' . 
 				htmlspecialchars(stripslashes($this->getValue())) . '" />
 				</p>';
-		$email_elements[$this->elements[1]] = stripslashes($this->getValue());
-		if (!isset($this->elements[3]) || $this->elements[3] != "no_db") $sql_elements[$this->elements[1]] = $this->getValue();
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(3) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 		
 		$this->params["submit_btn_show"] = FALSE;
 	}

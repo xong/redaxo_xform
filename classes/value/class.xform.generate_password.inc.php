@@ -3,11 +3,11 @@
 class rex_xform_generate_password extends rex_xform_abstract
 {
 
-	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
+	function enterObject()
 	{
-		$this->value = substr(md5(microtime()), 0, 6);
-		$email_elements[$this->elements[1]] = stripslashes($this->value);
-		if ($this->elements[2] != "no_db") $sql_elements[$this->elements[1]] = $this->value;
+		$this->setValue(substr(md5(microtime().rand(1000)), 0, 6));
+		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
+		if ($this->getElement(2) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
 	}
 	
 	function getDescription()
