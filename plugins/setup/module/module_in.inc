@@ -133,7 +133,7 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
     <option value="0" <?php if("REX_VALUE[1]" == "0") echo " selected "; ?>>Nur in Datenbank speichern oder aktualisieren wenn "main_where" gesetzt ist</option>
     <option value="1" <?php if("REX_VALUE[1]" == "1") echo " selected "; ?>>Nur E-Mail versenden</option>
     <option value="2" <?php if("REX_VALUE[1]" == "2") echo " selected "; ?>>E-Mail versenden und in Datenbank speichern</option>
-    <option value="3" <?php if("REX_VALUE[1]" == "3") echo " selected "; ?>>E-Mail versenden und Datenbank abfragen</option>
+    <!--  <option value="3" <?php if("REX_VALUE[1]" == "3") echo " selected "; ?>>E-Mail versenden und Datenbank abfragen</option> -->
   </select>
 
 </fieldset>
@@ -144,6 +144,9 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
 
   <label>Absender:</label>
   <input type="text" name="VALUE[2]" value="REX_VALUE[2]" />
+
+  <label>Empfänger:</label>
+  <input type="text" name="VALUE[12]" value="REX_VALUE[12]" />
 
   <label>Subject:</label>
   <input type="text" name="VALUE[4]" value="REX_VALUE[4]" />

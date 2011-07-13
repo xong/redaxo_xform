@@ -29,18 +29,18 @@ class rex_xform
 
 		$this->objparams["actions"] = array();
 
-		$this->objparams["answertext"] = ""; // Antworttext
+		$this->objparams["answertext"] = "";
 		$this->objparams["submit_btn_label"] = "Abschicken";
 		$this->objparams["submit_btn_show"] = TRUE;
-		$this->objparams["output"] = ""; // das was am ende ausgegeben wird
+		$this->objparams["output"] = "";
 
 		$this->objparams["main_where"] = ""; // z.B. id=12
-		$this->objparams["main_id"] = -1; // unique ID des Datensatzen: z.B. 12
-		$this->objparams["main_table"] = ""; // f�r db speicherungen und unique abfragen
+		$this->objparams["main_id"] = -1; // unique ID
+		$this->objparams["main_table"] = ""; // for db and unique
 
-		$this->objparams["error_class"] = 'form_warning'; // CSS Klasse fuer die Fehlermedlungen.
+		$this->objparams["error_class"] = 'form_warning';
 		$this->objparams["unique_error"] = "";
-		$this->objparams["unique_field_warning"] = "not unique"; // Fehlermeldung die erscheint, wenn ein Unique-Feld von einem anderen User benutzt wird.
+		$this->objparams["unique_field_warning"] = "not unique";
 		$this->objparams["article_id"] = 0;
 		$this->objparams["clang"] = 0;
 
@@ -54,8 +54,6 @@ class rex_xform
 		$this->objparams["form_wrap"] = array('<div id="rex-xform" class="xform">','</div>');
 		$this->objparams["form_hiddenfields"] = array();
 
-		$this->objparams["form_type"] = "";
-
 		$this->objparams["actions_executed"] = FALSE;
 		$this->objparams["postactions_executed"] = FALSE;
 
@@ -66,10 +64,10 @@ class rex_xform
 		$this->objparams["warning_messages"] = array ();
 
 		$this->objparams["first_fieldset"] = true; //
-		$this->objparams["getdata"] = FALSE; // Daten vorab aus der DB holen
+		$this->objparams["getdata"] = FALSE;
 
-		$this->objparams["form_elements"] = array(); // Alle einzelnen Elemente
-		$this->objparams["form_output"] = array(); // Alle einzelnen Elemente
+		$this->objparams["form_elements"] = array();
+		$this->objparams["form_output"] = array();
 
 		$this->objparams["value_pool"] = array();
 		$this->objparams["value_pool"]["email"] = array();
@@ -130,10 +128,6 @@ class rex_xform
 		if ($aid == "") {
 			$aid = $REX["ARTICLE_ID"];
 		}
-
-		// deprecated
-		$this->setObjectparams("article_id",$aid);
-		$this->setObjectparams("clang",$clang);
 
 		$this->setHiddenField("article_id",$aid);
 		$this->setHiddenField("clang",$clang);
@@ -251,7 +245,7 @@ class rex_xform
 		// ----- Felder mit Werten fuellen, fuer wiederanzeige
 		// Die Value Objekte werden mit den Werten befuellt die
 		// aus dem Formular nach dem Abschicken kommen
-		if (!($this->objparams["send"] == 1) && $this->objparams["main_where"] != "" && $this->objparams['form_type'] != "3") {
+		if (!($this->objparams["send"] == 1) && $this->objparams["main_where"] != "") { //  && $this->objparams['form_type'] != "3"
 			for ($i = 0; $i < count($this->objparams["form_elements"]); $i++) {
 				$element = $this->objparams["form_elements"][$i];
 				if (($element[0]!="validate" && $element[0]!="action") and $element[1] != "") {
@@ -328,19 +322,6 @@ class rex_xform
 			$this->objparams["value_pool"]["email"]["ID"] = $this->objparams["main_id"];
 		}
 
-		// Action Felder auslesen und Validate Objekte erzeugen
-		if ($this->objparams['form_type'] == "0" || $this->objparams['form_type'] == "2") {
-			$this->objparams["actions"][] = array(
-				"type" => "db",
-				"elements" => array(
-					"action", 
-					"db", 
-					$this->objparams["main_table"], // Db Name
-					$this->objparams["main_where"], // Where
-					),
-				);
-		}
-
 		for ($i = 0; $i < count($this->objparams["form_elements"]); $i++)
 		{
 			$element = $this->objparams["form_elements"][$i];
@@ -351,36 +332,6 @@ class rex_xform
 					"elements" => $element,
 				);
 			}
-		}
-
-		if ($this->objparams['form_type'] == "1" || $this->objparams['form_type'] == "2")
-		{
-			$this->objparams["actions"][] = array(
-				"type" => "email",
-				"elements" => array(
-					"action",
-					"email",
-					$this->objparams["mail_from"],
-					$this->objparams["mail_to"],
-					$this->objparams["mail_subject"],
-					$this->objparams["mail_body"],
-				),
-			);
-		}
-
-		if ($this->objparams["answertext"]!="")
-		{
-			$this->objparams["actions"][] = array(
-				"type" => "showtext",
-				"elements" => array(
-					"action",
-					"email",
-					$this->objparams["answertext"],
-					'<div class="rex-message"><div class="rex-info"><p>',
-					'</p></div></div>',
-					'0' // nicht als HTML interpretieren
-				),
-			);
 		}
 
 		$hasWarnings = count($this->objparams["warning"]) != 0;
@@ -425,26 +376,11 @@ class rex_xform
 
 		}
 
-
-
-
-
-
 		$hasWarnings = count($this->objparams["warning"]) != 0;
 		$hasWarningMessages = count($this->objparams["warning_messages"]) != 0;
 
-
-
-
-
-
-
-		// ----- FORMULAR AUSGEBEN
-		//
 		if($this->objparams["form_show"] || $this->objparams["form_showformafterupdate"])
 		{
-
-			// ----- Formular wieder anzeigen
 
 			$this->objparams["output"] .= $this->objparams["form_wrap"][0].'<form action="'.$this->objparams["form_action"];
 			if($this->objparams["form_anchor"] != ""){ $this->objparams["output"] .= '#'.$this->objparams["form_anchor"]; }

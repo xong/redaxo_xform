@@ -1,26 +1,5 @@
 <?php
 
-/**
- * Editme
- *
- * @author jan@kristinus.de
- *
- * @package redaxo4
- * @version svn:$Id$
- * 
- * 
- * TODO:
- * - translate bei den Eingabefeldern setzen
- * - wenn medien im medienpool geloescht werden �ber EP auch pr�fen ob in EM etwas vorhanden ist
- * - Einfaches OOF f�r EM bauen, Datensaetze, Listen, Relationen, Export und Import
- * - Caching einbauen
- * - onDelete bei Feldern einbauen
- * - Mehrsprachige Felder besser einbauen, XForm erweitern
- * - Generate All immer nach �nderungen bei Tabellen + Feldern
- * - �bersetzung vervollst�ndigen, nur noch tables.inc.php und englisch
- * 
- */
-
 $REX['ADDON']['xform']['classpaths']['action'][] = $REX["INCLUDE_PATH"]."/addons/xform/plugins/manager/classes/action/";
 $REX['ADDON']['xform']['classpaths']['validate'][] = $REX["INCLUDE_PATH"]."/addons/xform/plugins/manager/classes/value/";
 $REX['ADDON']['xform']['classpaths']['value'][] = $REX["INCLUDE_PATH"]."/addons/xform/plugins/manager/classes/value/";
@@ -36,7 +15,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/xform/plugins/manager/lang/');
 
 	// $REX['ADDON']['name'][$mypage] = $I18N->msg("xform_table_manager");
-	$REX['ADDON']['version'][$mypage] = '2.6';
+	$REX['ADDON']['version'][$mypage] = '2.8';
 	$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage'][$mypage] = 'www.yakamara.de/tag/redaxo';
 	$REX['ADDON']['navigation'][$mypage] = array(

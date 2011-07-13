@@ -10,7 +10,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/xform/plugins/email/lang/');
 
 	// $REX['ADDON']['name'][$mypage] = $I18N->msg("xform_email_templates");
-	$REX['ADDON']['version'][$mypage] = '2.6';
+	$REX['ADDON']['version'][$mypage] = '2.8';
 	$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 	$REX['ADDON']['supportpage'][$mypage] = 'www.yakamara.de/tag/redaxo/';
 
