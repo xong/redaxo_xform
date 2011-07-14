@@ -1,18 +1,18 @@
 <?php
 
 // module:xform_basic_in
-// v0.2
+// v0.2.1
 // --------------------------------------------------------------------------------
 
 // DEBUG SELECT
 ////////////////////////////////////////////////////////////////////////////////
-$dbg = new rex_select();
-$dbg->setName('VALUE[7]');
-$dbg->setSize(1);
-$dbg->addOption('inakiv','0');
-$dbg->addOption('Aktiv','1');
-$dbg->setSelected('REX_VALUE[7]');
-$dbg = $dbg->get();
+$dbg_sel = new rex_select();
+$dbg_sel->setName('VALUE[7]');
+$dbg_sel->setSize(1);
+$dbg_sel->addOption('inakiv','0');
+$dbg_sel->addOption('Aktiv','1');
+$dbg_sel->setSelected('REX_VALUE[7]');
+$dbg_sel = $dbg_sel->get();
 
 
 // TABLE SELECT
@@ -20,16 +20,16 @@ $dbg = $dbg->get();
 $gc = rex_sql::factory();
 $gc->setQuery('SHOW TABLES');
 $tables = $gc->getArray();
-$ts = new rex_select;
-$ts->setName('VALUE[8]');
-$ts->setSize(1);
-$ts->addOption('Keine Tabelle ausgewählt', '');
+$tbl_sel = new rex_select;
+$tbl_sel->setName('VALUE[8]');
+$tbl_sel->setSize(1);
+$tbl_sel->addOption('Keine Tabelle ausgewählt', '');
 foreach ($tables as $key => $value)
 {
-  $ts->addOption(current($value), current($value));
+  $tbl_sel->addOption(current($value), current($value));
 }
-$ts->setSelected('REX_VALUE[8]');
-$ts = $ts->get();
+$tbl_sel->setSelected('REX_VALUE[8]');
+$tbl_sel = $tbl_sel->get();
 
 
 // PLACEHOLDERS
@@ -40,13 +40,19 @@ $form_data = trim(str_replace('<br />','',rex_xform::unhtmlentities($form_data))
 $xform->setFormData($form_data);
 $xform->setRedaxoVars(REX_ARTICLE_ID,REX_CLANG_ID);
 $placeholders = '';
+if('REX_VALUE[3]'!='')
+{
 $ignores = array('html','validate','action');
+  $placeholders .= '  <strong class="hint">Platzhalter: <span>[<a href="#" id="xform-placeholders-help-toggler">?</a>]</span></strong>
+  <p id="xform-placeholders">'.PHP_EOL;
 foreach($xform->objparams['form_elements'] as $e)
 {
   if(!in_array($e[0],$ignores))
   {
-    $placeholders .= '<span>###'.$e[1].'###</span> ';
+      $placeholders .= '<span>###'.$e[1].'###</span> '.PHP_EOL;
   }
+}
+  $placeholders .= '  </p>'.PHP_EOL;
 }
 
 
@@ -76,7 +82,7 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
   #xform-modul a.blank               {background:url("../files/addons/be_style/plugins/agk_skin/popup.gif") no-repeat 100% 0;padding-right:17px;}
   #xform-modul #modulinfo            {font-size:10px;text-align:right;}
   /*XFORM MODUL*/
-  #xform-modul textarea              {min-height:50px;}
+  #xform-modul textarea              {min-height:50px;font-family:monospace;font-size:12px;}
   #xform-modul pre                   {clear:left;}
   #xform-modul strong span           {font-weight:normal;}
   #xform-modul .help                 {display:none;color:#2C8EC0;line-height:12px;}
@@ -102,7 +108,7 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
   <legend>Formular</legend>
 
   <label>DebugModus:</label>
-  <?php echo $dbg;?>
+  <?php echo $dbg_sel;?>
 
   <hr />
 
@@ -153,10 +159,8 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
   <label class="fullwidth">Mailbody:</label>
   <textarea id="xform-mail-body" class="fullwidth" name="VALUE[5]" rows="<?php echo (count(explode("\r",'REX_VALUE[5]'))+$row_pad);?>">REX_VALUE[5]</textarea>
 
-  <strong class="hint">Platzhalter: <span>[<a href="#" id="xform-placeholders-help-toggler">?</a>]</span></strong>
-  <p id="xform-placeholders">
     <?php echo $placeholders;?>
-  </p>
+
   <ul class="help" id="xform-placeholders-help">
     <li>Die Platzhalter ergeben sich aus den obenstehenden Felddefinitionen.</li>
     <li>Per click können einelzne Platzhalter in den Mail-Body kopiert werden.</li>
@@ -171,7 +175,7 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
   <legend>Datenbank Einstellungen</legend>
 
   <label>Tabelle wählen <span>[<a href="#" id="xform-db-help-toggler">?</a>]</span></label>
-  <?php echo $ts;?>
+  <?php echo $tbl_sel;?>
   <ul class="help" id="xform-db-select-help">
     <li>Diese Tabelle gilt auch bei Uniqueabfragen (Pflichtfeld=2) siehe oben</li>
   </ul>
@@ -193,7 +197,7 @@ $mail_display = ($sel=='' || $sel==0) ?'style="display:none"':'';
 
   </fieldset>
 
-  <p id="modulinfo">XForm Formbuilder v0.2</p>
+  <p id="modulinfo">XForm Formbuilder v0.2.1</p>
 
 </div><!-- #xform-modul -->
 
