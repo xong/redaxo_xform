@@ -12,16 +12,14 @@ class rex_xform_submit extends rex_xform_abstract
 	{	
 		$this->setValue($this->getElement(2));
 
-		$css_class = "";
-		if ($this->getElement(4) != "") $css_class = $this->getElement(4);
-	
-		$wc = $css_class;
+		$wc = "";
+		if ($this->getElement(4) != "") $wc = $this->getElement(4);
+
 		if (isset($this->params["warning"][$this->getId()])) $wc = $this->params["warning"][$this->getId()]." ";
 	
-       	$this->params["form_output"][] = '
-				<p class="formsubmit formlabel-'.$this->getName().'">
-				<input type="submit" class="submit ' . $wc . '" name="FORM['.$this->params["form_name"] . '][el_' . $this->getId() . ']" id="el_' . $this->getId() . '" value="' . 
-				htmlspecialchars(stripslashes($this->getValue())) . '" />
+       	$this->params["form_output"][$this->getId()] = '
+				<p class="formsubmit '.$this->getHTMLClass().'">
+				<input type="submit" class="submit '.$wc.'" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.htmlspecialchars(stripslashes($this->getValue())) . '" />
 				</p>';
 		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
 		if ($this->getElement(3) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();

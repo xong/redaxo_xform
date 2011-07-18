@@ -12,14 +12,6 @@ $table_id = rex_request("table_id","int");
 
 $show_list = TRUE;
 
-if($func == "update" && $REX['USER']->isAdmin())
-{
-  $t = new rex_xform_manager();
-  $t->generateAll();
-  echo rex_info($I18N->msg("xform_manager_table_updated"));
-  $func = "";
-}
-
 // ********************************************* FORMULAR
 if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 {
@@ -47,14 +39,14 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
     $xform->setValueField("text",array("table_name",$I18N->msg("xform_manager_table_name")));
     $xform->setValidateField("empty",array("table_name",$I18N->msg("xform_manager_table_enter_name")));
     $xform->setValidateField("preg_match",array("table_name","/([a-z\_])*/",$I18N->msg("xform_manager_table_enter_specialchars")));
-    $xform->setValidateField("customfunction",array("table_name","rex_xform_manage_checkLabelInTable","",$I18N->msg("xform_manager_table_exists")));
+    $xform->setValidateField("customfunction",array("table_name","rex_xform_manager_checkLabelInTable","",$I18N->msg("xform_manager_table_exists")));
     $xform->setActionField("wrapper_value",array('table_name','###value###')); // Tablename
     $xform->setActionField("db",array($table));
   }
 
   $xform->setValueField("text",array("name",$I18N->msg("xform_manager_name")));
   $xform->setValidateField("empty",array("name",$I18N->msg("xform_manager_table_enter_name")));
-  
+
   $xform->setValueField("textarea",array("description",$I18N->msg("xform_manager_table_description")));
   $xform->setValueField("checkbox",array("status",$I18N->msg("tbl_active")));
   // $xform->setValueField("fieldset",array("fs-list","Liste"));
@@ -70,20 +62,27 @@ if( ($func == "add" || $func == "edit") && $REX['USER']->isAdmin() )
 
   if($xform->objparams["form_show"])
   {
-    if($func == "edit")
-    echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("xform_manager_edit_table").'</h3><div class="rex-area-content">';
-    else
-    echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("xform_manager_add_table").'</h3><div class="rex-area-content">';
+    if($func == "edit"){
+      echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("xform_manager_edit_table").'</h3><div class="rex-area-content">';
+    }else{
+      echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("xform_manager_add_table").'</h3><div class="rex-area-content">';
+    }
     echo $form;
     echo '</div></div>';
     echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('xform_back_to_overview').'</b></a></td></tr></table>';
     $show_list = FALSE;
   }else
   {
-    if($func == "edit")
-    echo rex_info($I18N->msg("xform_manager_table_updated"));
-    elseif($func == "add")
-    echo rex_info($I18N->msg("xform_manager_table_added"));
+    if($func == "edit"){
+      echo rex_info($I18N->msg("xform_manager_table_updated"));
+    }elseif($func == "add") {
+
+      $table_name = $xform->objparams["value_pool"]["sql"]["table_name"];
+      $t = new rex_xform_manager();
+      $t->setFilterTable($table_name);
+      $t->generateAll();
+      echo rex_info($I18N->msg("xform_manager_table_added"));
+    }
   }
 
 }
@@ -126,8 +125,6 @@ if($show_list && $REX['USER']->isAdmin()){
 
   echo "<table cellpadding=5 class=rex-table><tr><td>
 		<a href=index.php?page=".$page."&subpage=".$subpage."&func=add><b>+ ".$I18N->msg("xform_manager_table_add")."</b></a>
-		 | 
-		<a href=index.php?page=".$page."&subpage=".$subpage."&func=update><b>".$I18N->msg("xform_manager_table_update")."</b></a>
 		<!-- |  <a href=index.php?page=".$page."&subpage=".$subpage."&func=table_import><b>".$I18N->msg("xform_manager_table_import")."</b></a> -->
 		
 		</td></tr></table><br />";

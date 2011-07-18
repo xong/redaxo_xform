@@ -6,7 +6,6 @@ $REX['ADDON']['xform']['classpaths']['value'][] = $REX["INCLUDE_PATH"]."/addons/
 
 include ($REX['INCLUDE_PATH'].'/addons/xform/plugins/manager/classes/basic/class.rex_xform_manager.inc.php');
 include ($REX['INCLUDE_PATH'].'/addons/xform/plugins/manager/classes/basic/class.rex_xform_manager_table.inc.php');
-include ($REX['INCLUDE_PATH'].'/addons/xform/plugins/manager/functions/functions.inc.php');
 
 $mypage = 'manager';
 

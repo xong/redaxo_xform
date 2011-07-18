@@ -15,7 +15,7 @@ class rex_xform_jquery extends rex_xform_abstract
 			$out = str_replace("###".$o->getName()."###",'el_'.$o->getId(),$out);
 		}
 
-		$this->params["form_output"][] = '
+		$this->params["form_output"][$this->getId()] = '
 		<script type="text/javascript">
 		'.$out.';
 		</script>';

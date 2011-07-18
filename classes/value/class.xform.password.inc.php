@@ -15,12 +15,10 @@ class rex_xform_password extends rex_xform_abstract
 			$wc = $this->params["warning"][$this->getId()];
 		}
 		
-		$this->params["form_output"][] = '
+		$this->params["form_output"][$this->getId()] = '
 				<p class="formpassword formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-				<label class="password ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
-				<input type="password" class="password ' . $wc . '" name="FORM[' . 
-				$this->params["form_name"] . '][el_' . $this->getId() . ']" id="el_' . $this->getId() . '" value="' . 
-				htmlspecialchars(stripslashes($this->getValue())) . '" />
+				<label class="password ' . $wc . '" for="'.$this->getFieldId().'" >' . $this->getElement(2) . '</label>
+				<input type="password" class="password ' . $wc . '" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="" />
 				</p>';
 		$this->params["value_pool"]["email"][$this->getElement(1)] = stripslashes($this->getValue());
 		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();

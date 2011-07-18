@@ -21,11 +21,11 @@ class rex_xform_fieldset extends rex_xform_abstract
 		if($this->params["first_fieldset"])
 		{
 			$this->params["first_fieldset"] = false;
-			$this->params["form_output"][] = $legend;
+			$this->params["form_output"][$this->getId()] = $legend;
 
 		}else
 		{
-			$this->params["form_output"][] = '</fieldset><fieldset'.$class.' id="'.$this->getHTMLId().'">'.$legend;
+			$this->params["form_output"][$this->getId()] = '</fieldset><fieldset'.$class.' id="'.$this->getHTMLId().'">'.$legend;
 
 		}
 

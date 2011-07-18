@@ -334,7 +334,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	}
 	
 	$xform->setActionField("showtext",array("",'<p>'.$I18N->msg("thankyouforentry").'</p>'));
-	$xform->setObjectparams("main_table",'rex_xform_field'); // für db speicherungen und unique abfragen
+	$xform->setObjectparams("main_table",'rex_xform_field'); // fï¿½r db speicherungen und unique abfragen
 
 	if($func == "edit")
 	{
@@ -379,10 +379,12 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	{
 		if($func == "edit")
 		{
+		  $this->generateAll();
 			echo rex_info($I18N->msg("thankyouforupdate"));
 			
 		}elseif($func == "add")
 		{
+		  $this->generateAll();
 			echo rex_info($I18N->msg("thankyouforentry"));
 			
 		}
@@ -408,6 +410,8 @@ if($func == "delete"){
 		// $delsql->debugsql=1;
 		$delsql->setQuery($query);
 		echo rex_info($I18N->msg("tablefielddeleted"));
+		$this->generateAll();
+		
 	}else
 	{
 		echo rex_warning($I18N->msg("tablefieldnotfound"));

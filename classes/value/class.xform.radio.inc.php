@@ -44,7 +44,7 @@ class rex_xform_radio extends rex_xform_abstract
 			$SEL->setSelected($v);
 		}
 		
-		$this->params["form_output"][] = '
+		$this->params["form_output"][$this->getId()] = '
 			<p class="formradio formlabel-'.$this->getName().'"  id="'.$this->getHTMLId().'">
 				<label class="radio ' . $wc . '" for="' . $this->getHTMLId() . '" >' . $this->getElement(2) . '</label>
 			</p>'.$SEL->get();

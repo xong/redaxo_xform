@@ -7,18 +7,15 @@ class rex_xform_resetbutton extends rex_xform_abstract
 	{
 		$this->setValue($this->getElement(2));
 
-		$css_class = "";
-		if ($this->getElement(4) != "")
-		{
-			$css_class = $this->getElement(3);
+		$wc = "";
+		if ($this->getElement(4) != "") {
+			$wc = $this->getElement(3);
 		}
-		$wc = $css_class;
 
-		$this->params["form_output"][] = '
-				<p class="formsubmit formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-				<label class="text ' . $wc . '" for="el_' . $this->getId() . '" >&nbsp;</label>
-				<input type="reset" class="submit ' . $wc . '" id="el_' . $this->getId() . '" value="' . 
-		htmlspecialchars(stripslashes($this->getValue())) . '" />
+		$this->params["form_output"][$this->getId()] = '
+				<p class="formsubmit '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+				<label class="text ' . $wc . '" for="'.$this->getFieldId().'" >&nbsp;</label>
+				<input type="reset" class="submit ' . $wc . '" id="'.$this->getFieldId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
 				</p>';
 
 	}

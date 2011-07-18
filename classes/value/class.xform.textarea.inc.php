@@ -13,15 +13,14 @@ class rex_xform_textarea extends rex_xform_abstract
 		$classes = " ".$this->getElement(5);
 		
 		$wc = "";
-		if (isset($this->params["warning"][$this->getId()]))
-		{
+		if (isset($this->params["warning"][$this->getId()])) {
 			$wc = " ".$this->params["warning"][$this->getId()];
 		}
 		
 		$this->params["form_output"][$this->getId()] = '
 		<p class="formtextarea" id="'.$this->getHTMLId().'">
-			<label class="textarea ' . $wc . '" for="el_' . $this->getId() . '" >' . rex_translate($this->getElement(2)) . '</label>
-			<textarea class="textarea' . $classes . $wc . '" name="'.$this->getFieldName().'" id="el_' . $this->getId() . '" cols="80" rows="10">' . htmlspecialchars(stripslashes($this->getValue())) . '</textarea>
+			<label class="textarea ' . $wc . '" for="'.$this->getFieldId().'" >' . rex_translate($this->getElement(2)) . '</label>
+			<textarea class="textarea' . $classes . $wc . '" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" cols="80" rows="10">' . htmlspecialchars(stripslashes($this->getValue())) . '</textarea>
 		</p>';
 
 		$this->params["value_pool"]["email"][$this->getName()] = stripslashes($this->getValue());

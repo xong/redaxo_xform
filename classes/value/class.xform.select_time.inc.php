@@ -29,8 +29,8 @@ class rex_xform_select_time extends rex_xform_abstract
     
     $out = "";
     $out .= '
-    <p class="form_select_time"  id="'.$this->getHTMLId().'">
-          <label class="select" for="el_'.$this->getId().'" >'.$this->getElement(2).'</label>';
+    <p class="form_select_time '.$this->getHTMLClass().'"  id="'.$this->getHTMLId().'">
+          <label class="select" for="'.$this->getFieldId().'" >'.$this->getElement(2).'</label>';
         
     $hsel = new rex_select;
     $hsel->setName($formname.'[hour]');
@@ -92,7 +92,7 @@ class rex_xform_select_time extends rex_xform_abstract
 
     $out .= '</p>';
 
-    $this->params["form_output"][] = $out;
+    $this->params["form_output"][$this->getId()] = $out;
 
   }
   function getDescription()

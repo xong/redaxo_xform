@@ -86,15 +86,14 @@ class rex_xform_mediafile extends rex_xform_abstract
       }
       $check_delete = '
    			<span class="formmcheckbox" style="width:300px;clear:none;">
-	   			<input id="el_'.$this->getId().'_delete" type="checkbox" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().'_delete]" value="1" />
-	   			<label for="el_' . $this->getId() . '_delete">Datei löschen</label>
+	   			<input id="'.$this->getFieldId("delete").'" type="checkbox" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().'_delete]" value="1" />
+	   			<label for="'.$this->getFieldId("delete").'">Datei löschen</label>
    			</span>
    			';
    			// $this->getElement(2) = "";
     }
 
-    if ($this->params["send"] && $this->getElement(5)==1)
-    {
+    if ($this->params["send"] && $this->getElement(5)==1) {
       $this->params["warning"][$this->getId()] = $this->params["error_class"];
       $this->params["warning_messages"][$this->getId()] = $this->getElement(6);
     }
@@ -104,17 +103,15 @@ class rex_xform_mediafile extends rex_xform_abstract
       $wc = $this->params["warning"][$this->getId()];
     }
 
-
-
     $out = '
 			<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().'_filename]" value="'.$this->getValue().'" />
 			<p class="formfile" id="'.$this->getHTMLId().'">
-				<label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) .'</label>
+				<label class="text ' . $wc . '" for="'.$this->getFieldId().'" >' . $this->getElement(2) .'</label>
 				'.$check_delete.'
-				<input class="uploadbox clickmedia '.$wc.'" id="el_'.$this->getId().'" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" type="file" />
+				<input class="uploadbox clickmedia '.$wc.'" id="'.$this->getFieldId().'" name="'.$this->getFieldName().'" type="file" />
 			</p>';
 
-    $this->params["form_output"][] = $out;
+    $this->params["form_output"][$this->getId()] = $out;
 
   }
 

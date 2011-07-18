@@ -55,12 +55,6 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
     }
     $disabled = FALSE;
 
-
-
-
-
-
-
     // ---------- Datensatz existiert bereits, Values aus verkn�pfungstabelle holen
     if($this->params["main_id"] > 0 && $this->params["send"] == 0)
     {
@@ -146,7 +140,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
         $out = '
 				<div class="rex-widget">
 				    <div class="rex-widget-xform-manager-datalist">
-				      <input type="hidden" name="FORM[' . $this->params["form_name"] . '][el_' . $this->getId() . ']" id="XFORM_MANAGER_DATALIST_'.$this->getId().'" value="'.implode(",",$this->getValue()).'" />
+				      <input type="hidden" name="'.$this->getHTMLClass().'" id="XFORM_MANAGER_DATALIST_'.$this->getId().'" value="'.implode(",",$this->getValue()).'" />
 				      <p class="rex-widget-field">
 				        <select name="XFORM_MANAGER_DATALIST_SELECT['.$this->getId().']" id="XFORM_MANAGER_DATALIST_SELECT_'.$this->getId().'" size="8">';
         foreach($value_names as $k => $v) {
@@ -191,7 +185,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 					<div class="rex-widget-data">
 					
 					<p class="rex-widget-field">
-					<input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="XFORM_MANAGER_DATA_'.$this->getId().'" value="'.implode(",",$this->getValue()).'" />
+					<input type="hidden" name="'.$this->getHTMLClass().'" id="XFORM_MANAGER_DATA_'.$this->getId().'" value="'.implode(",",$this->getValue()).'" />
 					<input type="text" size="30" name="XFORM_MANAGER_DATANAME['.$this->getId().']" value="'.htmlspecialchars($value_name).'" id="XFORM_MANAGER_DATANAME_'.$this->getId().'" readonly="readonly" class="text" />
 					</p>
 					<p class="rex-widget-icons rex-widget-1col">
@@ -211,9 +205,9 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
         	
       }
 
-      $this->params["form_output"][] = '
-				<p class="formpopup" id="'.$this->getHTMLId().'">
-					<label class="select ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->be_em["label"] . '</label>
+      $this->params["form_output"][$this->getId()] = '
+				<p class="formpopup '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+					<label class="select ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->be_em["label"] . '</label>
 					'.$out.'
 				</p>';
     }
@@ -249,9 +243,9 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
        }
        */
 
-      $this->params["form_output"][] = '
-			<p class="formhtml" id="'.$this->getHTMLId().'">
-			<label class="select " for="el_' . $this->getId() . '" >' . $this->be_em["label"] . '</label>
+      $this->params["form_output"][$this->getId()] = '
+			<p class="formhtml '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+			<label class="select " for="' . $this->getFieldId() . '" >' . $this->be_em["label"] . '</label>
 			<input type="hidden" name="FORM[' . $this->params["form_name"] . '][el_' . $this->getId() . '][]" id="REX_RELATION_'.$this->getId().'" />
 			<span>'.$text.'</span>
 			</p>';
@@ -287,7 +281,7 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
 
       $SEL = new rex_select();
       $SEL->setName('FORM[' . $this->params["form_name"] . '][el_' . $this->getId() . '][]');
-      $SEL->setId("el_" . $this->getId());
+      $SEL->setId($this->getFieldId());
       $SEL->setStyle('class="select"');
 
       $SEL->setDisabled($disabled);
@@ -317,9 +311,9 @@ class rex_xform_be_manager_relation extends rex_xform_abstract
       // var_dump($this->getValue());
       $SEL->setSelected($this->getValue());
 
-      $this->params["form_output"][] = '
-	        <p class="formselect" id="'.$this->getHTMLId().'">
-	          <label class="select ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->be_em["label"] . '</label>
+      $this->params["form_output"][$this->getId()] = '
+	        <p class="formselect '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+	          <label class="select ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->be_em["label"] . '</label>
 	          ' . $SEL->get() . '
 	        </p>';
 

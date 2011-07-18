@@ -23,9 +23,9 @@ class rex_xform_datestamp extends rex_xform_abstract
 			$this->setValue(date($format));
 		}
 
-		$this->params["form_output"][] = '
-	      <p class="formhidden formlabel-'.$this->getName().'" style="display:hidden;">
-	        <input type="hidden" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="el_'.$this->getId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
+		$this->params["form_output"][$this->getId()] = '
+	      <p class="formhidden '.$this->getHTMLClass().'" style="display:hidden;" id="'.$this->getHTMLId().'">
+	        <input type="hidden" name="'.$this->getFieldName().'" id="'.$this->getFieldId().'" value="'.htmlspecialchars(stripslashes($this->getValue())).'" />
 	      </p>';
 
 		$this->params["value_pool"]["email"][$this->getName()] = $this->getValue();

@@ -67,7 +67,7 @@ class rex_xform_manager_table {
 		// $tb->debugsql = 1;
 		$tb->setQuery('select * from rex_xform_table '.$where.' order by prio,name');
 
-		$return = "";
+		$return = array();
 		foreach($tb->getArray() as $t)
 		{
 			$return[$t["table_name"]] = rex_xform_manager_table::factory($t);

@@ -125,15 +125,15 @@ class rex_xform_be_table extends rex_xform_abstract
 				$tmp = ""; if(isset($v[$r])) $tmp = $v[$r];
 				$out .= '<td><input type="text" name="v['.$id.']['.$r.'][]" value="'.$tmp.'" /></td>';
 			}
-			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'(jQuery(this))">- l�schen</a></td>';
+			$out .= '<td><a href="javascript:void(0)" onclick="rex_xform_table_deleteRow'.$id.'(jQuery(this))">- löschen</a></td>';
 			$out .= '</tr>';
 		}
 		$out .= '</table><br />';
 	
-		$this->params["form_output"][] = '
-			<div class="xform-element formtable">
+		$this->params["form_output"][$this->getId()] = '
+			<div class="xform-element '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
 				<p class="formtable ' . $wc . '">
-				<label class="table ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
+				<label class="table ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->getElement(2) . '</label>
 				'.$out_row_add.'
 				</p>
 				'.$out.'

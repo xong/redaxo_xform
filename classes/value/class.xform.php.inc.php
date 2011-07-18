@@ -10,7 +10,7 @@ class rex_xform_php extends rex_xform_abstract
 		$out = ob_get_contents();
 		ob_end_clean();
 
-		$this->params["form_output"][] = $out;
+		$this->params["form_output"][$this->getId()] = $out;
 	}
 	
 	function getDescription()

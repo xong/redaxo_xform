@@ -51,8 +51,8 @@ class rex_xform_datetime extends rex_xform_abstract
     
     $out = "";
     $out .= '
-    <p class="formdate">
-          <label class="select" for="el_'.$this->getId().'" >'.$this->getElement(2).'</label>';
+    <p class="formdate '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+          <label class="select" for="'.$this->getFieldId().'" >'.$this->getElement(2).'</label>';
         
     $dsel = new rex_select;
     $dsel->setName($formname.'[day]');
@@ -145,7 +145,7 @@ class rex_xform_datetime extends rex_xform_abstract
 
     $out .= '</p>';
 
-    $this->params["form_output"][] = $out;
+    $this->params["form_output"][$this->getId()] = $out;
 
   }
   function getDescription()

@@ -15,7 +15,7 @@ class rex_xform_select extends rex_xform_abstract
 		  $size = 1;
 
 		$SEL = new rex_select();
-		$SEL->setId("el_" . $this->getId());
+		$SEL->setId($this->getFieldId());
 		if($multiple) {
 			if($size == 1) {
 				$size = 2;
@@ -63,8 +63,8 @@ class rex_xform_select extends rex_xform_abstract
 		$SEL->setStyle(' class="select '.$wc.'"');
 
 		$this->params["form_output"][$this->getId()] = '
-      <p class="formselect formlabel-'.$this->getName().'" id="'.$this->getHTMLId().'">
-      <label class="select '.$wc.'" for="el_'.$this->getId().'" >'.rex_translate($this->getElement(2)).'</label>'. 
+      <p class="formselect '.$this->getHTMLClass().'" id="'.$this->getHTMLId().'">
+      <label class="select '.$wc.'" for="'.$this->getFieldId().'" >'.rex_translate($this->getElement(2)).'</label>'. 
 		$SEL->get().
       '</p>';
 

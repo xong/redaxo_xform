@@ -85,7 +85,7 @@ class rex_xform_birthday extends rex_xform_abstract
 
 		$out .= '</p>';
 
-		$this->params["form_output"][] = $out;
+		$this->params["form_output"][$this->getId()] = $out;
 
 	}
 	function getDescription()

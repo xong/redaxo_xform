@@ -21,21 +21,21 @@ class rex_xform_be_mediapool extends rex_xform_abstract
 		if (isset($this->params["warning"][$this->getId()])) 
 			$wc = $this->params["warning"][$this->getId()];
 
-			$this->params["form_output"][] = '
-		<div class="xform-element formbe_mediapool formlabel-'.$this->getName().'">
-        <label class="text ' . $wc . '" for="el_' . $this->getId() . '" >' . $this->getElement(2) . '</label>
+			$this->params["form_output"][$this->getId()] = '
+		<div class="xform-element '.$this->getHTMLClass().'">
+        <label class="text ' . $wc . '" for="' . $this->getFieldId() . '" >' . $this->getElement(2) . '</label>
         
 			<div class="rex-widget">
 		      <div class="rex-widget-media">
 		        <p class="rex-widget-field">
-		          <input type="text" class="text '.$wc.'" name="FORM['.$this->params["form_name"].'][el_'.$this->getId().']" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->getValue())) . '" />
+		          <input type="text" class="text '.$wc.'" name="'.$this->getFieldName().'" id="REX_MEDIA_'.$i.'" readonly="readonly" value="'.htmlspecialchars(stripslashes($this->getValue())) . '" />
 		        </p>
 		        <p class="rex-widget-icons rex-widget-1col">
 		          <span class="rex-widget-column rex-widget-column-first">
-		            <a href="#" class="rex-icon-file-open" onclick="openREXMedia('.$i.',\'\');return false;" title="Medium ausw�hlen"></a>
-		            <a href="#" class="rex-icon-file-add" onclick="addREXMedia('.$i.');return false;" title="Neues Medium hinzuf�gen"></a>
-		            <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia('.$i.');return false;" title="Ausgew�hltes Medium l�schen"></a>
-		            <a href="#" class="rex-icon-file-view" onclick="viewREXMedia('.$i.');return false;" title="Medium ausw�hlen"></a>
+		            <a href="#" class="rex-icon-file-open" onclick="openREXMedia('.$i.',\'\');return false;" title="Medium auswählen"></a>
+		            <a href="#" class="rex-icon-file-add" onclick="addREXMedia('.$i.');return false;" title="Neues Medium hinzufügen"></a>
+		            <a href="#" class="rex-icon-file-delete" onclick="deleteREXMedia('.$i.');return false;" title="Ausgewähltes Medium löschen"></a>
+		            <a href="#" class="rex-icon-file-view" onclick="viewREXMedia('.$i.');return false;" title="Medium auswählen"></a>
 		          </span>
 		        </p>
 		        <div class="rex-media-preview"></div>

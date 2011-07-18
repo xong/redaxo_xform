@@ -75,7 +75,7 @@ class rex_xform_lang_textarea extends rex_xform_abstract
 			});
 			</script>';
 
-		$this->params["form_output"][] = $tmp.$script;
+		$this->params["form_output"][$this->getId()] = $tmp.$script;
 
 		$this->setValue(implode($this->getLangDivider(),$text));
 

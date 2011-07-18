@@ -43,7 +43,7 @@ class rex_xform_captcha extends rex_xform_abstract
 		if ($wc != '')
 			$wc = ' '.$wc;
 			
-		$this->params["form_output"][] = '
+		$this->params["form_output"][$this->getId()] = '
 			<p class="formcaptcha" id="'.$this->getHTMLId().'">
 				<label class="captcha' . $wc . '" for="' . $this->getFieldId() . '">'.htmlspecialchars($this->getElement(1)).'</label>
 				<span class="as-label' . $wc . '"><img  src="'.$link.'" onclick="javascript:this.src=\''.$link.'&\'+Math.random();" alt="CAPTCHA image" /></span>

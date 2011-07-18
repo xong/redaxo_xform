@@ -4,7 +4,7 @@ class rex_xform_html extends rex_xform_abstract
 {
 
 	function enterObject() {
-		$this->params["form_output"][] = $this->getElement(2);
+		$this->params["form_output"][$this->getId()] = $this->getElement(2);
 	}
 	
 	function getDescription() {
