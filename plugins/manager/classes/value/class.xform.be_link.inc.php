@@ -32,7 +32,7 @@ class rex_xform_be_link extends rex_xform_abstract
     <div class="rex-widget">
     <div class="rex-widget-link">
       <p class="rex-widget-field">
-        <input type="hidden" name="'.$this->getHTMLClass().'" id="LINK_'.$i.'" value="'.$this->getValue().'" />
+        <input type="hidden" name="'.$this->getFieldName().'" id="LINK_'.$i.'" value="'.$this->getValue().'" />
         <input type="text" size="30" name="LINK_'.$i.'_NAME" value="'.htmlspecialchars($linkname).'" id="LINK_'.$i.'_NAME" readonly="readonly" />
       </p>
 
