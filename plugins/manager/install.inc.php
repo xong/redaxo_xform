@@ -14,7 +14,8 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `rex_xform_table` (
   `hidden` tinyint(4) NOT NULL,
   `export` tinyint(4) NOT NULL,
   `import` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE(`table_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;');
 
 $sql->setQuery('ALTER TABLE `rex_xform_table` CHANGE `prio` `prio` INT NOT NULL');
@@ -36,7 +37,8 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `rex_xform_field` (
   `f9` text NOT NULL,
   `list_hidden` tinyint(4) NOT NULL,
   `search` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE(`table_name`, `type_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;');
 
 $sql->setQuery('ALTER TABLE `rex_xform_field` CHANGE `prio` `prio` INT NOT NULL');
