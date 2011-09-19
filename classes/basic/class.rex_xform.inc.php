@@ -382,7 +382,7 @@ class rex_xform
     if($this->objparams["form_show"] || $this->objparams["form_showformafterupdate"])
     {
 
-      $this->objparams["output"] .= $this->objparams["form_wrap"][0].'<form action="'.$this->objparams["form_action"];
+      $this->objparams["output"] .= '<form action="'.$this->objparams["form_action"];
       if($this->objparams["form_anchor"] != ""){ $this->objparams["output"] .= '#'.$this->objparams["form_anchor"]; }
       $this->objparams["output"] .= '" method="'.$this->objparams["form_method"].'" id="' . $this->objparams["form_id"] . '" enctype="multipart/form-data">';
       $this->objparams["output"] .= '<fieldset>';
@@ -438,11 +438,11 @@ class rex_xform
       }
 
       $this->objparams["output"] .= '</fieldset>';
-      $this->objparams["output"] .= '</form>'.$this->objparams["form_wrap"][1];
+      $this->objparams["output"] .= '</form>';
 
     }
 
-    return $this->objparams["output"];
+    return $this->objparams["form_wrap"][0].$this->objparams["output"].$this->objparams["form_wrap"][1];
   }
 
 
