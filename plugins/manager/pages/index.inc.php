@@ -8,22 +8,22 @@ $table_name = rex_request('table_name', 'string');
 switch($tripage)
 {
 	case 'table_field':
-		rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
-		require $REX['INCLUDE_PATH'] . '/addons/xform/plugins/manager/pages/table_field.inc.php';
+		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
+		include rex_path::plugin("xform","manager","pages/table_field.inc.php");
 		break;
 
 	case 'table_import':
-		// TODO:
-		rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
+		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
 		echo "TODO:";
-		require $REX['INCLUDE_PATH'] . '/addons/xform/plugins/manager/pages/table_import.inc.php';
+		include rex_path::plugin("xform","manager","pages/table_import.inc.php");
 		break;
 
 	case 'data_edit':
-		require $REX['INCLUDE_PATH'] . '/addons/xform/plugins/manager/pages/data_edit.inc.php';
+		include rex_path::plugin("xform","manager","pages/data_edit.inc.php");
 		break;
 
 	default:
-		rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
-		require $REX['INCLUDE_PATH'] . '/addons/xform/plugins/manager/pages/table_edit.inc.php';
+		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
+		include rex_path::plugin("xform","manager","pages/table_edit.inc.php");
+
 }

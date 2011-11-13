@@ -2,7 +2,11 @@
 
 $table_name = rex_request("table_name","string");
 
-if($table_name != "" && $REX['USER'] && ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('xform[table:'.$table_name.']')) )
+if(
+	$table_name != "" 
+	&& rex::getUser() 
+	&& (rex::getUser()->isAdmin() || rex::getUser()->hasPerm(rex_xform_manager_table::getTablePermName($table_name)) )
+	)
 {
 
 	$page = new rex_xform_manager();

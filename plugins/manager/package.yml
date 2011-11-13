@@ -1,0 +1,5 @@
+version: '2.8'
+author: 'Jan Kristinus'
+supportpage: www.yakamara.de/tags/org
+name: 'translate:xform_table_manager'
+perm: isAdmin

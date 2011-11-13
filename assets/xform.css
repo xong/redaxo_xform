@@ -1,0 +1,114 @@
+
+.xform {
+}
+.xform-value:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+.xform-value {
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: 1px solid #fff;
+  overflow: hidden;
+}
+
+.xform-value .xform-label {
+  float: left;
+  padding: 0 5px;
+  width: 145px;
+}
+.xform-value .xform-element {
+}
+
+.xform-value input[type=text], 
+.xform-value textarea, 
+.xform-value select, 
+.xform-value table {
+  width: 456px;
+  padding: 2px;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.xform-value textarea {
+  height: 150px;
+}
+.xform-value select[multiple="multiple"] {
+  height: 80px;
+}
+
+.xform-value [readonly="readonly"], 
+.xform-value [disabled="disabled"], 
+.xform-value .rex-widget [multiple="multiple"] {
+  background-color: #dfe9e9 !important;
+}
+
+/*  -- checkbox ------------------------------------------------------------  */
+.xform-value.xform-checkbox .xform-label {
+  float: right;
+  padding: 0;
+  width: 580px;
+}
+.xform-value.xform-checkbox .xform-element {
+  float: left;
+  margin-left: 135px;
+}
+
+/*  -- be-link -------------------------------------------------------------  */
+/*  -- be-medialist --------------------------------------------------------  */
+/*  -- be-mediapool --------------------------------------------------------  */
+/*  -- be-manager-relation -------------------------------------------------  */
+.xform-value.xform-be-link .rex-widget-field, 
+.xform-value.xform-be-medialist .rex-widget-field, 
+.xform-value.xform-be-mediapool .rex-widget-field, 
+.xform-value.xform-be-manager-relation .rex-widget-field {
+  float: left;
+}
+.xform-value.xform-be-link .rex-widget-icons, 
+.xform-value.xform-be-medialist .rex-widget-icons, 
+.xform-value.xform-be-mediapool .rex-widget-icons, 
+.xform-value.xform-be-manager-relation .rex-widget-icons {
+  float: right;
+}
+.xform-value.xform-be-mediapool input[type=text] {
+  width: 354px;
+}
+.xform-value.xform-be-link input[type=text], 
+.xform-value.xform-be-medialist select, 
+.xform-value.xform-be-manager-relation input[type=text], 
+.xform-value.xform-be-manager-relation .rex-widget select {
+  width: 394px; /* + 40 px, 2 Buttons fehlen */
+}
+
+/*  -- be-table ------------------------------------------------------------  */
+.xform-value.xform-be-table .xform-before {
+  float: right;
+}
+.xform-value.xform-be-table .xform-label {
+  float: left;
+}
+.xform-value.xform-be-table .xform-element {
+  clear: both;
+  float: none;
+}
+.xform-value.xform-be-table input[type=text] {
+  width: 100%;
+  border: 0;
+}
+.xform-value.xform-be-table table {
+  width: 100%;
+  background-color: #fff;
+}
+.xform-value.xform-be-table table th, 
+.xform-value.xform-be-table table td {
+  padding: 2px;
+  border: 1px solid #999;
+}
+.xform-value.xform-be-table table th {
+  background-color: #dfe9e9;
+}

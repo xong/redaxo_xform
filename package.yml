@@ -1,0 +1,11 @@
+version: '3.0'
+author: 'Jan Kristinus'
+name: 'translate:xform'
+perm: xform[]
+supportpage: www.yakamara.de/tag/xform/
+requires:
+  addons:
+    phpmailer:
+      min-version: '1.3'
+pages:
+  - ['', 'translate:xform_overview']

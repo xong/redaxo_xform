@@ -19,7 +19,7 @@ foreach($this->getLinkVars() as $k => $v) {
 	$link_vars .= '&'.urlencode($k).'='.urlencode($v);
 }
 
-$TYPE = array('value' => $I18N->msg("values"), 'validate' => $I18N->msg("validates"), 'action' => $I18N->msg("action"));
+$TYPE = array('value' => rex_i18n::msg("values"), 'validate' => rex_i18n::msg("validates"), 'action' => rex_i18n::msg("action"));
 
 
 // ********************************** TABELLE HOLEN
@@ -43,7 +43,7 @@ foreach($tables as $t) {
 
 
 echo '<table cellpadding="5" class="rex-table" id="xform-alltables">';
-echo '<tr><td><b>'.$I18N->msg("alltables").':</b> ';
+echo '<tr><td><b>'.rex_i18n::msg("alltables").':</b> ';
 foreach($tables as $t) {
 	if($t["table_name"] == $table["table_name"]) { 
 		echo ' | <b>'.$t["table_name"].'</b> '; 
@@ -54,7 +54,7 @@ foreach($tables as $t) {
 echo '| </td></tr>';
 echo '<tr><td>';
 if($table["description"] != "") echo " ".$table["description"];
-// if($rex_em_opener_info != "") { echo ' - '.$I18N->msg("openerinfo").': '.$rex_em_opener_info; }
+// if($rex_em_opener_info != "") { echo ' - '.rex_i18n::msg("openerinfo").': '.$rex_em_opener_info; }
 echo '</td></tr></table><br />';
 $table["fields"] = $this->getTableFields($table["table_name"]);
 
@@ -97,16 +97,16 @@ if($func == "choosenadd")
 	if(!rex_xform_manager_table::hasId($table["table_name"])) {
 
 		?>
-		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo $I18N->msg('xform_id_is_missing'); ?></h2><div class="rex-addon-content">
-		<p class="rex-tx1"><?php echo $I18N->msg('xform_id_missing_info'); ?></p>
+		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo rex_i18n::msg('xform_id_is_missing'); ?></h2><div class="rex-addon-content">
+		<p class="rex-tx1"><?php echo rex_i18n::msg('xform_id_missing_info'); ?></p>
 		</div></div>
 		<?php
 		
 	}else{
 
 		?>
-		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo $I18N->msg('choosenadd'); ?></h2><div class="rex-addon-content">
-		<p class="rex-tx1"><?php echo $I18N->msg('choosenadd_description'); ?></p>
+		<div class="rex-addon-output" id="xform-choosenadd"><h2 class="rex-hl2"><?php echo rex_i18n::msg('choosenadd'); ?></h2><div class="rex-addon-content">
+		<p class="rex-tx1"><?php echo rex_i18n::msg('choosenadd_description'); ?></p>
 		</div></div>
 		<?php
 	
@@ -209,7 +209,7 @@ if($func == "choosenadd")
 	}
 	
 	echo '<br /><table cellpadding="5" class="rex-table"><tr><td>
-		<a href="index.php?'.$link_vars.'&amp;table_name='.$table["table_name"].'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a>
+		<a href="index.php?'.$link_vars.'&amp;table_name='.$table["table_name"].'"><b>&laquo; '.rex_i18n::msg('back_to_overview').'</b></a>
 		</td></tr></table>';
 
 }
@@ -263,14 +263,14 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 						$v["value"] = "";
 					
 					$xform->setValueField("text",array("f".$i,"Name",$v["value"]));
-					$xform->setValidateField("notEmpty",array("f".$i,$I18N->msg("validatenamenotempty")));
-					$xform->setValidateField("preg_match",array("f".$i,"/(([a-zA-Z])+([a-zA-Z0-9\_])*)/",$I18N->msg("validatenamepregmatch")));
-					$xform->setValidateField("customfunction",array("f".$i,"rex_xform_manager_checkField",array("table_name" => $table["table_name"]), $I18N->msg("validatenamecheck")));
+					$xform->setValidateField("empty",array("f".$i,rex_i18n::msg("validatenamenotempty")));
+					$xform->setValidateField("preg_match",array("f".$i,"/(([a-zA-Z])+([a-zA-Z0-9\_])*)/",rex_i18n::msg("validatenamepregmatch")));
+					$xform->setValidateField("customfunction",array("f".$i,"rex_xform_manager_checkField",array("table_name" => $table["table_name"]), rex_i18n::msg("validatenamecheck")));
 				}
 				break;
 
 			case("no_db"):
-				$xform->setValueField("checkbox",array("f".$i,$I18N->msg("donotsaveindb"),1,0));
+				$xform->setValueField("checkbox",array("f".$i,rex_i18n::msg("donotsaveindb"),1,0));
 				break;
 
 			case("boolean"):
@@ -333,7 +333,7 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 
 	}
 	
-	$xform->setActionField("showtext",array("",'<p>'.$I18N->msg("thankyouforentry").'</p>'));
+	$xform->setActionField("showtext",array("",'<p>'.rex_i18n::msg("thankyouforentry").'</p>'));
 	$xform->setObjectparams("main_table",'rex_xform_field'); // f�r db speicherungen und unique abfragen
 
 	if($func == "edit")
@@ -352,8 +352,8 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 
 	if($type_id == "value")
 	{
-		$xform->setValueField("checkbox",array("list_hidden",$I18N->msg("hideinlist"),1,"1"));
-    	$xform->setValueField("checkbox",array("search",$I18N->msg("useassearchfieldalidatenamenotempty"),1,"1"));
+		$xform->setValueField("checkbox",array("list_hidden",rex_i18n::msg("hideinlist"),1,"1"));
+    	$xform->setValueField("checkbox",array("search",rex_i18n::msg("useassearchfieldalidatenamenotempty"),1,"1"));
 	
 	}elseif($type_id == "validate")
 	{
@@ -366,13 +366,13 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 	if($xform->objparams["form_show"])
 	{
 		if($func == "add")
-			echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+			echo '<div class="rex-area"><h3 class="rex-hl2">'.rex_i18n::msg("addfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 		else
-			echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
+			echo '<div class="rex-area"><h3 class="rex-hl2">'.rex_i18n::msg("editfield").' "'. $type_name .'"</h3><div class="rex-area-content">';
 		echo $form;
 		echo '</div></div>';
 		echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td>
-			<a href="index.php?'.$link_vars.'&amp;table_name='.$table["table_name"].'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a>
+			<a href="index.php?'.$link_vars.'&amp;table_name='.$table["table_name"].'"><b>&laquo; '.rex_i18n::msg('back_to_overview').'</b></a>
 			</td></tr></table>';
 		$func = "";
 	}else
@@ -380,12 +380,12 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 		if($func == "edit")
 		{
 		  $this->generateAll();
-			echo rex_info($I18N->msg("thankyouforupdate"));
+			echo rex_info(rex_i18n::msg("thankyouforupdate"));
 			
 		}elseif($func == "add")
 		{
 		  $this->generateAll();
-			echo rex_info($I18N->msg("thankyouforentry"));
+			echo rex_info(rex_i18n::msg("thankyouforentry"));
 			
 		}
 		$func = "list";
@@ -399,22 +399,22 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 // ********************************************* LOESCHEN
 if($func == "delete"){
 
-	$sf = new rex_sql();
+	$sf = rex_sql::factory();
 	// $sf->debugsql = 1;
 	$sf->setQuery('select * from rex_xform_field where table_name="'.$table["table_name"].'" and id='.$field_id);
 	$sfa = $sf->getArray();
 	if(count($sfa) == 1)
 	{
 		$query = 'delete from rex_xform_field where table_name="'.$table["table_name"].'" and id='.$field_id;
-		$delsql = new rex_sql;
+		$delsql = rex_sql::factory();
 		// $delsql->debugsql=1;
 		$delsql->setQuery($query);
-		echo rex_info($I18N->msg("tablefielddeleted"));
+		echo rex_info(rex_i18n::msg("tablefielddeleted"));
 		$this->generateAll();
 		
 	}else
 	{
-		echo rex_warning($I18N->msg("tablefieldnotfound"));
+		echo rex_warning(rex_i18n::msg("tablefieldnotfound"));
 	}
 	$func = "list";
 }
@@ -430,14 +430,14 @@ if($func == "delete"){
 if($func == "updatetable")
 {
 	$this->generateAll();
-	echo rex_info($I18N->msg("tablesupdated"));
+	echo rex_info(rex_i18n::msg("tablesupdated"));
 	$func = "list";
 }
 
 if($func == "updatetablewithdelete")
 {
 	$this->generateAll(array("delete_fields" => TRUE));
-	echo rex_info($I18N->msg("tablesupdated"));
+	echo rex_info(rex_i18n::msg("tablesupdated"));
 	$func = "list";
 }
 
@@ -455,7 +455,7 @@ if($func == "list"){
 	// ****** EP XFORM_MANAGER_TABLE_FIELD_FUNC
 
 	$show_list = TRUE;
-	$show_list = rex_register_extension_point('XFORM_MANAGER_TABLE_FIELD_FUNC', $show_list,
+	$show_list = rex_extension::registerPoint('XFORM_MANAGER_TABLE_FIELD_FUNC', $show_list,
 				array(
 					'table' => $t,
 					'link_vars' => $this->getLinkVars(),
@@ -487,21 +487,19 @@ if($func == "list"){
 	
 		function rex_xform_list_edit_format($p)
 		{
-			global $REX,$I18N;
-			return rex_xform_list_format($p, $p["list"]->getColumnLink($I18N->msg("edit"),$I18N->msg("edit")));
+			return rex_xform_list_format($p, $p["list"]->getColumnLink(rex_i18n::msg("edit"),rex_i18n::msg("edit")));
 		}
 	
 		function rex_xform_list_delete_format($p)
 		{
-			global $REX,$I18N;
-			return rex_xform_list_format($p, $p["list"]->getColumnLink($I18N->msg("delete"),$I18N->msg("delete")));
+			return rex_xform_list_format($p, $p["list"]->getColumnLink(rex_i18n::msg("delete"),rex_i18n::msg("delete")));
 		}
 	
 		echo '<table cellpadding=5 class=rex-table>
-		<tr><td><a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=choosenadd><b>+ '.$I18N->msg("addtablefield").'</b></td>
+		<tr><td><a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=choosenadd><b>+ '.rex_i18n::msg("addtablefield").'</b></td>
 		<td style="text-align:right;">
-			<a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=updatetable><b>o '.$I18N->msg("updatetable").'</b></a>
-			<a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=updatetablewithdelete><b>o '.$I18N->msg("updatetable_with_delete").'</b></a>
+			<a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=updatetable><b>o '.rex_i18n::msg("updatetable").'</b></a>
+			<a href=index.php?'.$link_vars.'&table_name='.$table["table_name"].'&func=updatetablewithdelete><b>o '.rex_i18n::msg("updatetable_with_delete").'</b></a>
 			</td></tr>
 		</table><br />';
 	
@@ -533,15 +531,15 @@ if($func == "list"){
 	
 		for($i=2;$i<10;$i++){ $list->removeColumn('f'.$i); }
 	
-		$list->addColumn($I18N->msg("edit"),$I18N->msg("edit"));
-		$list->setColumnParams($I18N->msg("edit"), array("field_id"=>"###id###","func"=>"edit",'type_name'=>'###type_name###','type_id'=>'###type_id###',));
-		$list->setColumnLayout($I18N->msg("edit"), array('<th>###VALUE###</th>','###VALUE###'));
-		$list->setColumnFormat($I18N->msg("edit"), 'custom', 'rex_xform_list_edit_format' );
+		$list->addColumn(rex_i18n::msg("edit"),rex_i18n::msg("edit"));
+		$list->setColumnParams(rex_i18n::msg("edit"), array("field_id"=>"###id###","func"=>"edit",'type_name'=>'###type_name###','type_id'=>'###type_id###',));
+		$list->setColumnLayout(rex_i18n::msg("edit"), array('<th>###VALUE###</th>','###VALUE###'));
+		$list->setColumnFormat(rex_i18n::msg("edit"), 'custom', 'rex_xform_list_edit_format' );
 	
-		$list->addColumn($I18N->msg("delete"),$I18N->msg("delete"));
-		$list->setColumnParams($I18N->msg("delete"), array("field_id"=>"###id###","func"=>"delete"));
-		$list->setColumnLayout($I18N->msg("delete"), array('<th>###VALUE###</th>','###VALUE###'));
-		$list->setColumnFormat($I18N->msg("delete"), 'custom', 'rex_xform_list_delete_format' );
+		$list->addColumn(rex_i18n::msg("delete"),rex_i18n::msg("delete"));
+		$list->setColumnParams(rex_i18n::msg("delete"), array("field_id"=>"###id###","func"=>"delete"));
+		$list->setColumnLayout(rex_i18n::msg("delete"), array('<th>###VALUE###</th>','###VALUE###'));
+		$list->setColumnFormat(rex_i18n::msg("delete"), 'custom', 'rex_xform_list_delete_format' );
 	
 		echo $list->get();
 

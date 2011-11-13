@@ -49,19 +49,19 @@ if(!isset($table)) {
     $table = current($tables);
 
   }else {
-	rex_title($I18N->msg("table_not_found"), "");
+	rex_title(rex_i18n::msg("table_not_found"), "");
     return;
     exit;
 
   }
 }
 
-rex_title($I18N->msg("table").": ".$table["name"]." ", "");
+rex_title(rex_i18n::msg("table").": ".$table["name"]." ", "");
 
 
 echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["table_name"].'</b>';
 if($table["description"] != "") echo "<b>:</b> ".nl2br($table["description"]);
-if(isset($rex_xform_manager_opener["info"])) { echo ' - '.$I18N->msg("openerinfo").': '.htmlspecialchars($rex_xform_manager_opener["info"]); }
+if(isset($rex_xform_manager_opener["info"])) { echo ' - '.rex_i18n::msg("openerinfo").': '.htmlspecialchars($rex_xform_manager_opener["info"]); }
 echo '</td></tr></table><br />';
 $table["fields"] = $this->getTableFields($table["table_name"]);
 
@@ -69,7 +69,7 @@ $table["fields"] = $this->getTableFields($table["table_name"]);
 
 
 $show_editpage = TRUE;
-$show_editpage = rex_register_extension_point('XFORM_MANAGER_DATA_EDIT_FUNC', $show_editpage,
+$show_editpage = rex_extension::registerPoint('XFORM_MANAGER_DATA_EDIT_FUNC', $show_editpage,
 			array(
 				'table' => $table,
 				'link_vars' => $this->getLinkVars(),
@@ -165,8 +165,8 @@ if($show_editpage) {
 	
 	// -------------- Import
 	if(!$popup && $func == "import" && $this->hasDataPageFunction("import")) {
-	  include $REX["INCLUDE_PATH"].'/addons/xform/plugins/manager/pages/data_import.inc.php';
-	  echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?'.$link_vars.$em_url.$em_rex_list.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+	  include rex_path::plugin('xform','manager','pages/data_import.inc.php');
+	  echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?'.$link_vars.$em_url.$em_rex_list.'"><b>&laquo; '.rex_i18n::msg('back_to_overview').'</b></a></td></tr></table>';
 	
 	}
 	
@@ -176,16 +176,16 @@ if($show_editpage) {
 	if($func == "delete" && $data_id != "" && $this->hasDataPageFunction("delete"))
 	{
 	  $delete = TRUE;
-	  if(rex_register_extension_point('XFORM_DATA_DELETE', $delete, array("id"=>$data_id,"value"=>$data)))
+	  if(rex_extension::registerPoint('XFORM_DATA_DELETE', $delete, array("id"=>$data_id,"value"=>$data)))
 	  {
 	    $query = 'delete from '.$table["table_name"].' where id='.$data_id;
-	    $delsql = new rex_sql;
+	    $delsql = rex_sql::factory();
 	    // $delsql->debugsql=1;
 	    $delsql->setQuery($query);
-	    echo rex_info($I18N->msg("datadeleted"));
+	    echo rex_info(rex_i18n::msg("datadeleted"));
 	    $func = "";
 	
-	    rex_register_extension_point('XFORM_DATA_DELETED', "", array("id"=>$data_id,"value"=>$data));
+	    rex_extension::registerPoint('XFORM_DATA_DELETED', "", array("id"=>$data_id,"value"=>$data));
 	  }
 	  
 	}
@@ -196,15 +196,15 @@ if($show_editpage) {
 	if($func == "truncate_table" && $this->hasDataPageFunction("truncate_table"))
 	{
 	  $truncate = TRUE;
-	  if(rex_register_extension_point('XFORM_DATA_TABLE_TRUNCATE', $truncate, array()))
+	  if(rex_extension::registerPoint('XFORM_DATA_TABLE_TRUNCATE', $truncate, array()))
 	  {
 	    $query = 'truncate table '.$table["table_name"];
-	    $trunsql = new rex_sql;
+	    $trunsql = rex_sql::factory();
 	    $trunsql->setQuery($query);
-	    echo rex_info($I18N->msg("table_truncated"));
+	    echo rex_info(rex_i18n::msg("table_truncated"));
 	    $func = "";
 	
-	    rex_register_extension_point('XFORM_DATA_TABLE_TRUNCATED', "", array());
+	    rex_extension::registerPoint('XFORM_DATA_TABLE_TRUNCATED', "", array());
 	  }
 	  
 	}
@@ -214,7 +214,7 @@ if($show_editpage) {
 	// -------------- form
 	if(($func == "add"  && $this->hasDataPageFunction("add")) || $func == "edit")
 	{
-		$back = '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?'.$link_vars.$em_url.$em_rex_list.'"><b>&laquo; '.$I18N->msg('back_to_overview').'</b></a></td></tr></table>';
+		$back = '<table cellpadding="5" class="rex-table"><tr><td><a href="index.php?'.$link_vars.$em_url.$em_rex_list.'"><b>&laquo; '.rex_i18n::msg('back_to_overview').'</b></a></td></tr></table>';
 	
 		$xform = new rex_xform;
 		// $xform->setDebug(TRUE);
@@ -266,7 +266,6 @@ if($show_editpage) {
 		
 		// ***** START
 		// Textblock gibt den formalarblock als text aus, um diesen in das xform modul einsetzen zu können.
-		/*
 		$text_block = ''; 
 		foreach($fields as $field) { 
 		$values = array(); for($i=1;$i<10;$i++){ $values[] = $field["f".$i]; } 
@@ -276,11 +275,12 @@ if($show_editpage) {
 		// $text_block .= "\n".$field["type_name"].'|'.implode("|",$values);
 		}
 		echo '<pre>'.$text_block.'</pre>';
+		/*
 		*/
 		// ***** ENDE	
 	
 		$xform->setObjectparams("main_table",$table["table_name"]); // für db speicherungen und unique abfragen
-		$xform->setObjectparams("submit_btn_label",$I18N->msg('submit'));
+		$xform->setObjectparams("submit_btn_label",rex_i18n::msg('submit'));
 		
 		// $xform->setObjectparams("manager_type",$this->getType());
 		
@@ -316,12 +316,12 @@ if($show_editpage) {
 			if($xform->objparams["send"]) {
 				if($func == "edit") {
 					if($form == "") {
-						echo rex_info($I18N->msg("thankyouforupdate"));
+						echo rex_info(rex_i18n::msg("thankyouforupdate"));
 						$xform = rex_register_extension_point('XFORM_DATA_UPDATED', $xform, array());
 					}
 				}elseif($func == "add") { 
 					if($form == "") {
-						echo rex_info($I18N->msg("thankyouforentry"));
+						echo rex_info(rex_i18n::msg("thankyouforentry"));
 						$xform = rex_register_extension_point('XFORM_DATA_ADDED', $xform, array());
 					}
 				}
@@ -330,23 +330,23 @@ if($show_editpage) {
 			echo $back.'<br />';
 			
 			if($func == "edit") {
-				echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("editdata").'</h3><div class="rex-area-content">';
+				echo '<div class="rex-area"><h3 class="rex-hl2">'.rex_i18n::msg("editdata").'</h3><div class="rex-area-content">';
 			}else {
-				echo '<div class="rex-area"><h3 class="rex-hl2">'.$I18N->msg("adddata").'</h3><div class="rex-area-content">';
+				echo '<div class="rex-area"><h3 class="rex-hl2">'.rex_i18n::msg("adddata").'</h3><div class="rex-area-content">';
 			}
 			echo $form;
 			echo '</div></div>';
 		
-			echo rex_register_extension_point('XFORM_DATA_FORM', '', array("form" => $form, "func" => $func, "this" => $this));
+			echo rex_extension::registerPoint('XFORM_DATA_FORM', '', array("form" => $form, "func" => $func, "this" => $this));
 		
 			echo '<br />&nbsp;<br />'.$back;
 		
 			$show_list = FALSE;
 		}else {
 			if($func == "edit") {
-				echo rex_info($I18N->msg("thankyouforupdate"));
+				echo rex_info(rex_i18n::msg("thankyouforupdate"));
 			}elseif($func == "add"){
-				echo rex_info($I18N->msg("thankyouforentry"));
+				echo rex_info(rex_i18n::msg("thankyouforentry"));
 			}
 		}
 	}
@@ -365,19 +365,19 @@ if($show_editpage) {
 			echo '<table cellpadding="5" class="rex-table"><tr>';
 			if($this->hasDataPageFunction("add"))
 			{
-				echo '<td><a href="index.php?'.$link_vars.'&func=add&'.$em_url.$em_rex_list.'"><b>+ '.$I18N->msg("add").'</b></a></td>';
+				echo '<td><a href="index.php?'.$link_vars.'&func=add&'.$em_url.$em_rex_list.'"><b>+ '.rex_i18n::msg("add").'</b></a></td>';
 			}
 			if(($table["export"] == 1 && $this->hasDataPageFunction("export")) or ($table["import"] == 1 && $this->hasDataPageFunction("import")))
 			{
 				echo '<td style="text-align:right;">';
 				if($this->hasDataPageFunction("truncate_table")) {
-					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=truncate_table&'.$em_url.$em_rex_list.'"><b>o '.$I18N->msg('truncate_table').'</b></a>';
+					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=truncate_table&'.$em_url.$em_rex_list.'"><b>o '.rex_i18n::msg('truncate_table').'</b></a>';
 				}
 				if($table["export"] == 1 && $this->hasDataPageFunction("export")) {
-					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=export&'.$em_url.$em_rex_list.'"><b>o '.$I18N->msg('export').'</b></a>';
+					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=export&'.$em_url.$em_rex_list.'"><b>o '.rex_i18n::msg('export').'</b></a>';
 				}
 				if(!$popup && $table["import"] == 1 && $this->hasDataPageFunction("import")) {
-					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=import"><b>o '.$I18N->msg('import').'</b></a>';
+					echo '&nbsp;&nbsp;&nbsp;<a href="index.php?'.$link_vars.'&func=import"><b>o '.rex_i18n::msg('import').'</b></a>';
 				}
 				echo '</td>';
 			}
@@ -402,7 +402,7 @@ if($show_editpage) {
 			$search_field_select->addOption('id',"id");
 			
 			$field_names = array();
-			foreach($fields as $field){ if($field["type_id"] == "value" && $field["search"] == 1) { $search_field_select->addOption(rex_translate($field["f2"]).' ['.$field["f1"].']',$field["f1"]); } }
+			foreach($fields as $field){ if($field["type_id"] == "value" && $field["search"] == 1) { $search_field_select->addOption(rex_i18n::translate($field["f2"]).' ['.$field["f1"].']',$field["f1"]); } }
 			foreach($rex_xform_searchfields as $cs) { $search_field_select->setSelected($cs); }
 			
 			$suchform = '<table width=770 cellpadding=5 cellspacing=1 border=0 bgcolor=#ffffff class="rex-table">';
@@ -424,15 +424,15 @@ if($show_editpage) {
 			
 			$suchform .= '<input type="hidden" name="rex_xform_search" value="1" />';
 			$suchform .= '<tr>
-					<th>'.$I18N->msg('searchtext').'</th>
-					<th>'.$I18N->msg('searchfields').'</th>
+					<th>'.rex_i18n::msg('searchtext').'</th>
+					<th>'.rex_i18n::msg('searchfields').'</th>
 					<th>&nbsp;</th>
 				</tr>'; 
 			$suchform .= '<tr>
 					<td class="grey" valign="top"><input type="text" name="rex_xform_searchtext" value="'.htmlspecialchars(stripslashes($rex_xform_searchtext)).'" style="width:100%;" />
-					<br />'.$I18N->msg('xform_help_empty').'</td>
-					<td class="grey" valign="top">'.$search_field_select->get().'<br />'.$I18N->msg('xform_help_multipleselect').'</td>
-					<td class="grey" valign="top"><input type="submit" name="send" value="'.$I18N->msg('search').'"  class="inp100" /></td>
+					<br />'.rex_i18n::msg('xform_help_empty').'</td>
+					<td class="grey" valign="top">'.$search_field_select->get().'<br />'.rex_i18n::msg('xform_help_multipleselect').'</td>
+					<td class="grey" valign="top"><input type="submit" name="send" value="'.rex_i18n::msg('search').'"  class="inp100" /></td>
 				</tr>';
 			$suchform .= '</form>';
 			$suchform .= '</table><br />';
@@ -481,7 +481,7 @@ if($show_editpage) {
 		// export is here because the query has been build here.
 		if($func == "export" && $this->hasDataPageFunction("export"))
 		{
-			include $REX["INCLUDE_PATH"].'/addons/xform/plugins/manager/pages/data_export.inc.php';
+			include rex_path::plugin('xform','manager','pages/data_export.inc.php');
 		}
 	
 		// ---------- LISTE AUSGEBEN
@@ -521,18 +521,18 @@ if($show_editpage) {
 			$list->addColumn('&uuml;bernehmen','<a href="javascript:xform_manager_setData('.$rex_xform_manager_opener["id"].',###id###,\'###'.$rex_xform_manager_opener["field"].'### [id=###id###]\','.$rex_xform_manager_opener["multiple"].')">&uuml;bernehmen</a>',-1,"a");
 		}else
 		{
-			$list->addColumn($I18N->msg('edit'),$I18N->msg('edit'));
-			$list->setColumnParams($I18N->msg('edit'), array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
+			$list->addColumn(rex_i18n::msg('edit'),rex_i18n::msg('edit'));
+			$list->setColumnParams(rex_i18n::msg('edit'), array("data_id"=>"###id###","func"=>"edit","start"=>rex_request("start","string")));
 			
 			if($this->hasDataPageFunction("delete"))
 			{
-				$list->addColumn($I18N->msg('delete'),"- ".$I18N->msg('delete'));
-				$list->setColumnParams($I18N->msg('delete'), array("data_id"=>"###id###","func"=>"delete"));
-				$list->addLinkAttribute($I18N->msg('delete'), 'onclick', 'return confirm(\' id=###id### '.$I18N->msg('delete').' ?\')');
+				$list->addColumn(rex_i18n::msg('delete'),"- ".rex_i18n::msg('delete'));
+				$list->setColumnParams(rex_i18n::msg('delete'), array("data_id"=>"###id###","func"=>"delete"));
+				$list->addLinkAttribute(rex_i18n::msg('delete'), 'onclick', 'return confirm(\' id=###id### '.rex_i18n::msg('delete').' ?\')');
 			}
 		}
 	
-		$list = rex_register_extension_point('XFORM_DATA_LIST', $list, array());
+		$list = rex_extension::registerPoint('XFORM_DATA_LIST', $list, array());
 		
 		echo $list->get();
 	
