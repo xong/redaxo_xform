@@ -60,7 +60,7 @@ class rex_xform_value_be_table extends rex_xform_value_abstract
 			$i=0;
 			foreach($_REQUEST["v"][$id] as $c)
 			{
-				for($r=0;$r<=$columns;$r++)
+				for($r=0;$r<=count($c);$r++)
 				{
 					if (!isset($values[$r])) $values[$r] = "";
 					if ($i>0) $values[$r] .= ',';
