@@ -69,6 +69,17 @@ class rex_xform_value_be_table extends rex_xform_value_abstract
 				$i++;
 			}
 			
+			// delete "empty" Values with ","
+			if (count($values) > 0)
+			{
+  			foreach ($values as $key => $val)
+  			{
+          if (trim($val) == ',')
+            unset($values[$key]);
+  			}
+  			$values = array_values($values);
+  		}		
+			
 			$this->setValue("");
 			$i=0;
 			foreach($values as $value)
