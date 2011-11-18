@@ -3,8 +3,7 @@ XForm for REDAXO Version 5
 
 AddOn to manage tables and forms for REDAXO CMS Version 5
 
-	Take care - this is for REDAXO Version 5. If you want the Xform for REDAXO Version 4 you must change the branch
-
+	Take care - this is for REDAXO Version 5. If you want the Xform for REDAXO Version 4 you must go to https://github.com/dergel/redaxo4_xform/
 
 
 Installation
