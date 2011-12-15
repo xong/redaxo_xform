@@ -75,14 +75,14 @@ if( ($func == "add" || $func == "edit") && rex::getUser()->isAdmin() )
   }else
   {
     if($func == "edit"){
-      echo rex_info(rex_i18n::msg("xform_manager_table_updated"));
+      echo rex_view::info(rex_i18n::msg("xform_manager_table_updated"));
     }elseif($func == "add") {
 
       $table_name = $xform->objparams["value_pool"]["sql"]["table_name"];
       $t = new rex_xform_manager();
       $t->setFilterTable($table_name);
       $t->generateAll();
-      echo rex_info(rex_i18n::msg("xform_manager_table_added"));
+      echo rex_view::info(rex_i18n::msg("xform_manager_table_added"));
     }
   }
 
@@ -110,7 +110,7 @@ if($func == "delete" && rex::getUser()->isAdmin()){
 	$delsql->setQuery('drop table '.($t->getTableName()));
 
 	$func = "";
-	echo rex_info(rex_i18n::msg("xform_manager_table_deleted"));
+	echo rex_view::info(rex_i18n::msg("xform_manager_table_deleted"));
 
   }
 

@@ -24,7 +24,7 @@ if(rex_request('send',"int",0) == 1)
 
 	if(!isset($_FILES['file_new']) || $_FILES['file_new']["tmp_name"] == "")
 	{
-		echo rex_warning('Bitte laden Sie eine Importdatei hoch');
+		echo rex_view::warning('Bitte laden Sie eine Importdatei hoch');
 	
 	}else
 	{
@@ -72,7 +72,7 @@ if(rex_request('send',"int",0) == 1)
 				{
 					if($missing_columns == 3)
 					{
-						echo rex_warning('Es fehlen folgende Felder: '.implode(", ",$mc)); 
+						echo rex_view::warning('Es fehlen folgende Felder: '.implode(", ",$mc)); 
 						$show_importform = TRUE;
 						$func = "import";
 						break;
@@ -88,16 +88,16 @@ if(rex_request('send',"int",0) == 1)
 							if($upd->getError())
 							{
 								$error = TRUE;
-								echo rex_warning('Feld "'.$mcc.'" konnte nicht angelegt werden: '.$upd->getError());
+								echo rex_view::warning('Feld "'.$mcc.'" konnte nicht angelegt werden: '.$upd->getError());
 							}else
 							{
-								echo rex_info('Feld "'.$mcc.'" wurde angelegt');
+								echo rex_view::info('Feld "'.$mcc.'" wurde angelegt');
 							}
 							
 						}
 						if($error)
 						{
-							echo rex_warning('Import wurde abgebrochen, da Fehler aufgetaucht sind.');
+							echo rex_view::warning('Import wurde abgebrochen, da Fehler aufgetaucht sind.');
 							$show_importform = TRUE;
 							break;
 						}
@@ -144,7 +144,7 @@ if(rex_request('send',"int",0) == 1)
 							$rcounter++;
 						}else {
 							$dcounter++;
-							echo rex_warning('Datensatz konnte nicht importiert werden: '.$error);
+							echo rex_view::warning('Datensatz konnte nicht importiert werden: '.$error);
 						}
 					}else
 					{
@@ -154,7 +154,7 @@ if(rex_request('send',"int",0) == 1)
 							$icounter++;
 						}else {
 							$dcounter++;
-							echo rex_warning('Datensatz konnte nicht importiert werden: '.$error);
+							echo rex_view::warning('Datensatz konnte nicht importiert werden: '.$error);
 						}
 					}
 					
@@ -165,11 +165,11 @@ if(rex_request('send',"int",0) == 1)
 		
 		}
 		
-		echo rex_info('Es wurden '.($icounter+$rcounter).' Datensätze importiert. Davon waren '.$icounter.' neue Datensätze und '.$rcounter.' Datensätze wurden ersetzt.');
+		echo rex_view::info('Es wurden '.($icounter+$rcounter).' Datensätze importiert. Davon waren '.$icounter.' neue Datensätze und '.$rcounter.' Datensätze wurden ersetzt.');
 		
 		if($dcounter >0)
 		{
-			echo rex_warning('Es wurde/n '.$dcounter.' Datensätze nicht importiert.');
+			echo rex_view::warning('Es wurde/n '.$dcounter.' Datensätze nicht importiert.');
 		}
 
 	}

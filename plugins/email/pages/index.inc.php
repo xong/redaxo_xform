@@ -1,6 +1,6 @@
 <?php
 
-rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
+echo rex_view::title("XForm", $REX['ADDON']['xform']['SUBPAGES']);
 
 
 $SF = true;
@@ -68,7 +68,7 @@ if($func == "delete")
 	$delsql->setQuery($query);
 	$func = "";
 	
-	echo rex_info($I18N->msg('xform_email_info_template_deleted'));
+	echo rex_view::info($I18N->msg('xform_email_info_template_deleted'));
 	
 }
 

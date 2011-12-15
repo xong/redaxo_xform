@@ -26,11 +26,11 @@ if($table_name != "")
 
 	if(in_array($table_name,$REX["EM_TABLES_EXISTS"]))
 	{
-		echo rex_warning('Tabelle ist bereits aufgenommen.');
+		echo rex_view::warning('Tabelle ist bereits aufgenommen.');
 		
 	}elseif(in_array($table_name,$REX["EM_TABLES_FORBIDDEN"]))
 	{
-		echo rex_warning('Der Import dieser Tabelle ist nicht erlaubt.');
+		echo rex_view::warning('Der Import dieser Tabelle ist nicht erlaubt.');
 	
 	}else
 	{
@@ -41,7 +41,7 @@ if($table_name != "")
 
 		if($t->getRows()==0)
 		{
-			echo rex_warning('Tabelle wurde nicht gefunden oder hat keine Spalten.');
+			echo rex_view::warning('Tabelle wurde nicht gefunden oder hat keine Spalten.');
 
 		}else
 		{
@@ -51,7 +51,7 @@ if($table_name != "")
 
 			if( !isset($c["id"]) || $c["id"]["EXTRA"] != "auto_increment")
 			{
-				echo rex_warning('Es können nur Tabellen importiert werden die ein Feld "id" mit EXTRA: "auto_increment" und COLUMN_KEY:"unique" haben.');
+				echo rex_view::warning('Es können nur Tabellen importiert werden die ein Feld "id" mit EXTRA: "auto_increment" und COLUMN_KEY:"unique" haben.');
 			
 			}else
 			{
@@ -83,21 +83,7 @@ if($table_name != "")
 							break;					
 					}
 				
-					
-					
-				
-					echo "<br />$feld -> ".$v["DATA_TYPE"]."--".$v["EXTRA"]."--".$v["COLUMN_DEFAULT"];
-				
-				
-				
-				
-				
-				rex_em_data_buchhandlung 	100 	value 	text 	name 	Name
-				
-				
-				
-				
-				
+				  echo "TODO !!"; exit;
 				}
 			
 			

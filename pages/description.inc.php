@@ -1,6 +1,6 @@
 <?php
 
-rex_title("XForm");
+echo rex_view::title("XForm");
 
 echo '<div class="rex-addon-output">
 	<h2 class="rex-hl2">'.rex_i18n::msg('xform_description').'</h2>

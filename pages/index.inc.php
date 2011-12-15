@@ -26,7 +26,7 @@ if ($subpage != "")
 }else
 {
 
-	rex_title(rex_i18n::msg('xform'),rex_addon::get('xform')->getProperty('subpages'));
+	echo rex_view::title(rex_i18n::msg('xform'),rex_addon::get('xform')->getProperty('subpages'));
 
 	echo '<div class="rex-addon-output">';
 	echo '<h2 class="rex-hl2">XFORM - '.rex_i18n::msg("xform_overview").'</h2>';

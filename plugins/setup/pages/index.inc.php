@@ -1,6 +1,6 @@
 <?php
 	
-rex_title("XForm", $REX['ADDON']['xform']['SUBPAGES']);	
+echo rex_view::title("XForm", $REX['ADDON']['xform']['SUBPAGES']);	
 	
 	
 // ------------------------------- Ist Modul schon vorhanden ?
@@ -38,14 +38,14 @@ if (isset($_REQUEST["install"]) && $_REQUEST["install"]==1)
 	{
 		$mi->setWhere('id="'.$module_id.'"');
 		$mi->update();
-		echo rex_info('Modul "'.$module_name.'" wurde aktualisiert');
+		echo rex_view::info('Modul "'.$module_name.'" wurde aktualisiert');
 
 	}else
 	{
 		$mi->setValue("name",$xform_module_name);
 		$mi->insert();
 		$module_id = (int) $mi->getLastId();
-		echo rex_info('XForm Modul wurde angelegt unter "'.$xform_module_name.'"');
+		echo rex_view::info('XForm Modul wurde angelegt unter "'.$xform_module_name.'"');
 		
 	}
 
@@ -147,7 +147,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 							$u->insert();						
 						}					
 
-						echo rex_info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
+						echo rex_view::info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
 					
 					}else
 					{
@@ -214,7 +214,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 							$u->insert();						
 						}					
 
-						echo rex_info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
+						echo rex_view::info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
 					
 					}else
 					{

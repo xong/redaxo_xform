@@ -8,12 +8,12 @@ $table_name = rex_request('table_name', 'string');
 switch($tripage)
 {
 	case 'table_field':
-		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
+		echo rex_view::title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
 		include rex_path::plugin("xform","manager","pages/table_field.inc.php");
 		break;
 
 	case 'table_import':
-		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
+		echo rex_view::title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
 		echo "TODO:";
 		include rex_path::plugin("xform","manager","pages/table_import.inc.php");
 		break;
@@ -23,7 +23,7 @@ switch($tripage)
 		break;
 
 	default:
-		rex_title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
+		echo rex_view::title(rex_i18n::msg('xform'), rex_addon::get('xform')->getProperty('subpages'));
 		include rex_path::plugin("xform","manager","pages/table_edit.inc.php");
 
 }

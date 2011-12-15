@@ -49,14 +49,14 @@ if(!isset($table)) {
     $table = current($tables);
 
   }else {
-	rex_title(rex_i18n::msg("table_not_found"), "");
+	echo rex_view::title(rex_i18n::msg("table_not_found"), "");
     return;
     exit;
 
   }
 }
 
-rex_title(rex_i18n::msg("table").": ".$table["name"]." ", "");
+echo rex_view::title(rex_i18n::msg("table").": ".$table["name"]." ", "");
 
 
 echo '<table cellpadding="5" class="rex-table"><tr><td><b>'.$table["table_name"].'</b>';
@@ -182,7 +182,7 @@ if($show_editpage) {
 	    $delsql = rex_sql::factory();
 	    // $delsql->debugsql=1;
 	    $delsql->setQuery($query);
-	    echo rex_info(rex_i18n::msg("datadeleted"));
+	    echo rex_view::info(rex_i18n::msg("datadeleted"));
 	    $func = "";
 	
 	    rex_extension::registerPoint('XFORM_DATA_DELETED', "", array("id"=>$data_id,"value"=>$data));
@@ -201,7 +201,7 @@ if($show_editpage) {
 	    $query = 'truncate table '.$table["table_name"];
 	    $trunsql = rex_sql::factory();
 	    $trunsql->setQuery($query);
-	    echo rex_info(rex_i18n::msg("table_truncated"));
+	    echo rex_view::info(rex_i18n::msg("table_truncated"));
 	    $func = "";
 	
 	    rex_extension::registerPoint('XFORM_DATA_TABLE_TRUNCATED', "", array());
@@ -316,12 +316,12 @@ if($show_editpage) {
 			if($xform->objparams["send"]) {
 				if($func == "edit") {
 					if($form == "") {
-						echo rex_info(rex_i18n::msg("thankyouforupdate"));
+						echo rex_view::info(rex_i18n::msg("thankyouforupdate"));
 						$xform = rex_register_extension_point('XFORM_DATA_UPDATED', $xform, array());
 					}
 				}elseif($func == "add") { 
 					if($form == "") {
-						echo rex_info(rex_i18n::msg("thankyouforentry"));
+						echo rex_view::info(rex_i18n::msg("thankyouforentry"));
 						$xform = rex_register_extension_point('XFORM_DATA_ADDED', $xform, array());
 					}
 				}
@@ -344,9 +344,9 @@ if($show_editpage) {
 			$show_list = FALSE;
 		}else {
 			if($func == "edit") {
-				echo rex_info(rex_i18n::msg("thankyouforupdate"));
+				echo rex_view::info(rex_i18n::msg("thankyouforupdate"));
 			}elseif($func == "add"){
-				echo rex_info(rex_i18n::msg("thankyouforentry"));
+				echo rex_view::info(rex_i18n::msg("thankyouforentry"));
 			}
 		}
 	}

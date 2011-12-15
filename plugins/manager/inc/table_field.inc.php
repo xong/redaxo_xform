@@ -380,12 +380,12 @@ if( ($func == "add" || $func == "edit" )  && isset($types[$type_id][$type_name])
 		if($func == "edit")
 		{
 		  $this->generateAll();
-			echo rex_info(rex_i18n::msg("thankyouforupdate"));
+			echo rex_view::info(rex_i18n::msg("thankyouforupdate"));
 			
 		}elseif($func == "add")
 		{
 		  $this->generateAll();
-			echo rex_info(rex_i18n::msg("thankyouforentry"));
+			echo rex_view::info(rex_i18n::msg("thankyouforentry"));
 			
 		}
 		$func = "list";
@@ -409,12 +409,12 @@ if($func == "delete"){
 		$delsql = rex_sql::factory();
 		// $delsql->debugsql=1;
 		$delsql->setQuery($query);
-		echo rex_info(rex_i18n::msg("tablefielddeleted"));
+		echo rex_view::info(rex_i18n::msg("tablefielddeleted"));
 		$this->generateAll();
 		
 	}else
 	{
-		echo rex_warning(rex_i18n::msg("tablefieldnotfound"));
+		echo rex_view::warning(rex_i18n::msg("tablefieldnotfound"));
 	}
 	$func = "list";
 }
@@ -430,14 +430,14 @@ if($func == "delete"){
 if($func == "updatetable")
 {
 	$this->generateAll();
-	echo rex_info(rex_i18n::msg("tablesupdated"));
+	echo rex_view::info(rex_i18n::msg("tablesupdated"));
 	$func = "list";
 }
 
 if($func == "updatetablewithdelete")
 {
 	$this->generateAll(array("delete_fields" => TRUE));
-	echo rex_info(rex_i18n::msg("tablesupdated"));
+	echo rex_view::info(rex_i18n::msg("tablesupdated"));
 	$func = "list";
 }
 
