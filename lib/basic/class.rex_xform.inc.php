@@ -340,7 +340,7 @@ class rex_xform
 
       // PostActions
       foreach($ValueObjects as $value_object) {
-        $value_object->postAction($this->objparams["value_pool"]["email"], $this->objparams["value_pool"]["sql"]);
+        $value_object->postAction();
       }
 
       $this->objparams["postactions_executed"] = TRUE;

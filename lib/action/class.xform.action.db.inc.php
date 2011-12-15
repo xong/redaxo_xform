@@ -62,7 +62,7 @@ class rex_xform_action_db extends rex_xform_action_abstract
         $this->params["warning_messages"][] = $this->params["Error-Code-InsertQueryError"];
       }
 
-      echo rex_extension::registerPoint('REX_XFORM_SAVED', $saved,
+      rex_extension::registerPoint('REX_XFORM_SAVED', $saved,
 		  array(
 		    'form' => $this,
 		    'sql' => $sql,

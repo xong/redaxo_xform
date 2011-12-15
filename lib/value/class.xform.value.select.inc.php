@@ -26,27 +26,34 @@ class rex_xform_value_select extends rex_xform_value_abstract
 			$SEL->setName($this->getFieldName()."[]");
 			$SEL->setSize($size);
 			$SEL->setMultiple(1);
-		}
-		else
+		}else
 		{
 			$SEL->setName($this->getFieldName());
 			$SEL->setSize(1);
 		}
     
-    $options = explode(',', $this->getElement(3));
-		foreach ($options as $option)
-		{
-			$params = explode('=', $option);
-			$value = $params[0];
-			if (isset ($params[1]))
+    	if(is_array($this->getElement(3)))
+    	{
+			foreach($this->getElement(3) as $e)
 			{
-				$text = $params[1];
-			}
-			else
+				$SEL->addOption(rex_i18n::translate($e["label"]), $e["id"]);
+			}    	
+    	}else
+    	{
+			$options = explode(',', $this->getElement(3));
+			foreach ($options as $option)
 			{
-				$text = $params[0];
+				$params = explode('=', $option);
+				$value = $params[0];
+				if (isset ($params[1]))
+				{
+					$text = $params[1];
+				}else
+				{
+					$text = $params[0];
+				}
+				$SEL->addOption(rex_i18n::translate($value), $text);
 			}
-			$SEL->addOption(rex_i18n::translate($value), $text);
 		}
 
 		if (!$this->params['send'] && $this->getValue() == '' && $this->getElement(5) != '')
@@ -66,8 +73,6 @@ class rex_xform_value_select extends rex_xform_value_abstract
 
 		$this->setValue(implode(",",$this->getValue()));
 
-
-
 		$class = $this->getHTMLClass();
 		$classes = $class;
 		
@@ -78,33 +83,26 @@ class rex_xform_value_select extends rex_xform_value_abstract
 		
 		$classes = (trim($classes) != '') ? ' class="'.trim($classes).'"' : '';
 		
-		
 		$SEL->setStyle($classes);
-
 		
-    $before = '';
-    $after = '';
 		$label = ($this->getElement(2) != '') ? '<label'.$classes.' for="' . $this->getFieldId() . '">' . rex_i18n::translate($this->getElement(2)) . '</label>' : '';
 		$field = $SEL->get();
-		$extra = '';
-    $html_id = $this->getHTMLId();
-    $name = $this->getName();
-    
+		$html_id = $this->getHTMLId();
+		$name = $this->getName();
     
 		$f = new rex_fragment();
-		$f->setVar('before', $before, false);
-		$f->setVar('after', $after, false);
+		$f->setVar('before', "", false);
+		$f->setVar('after', "", false);
+		$f->setVar('extra', "", false);
+		
 		$f->setVar('label', $label, false);
 		$f->setVar('field', $field, false);
-		$f->setVar('extra', $extra, false);
 		$f->setVar('html_id', $html_id, false);
 		$f->setVar('name', $name, false);
 		$f->setVar('class', $class, false);
 		
 		$fragment = $this->params['fragment'];
 		$this->params["form_output"][$this->getId()] = $f->parse($fragment);
-		
-		
 
 		$this->params["value_pool"]["email"][$this->getElement(1)] = $this->getValue();
 		if ($this->getElement(4) != "no_db") $this->params["value_pool"]["sql"][$this->getElement(1)] = $this->getValue();
