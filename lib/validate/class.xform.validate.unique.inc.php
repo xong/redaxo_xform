@@ -3,7 +3,7 @@
 class rex_xform_validate_unique extends rex_xform_validate_abstract 
 {
 
-	function enterObject()
+	function postValueAction()
 	{
 		if($this->params["send"]=="1")
 		{
@@ -11,23 +11,39 @@ class rex_xform_validate_unique extends rex_xform_validate_abstract
 			$table = $this->params["main_table"];
 			if($this->getElement(4) != "")
 				$table = $this->getElement(4);
-				
-			foreach($this->obj_array as $Object)
-			{
-				$sql = 'select '.$this->getElement(2).' from '.$table.' WHERE '.$this->getElement(2).'="'.$Object->getValue().'" LIMIT 1';
-				if($this->params["main_where"] != "")
-					$sql = 'select '.$this->getElement(2).' from '.$table.' WHERE '.$this->getElement(2).'="'.$Object->getValue().'" AND !('.$this->params["main_where"].') LIMIT 1';
+			
+			$fields = explode(",",$this->getElement(2));
+			
+			$where = array();
+			$params = array();
 
-				$cd = rex_sql::factory();
-				// if($this->params["debug"])
-				//	$cd->debugsql = 1;
-				$cd->setQuery($sql);
-				if ($cd->getRows()>0)
+			foreach($this->obj as $o)
+			{
+				if (in_array($o->getName(),$fields))
 				{
-					$this->params["warning"][$Object->getId()] = $this->params["error_class"];
-					$this->params["warning_messages"][$Object->getId()] = $this->getElement(3);
+					$where[] =  '`'.$o->getName().'` = ? ';
+					$params[] = $o->getValue();
+					$object_ids[$o->getName()] = $o->getId();
 				}
 			}
+
+			if($this->params["main_where"] != "")
+			{
+				$where[] = '!('.$this->params["main_where"].')';
+			}
+			$sql = 'select '.implode(",",$fields).' from '.$table.' where '.implode(" and ",$where).' LIMIT 1';
+
+			$cd = rex_sql::factory();
+			if($this->params["debug"])
+			  $cd->debugsql = 1;
+			$cd->setQuery($sql,$params);
+			if (count($fields) != count($params) || $cd->getRows()>0)
+			{
+				foreach($fields as $f)
+					$this->params["warning"][$object_ids[$f]] = $this->params["error_class"];
+				$this->params["warning_messages"][] = $this->getElement(3);
+			}
+			
 		}
 	}
 	

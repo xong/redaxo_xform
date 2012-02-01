@@ -9,20 +9,24 @@ class rex_xform_value_checkbox extends rex_xform_value_abstract
 
     $checked = "";
 
+	if(!$this->params["send"] && $this->getValue() == "")
+		$this->setValue($this->getElement(4));
+
     if($this->getValue() == $this->getElement(3))
     {
       $checked = ' checked="checked"';
       $v = $this->getElement(3);
-    }
-    elseif($this->getValue() == 1)
+
+    }elseif($this->getValue() == 1)
     {
       $checked = ' checked="checked"';
       $v = 1;
-    }
-    else
+
+    }else
     {
       $this->setValue("0");
       $v = 1;
+
     }
     
     $disabled = "";
@@ -30,9 +34,8 @@ class rex_xform_value_checkbox extends rex_xform_value_abstract
 		$disabled = ' disabled="disabled"';
 	}
     
-    
-		$class = $this->getHTMLClass();
-		$classes = $class;
+	$class = $this->getHTMLClass();
+	$classes = $class;
     
     if (isset($this->params["warning"][$this->getId()]))
     {
