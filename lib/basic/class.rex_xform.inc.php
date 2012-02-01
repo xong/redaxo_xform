@@ -17,7 +17,7 @@ class rex_xform
     $this->objparams = array();
 
     $this->objparams['debug'] = FALSE;
-    $this->objparams["fragment"] = "xform_standard";
+    $this->objparams["fragment"] = "xform_standard.tpl";
 
     $this->objparams['form_data'] = "";
 
