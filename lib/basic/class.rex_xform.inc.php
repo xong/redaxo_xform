@@ -589,10 +589,9 @@ class rex_xform
 		}
 	}
 
-
     // Validate
 	foreach($paths["validate"] as $k => $path) {
-		foreach(glob($path.'*.inc.php') as $file) {
+      foreach(glob($path.'*.inc.php') as $file) {
 			$exx = explode(".", basename($file));
 			$classname = "rex_xform_validate_".$exx[3];
             $class = new $classname;
