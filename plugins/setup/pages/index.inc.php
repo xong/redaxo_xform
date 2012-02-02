@@ -14,7 +14,7 @@ $content .= '<p>'.rex_i18n::msg('xform_setup_install_modul_description').'</p>';
 $searchtext = 'module:xform_basic_out';
 
 $gm = rex_sql::factory();
-$gm->setQuery('select * from '.rex::getTablePrefix().'module where output LIKE "%'.$searchtext.'%"');
+$gm->setQuery('select * from '.rex::getTable('module').' where output LIKE ?', array('%'.$searchtext.'%'));
 
 $module_id = 0;
 $module_name = "";
