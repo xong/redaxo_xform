@@ -1,4 +1,6 @@
 <?php
+//TODO: $_REQUEST durch rex_request erssetzen. Tabellen Updates in R5 noch nötig?
+
 ## start ouput
 echo rex_view::title("XForm");
 $content = '';
