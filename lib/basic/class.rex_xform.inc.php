@@ -616,6 +616,7 @@ class rex_xform
   
   /**
    * Adding xform class-path to array
+   * params: name (displayd in help-text), type, path
    */
   public static function addPath($name = 'xform', $type, $newpath)
   {

@@ -1,17 +1,11 @@
 <?php
-
 $mypage = 'manager';
-
 
 if(rex::isBackend() && is_object(rex::getUser()))
 {
     ## register paths
 	rex_xform::addPath('manager', 'value', rex_path::plugin("xform","manager","lib/value/"));
 	rex_xform::addPath('manager', 'action', rex_path::plugin("xform","manager","lib/action/"));
-
-	if(rex::getUser()->isAdmin()) {
-
-    }
 
 	$be_pages = $this->getProperty('pages');
 
@@ -44,8 +38,8 @@ if(rex::isBackend() && is_object(rex::getUser()))
 			
 			}
 		}
-		$this->setProperty('pages', $be_pages);
 		
+		$this->setProperty('pages', $be_pages);
 
 	}
 	
@@ -53,13 +47,13 @@ if(rex::isBackend() && is_object(rex::getUser()))
 	// $this->setProperty('pages', $be_pages);
 
 	// hack - if data edit, then deactivate xform navigation 
-	if(rex_request("tripage","string") == "data_edit")
+	/*if(rex_request("tripage","string") == "data_edit")
 	{
 		$REX['ADDON']['navigation']['xform'] = array(
 	      'activateCondition' => array('page' => 'xformmm'),
 	      'hidden' => FALSE
 		);
-	}
+	}*/
 
 
 }
