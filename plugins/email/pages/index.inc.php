@@ -76,7 +76,7 @@ else
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
   $thIcon = '<a class="rex-ic-template rex-ic-add" href="'. $list->getUrl(array('page'=>$page, 'subpage'=>$subpage, 'func' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('xform_email_create_template'), 'add') .'>'.rex_i18n::msg('xform_email_create_template').'</a>';
-  $tdIcon = 'ed';
+  $tdIcon = 'edit';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($tdIcon, array('page'=>$page, 'subpage'=>$subpage, 'func' => 'edit', 'template_id' => '###id###'));
 
