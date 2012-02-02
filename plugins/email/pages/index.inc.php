@@ -15,7 +15,7 @@ $template_id = rex_request("template_id","int");
  */
 if($func == "add" || $func == "edit")
 {
-  $content .= '<h1>'.rex_i18n::msg('xform_email_add_template').'</h1>';
+  $content .= '<h2>'.rex_i18n::msg('xform_email_add_template').'</h2>';
   $content .= '<p>Durch folgende Markierungen <b>###field###</b> kann man die in den Formularen eingegebenen Felder hier im E-Mail Template verwenden. Weiterhin sind
 	alle REDAXO Variablen wie $REX["SERVER"] als <b>###REX_SERVER###</b> verwendbar. Urlencoded, z.b. für Links, bekommt man diese Werte über <b>+++field+++</b></p>';
 
@@ -49,7 +49,7 @@ if($func == "add" || $func == "edit")
 }
 else
 {
-  $content .= '<h1>'.rex_i18n::msg('xform_email_templates').'</h1>';
+  $content .= '<h2>'.rex_i18n::msg('xform_email_templates').'</h2>';
   
   /*
    * remove email templates
