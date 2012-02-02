@@ -8,7 +8,7 @@ if(rex::isBackend() && is_object(rex::getUser()))
 	
 	$paths = rex_config::get('xform-classes','paths');
 	$paths["value"]["xform_manager"] = rex_path::plugin("xform","manager","lib/value/");
-	$paths["validate"]["xform_manager"] = rex_path::plugin("xform","manager","lib/validate/");
+	//$paths["validate"]["xform_manager"] = rex_path::plugin("xform","manager","lib/validate/"); //not usesed jet
 	$paths["action"]["xform_manager"] = rex_path::plugin("xform","manager","lib/action/");
 	rex_config::set('xform-classes','paths',$paths);
  

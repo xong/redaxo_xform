@@ -17,7 +17,7 @@ class rex_xform
     $this->objparams = array();
 
     $this->objparams['debug'] = FALSE;
-    $this->objparams["fragment"] = "xform_standard";
+    $this->objparams["fragment"] = "xform_standard.tpl";
 
     $this->objparams['form_data'] = "";
 
@@ -589,10 +589,9 @@ class rex_xform
 		}
 	}
 
-
     // Validate
 	foreach($paths["validate"] as $k => $path) {
-		foreach(glob($path.'*.inc.php') as $file) {
+      foreach(glob($path.'*.inc.php') as $file) {
 			$exx = explode(".", basename($file));
 			$classname = "rex_xform_validate_".$exx[3];
             $class = new $classname;

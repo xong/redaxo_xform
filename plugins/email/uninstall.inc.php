@@ -1,4 +1,2 @@
 <?php
-
-
-$REX['ADDON']['install']['email'] = 0;
+$this->setProperty('install', false);

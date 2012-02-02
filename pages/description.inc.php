@@ -1,16 +1,9 @@
 <?php
-
 echo rex_view::title("XForm");
 
-echo '<div class="rex-addon-output">
-	<h2 class="rex-hl2">'.rex_i18n::msg('xform_description').'</h2>
-	<div class="rex-addon-content">
-	<div class="xform-description">'.rex_i18n::msg('xform_description_all').'</div>';
+$content = '<h2>'.rex_i18n::msg('xform_description').'</h2>';
+$content .= rex_i18n::msg('xform_description_all');
+$content .= rex_xform::showHelp(true,true);
 
-echo rex_xform::showHelp(true,true);
-
-echo '
-	</div>
-</div>';
-
+echo rex_view::contentBlock($content,'','tab');
 ?>
