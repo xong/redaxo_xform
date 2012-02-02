@@ -1,21 +1,22 @@
 <?php
 /**
- * XForm 
+ * XForm
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  */
 
 if(rex::isBackend() && rex::getUser())
 {
-	## Register Paths
-	rex_xform::addPath('xform', 'value', rex_path::addon("xform","lib/value/"));
-	rex_xform::addPath('xform', 'validate', rex_path::addon("xform","lib/validate/"));
-	rex_xform::addPath('xform', 'action', rex_path::addon("xform","lib/action/"));
-	
-	$pages = array();
-	if(rex::getUser()->isAdmin())
-		$pages[] = array ('description', rex_i18n::msg('xform_description'));
+  ## Register Paths
+  rex_xform::addPath('xform', 'value', rex_path::addon("xform","lib/value/"));
+  rex_xform::addPath('xform', 'validate', rex_path::addon("xform","lib/validate/"));
+  rex_xform::addPath('xform', 'action', rex_path::addon("xform","lib/action/"));
 
-	$this->setProperty('pages', $pages);
-	rex_extension::register('PAGE_HEADER', 'rex_xform::getBackendCSS'); // rex_xform::css
+  $pages = array();
+  if(rex::getUser()->isAdmin())
+    $pages[] = array ('description', rex_i18n::msg('xform_description'));
+
+  $this->setProperty('pages', $pages);
+
+  rex_extension::register('PAGE_HEADER', 'rex_xform::getBackendCSS'); // rex_xform::css
 }
