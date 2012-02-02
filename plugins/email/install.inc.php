@@ -1,6 +1,6 @@
 <?php
 
-$sql = rex_sql::factory();
+/*$sql = rex_sql::factory();
 $sql->setQuery('CREATE TABLE IF NOT EXISTS `rex_xform_email_template` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default "",
@@ -12,6 +12,6 @@ $sql->setQuery('CREATE TABLE IF NOT EXISTS `rex_xform_email_template` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;');
 $sql->setQuery('ALTER TABLE `rex_xform_email_template` ADD `body_html` TEXT NOT NULL AFTER `body`;');
-$sql->setQuery('ALTER TABLE `rex_xform_email_template` ADD `attachments` TEXT NOT NULL AFTER `body_html`;');
+$sql->setQuery('ALTER TABLE `rex_xform_email_template` ADD `attachments` TEXT NOT NULL AFTER `body_html`;');*/
 
-$REX['ADDON']['install']['email'] = 1;
+$this->setProperty('install', true);
