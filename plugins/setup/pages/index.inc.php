@@ -1,79 +1,72 @@
 <?php
-	
-echo rex_view::title("XForm", $REX['ADDON']['xform']['SUBPAGES']);	
-	
-	
-// ------------------------------- Ist Modul schon vorhanden ?
+## start ouput
+echo rex_view::title("XForm");
+$content = '';
+
+/*
+ * Install section for module
+ */
+$content .= '<h2>'.rex_i18n::msg('xform_setup_install_modul').'</h2>';
+$content .= '<p>'.rex_i18n::msg('xform_setup_install_modul_description').'</p>';
 
 $searchtext = 'module:xform_basic_out';
 
 $gm = rex_sql::factory();
-$gm->setQuery('select * from rex_module where ausgabe LIKE "%'.$searchtext.'%"');
+$gm->setQuery('select * from '.rex::getTablePrefix().'module where output LIKE "%'.$searchtext.'%"');
 
 $module_id = 0;
 $module_name = "";
+
 foreach($gm->getArray() as $module)
 {
-	$module_id = $module["id"];
-	$module_name = $module["name"];
+  $module_id = $module["id"];
+  $module_name = $module["name"];
 }
 
 if (isset($_REQUEST["install"]) && $_REQUEST["install"]==1)
 {
+  $xform_module_name = "XForm Formbuilder";
 
-	$xform_module_name = "XForm Formbuilder";
+  ## get module content
+  $in = rex_file::get(rex_path::plugin("xform","setup","module/module_in.inc"));
+  $out = rex_file::get(rex_path::plugin("xform","setup","module/module_out.inc"));
 
-	// Daten einlesen
-	$in = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/plugins/setup/module/module_in.inc");
-	$out = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/plugins/setup/module/module_out.inc");
+  $mi = rex_sql::factory();
+  // $mi->debugsql = 1;
+  $mi->setTable(rex::getTablePrefix().'module');
+  $mi->setValue('input',$in);
+  $mi->setValue('output',$out);
 
-	$mi = rex_sql::factory();
-	// $mi->debugsql = 1;
-	$mi->setTable("rex_module");
-	$mi->setValue("eingabe",addslashes($in));
-	$mi->setValue("ausgabe",addslashes($out));
-
-	// altes Module aktualisieren
-	if (isset($_REQUEST["module_id"]) && $module_id==$_REQUEST["module_id"])
-	{
-		$mi->setWhere('id="'.$module_id.'"');
-		$mi->update();
-		echo rex_view::info('Modul "'.$module_name.'" wurde aktualisiert');
-
-	}else
-	{
-		$mi->setValue("name",$xform_module_name);
-		$mi->insert();
-		$module_id = (int) $mi->getLastId();
-		echo rex_view::info('XForm Modul wurde angelegt unter "'.$xform_module_name.'"');
-		
-	}
-
+  ## update existing module
+  if (isset($_REQUEST["module_id"]) && $module_id==$_REQUEST["module_id"])
+  {
+    $mi->setWhere(array('id' => $module_id));
+    $mi->update();
+    $content .= rex_view::success('Modul "'.$module_name.'" wurde aktualisiert');
+  }
+  else
+  {
+    $mi->setValue("name",$xform_module_name);
+    $mi->insert();
+    $module_id = (int) $mi->getLastId();
+    $content .= rex_view::success('XForm Modul wurde angelegt unter "'.$xform_module_name.'"');
+  }
 }
 
-echo '
-
-<div class="rex-addon-output">
-	<h2 class="rex-hl2">'.$I18N->msg('xform_setup_install_modul').'</h2>
-	<div class="rex-addon-content">
-	<p>'.$I18N->msg('xform_setup_install_modul_description').'</p>
-	<ul>
-		<li><a href="index.php?page=xform&amp;subpage=setup&amp;install=1">'.$I18N->msg('xform_setup_install_xform_modul').'</a></li>';
+$content .= '<ul>';
+$content .= '<li><a href="index.php?page=xform&amp;subpage=setup&amp;install=1">'.rex_i18n::msg('xform_setup_install_xform_modul').'</a></li>';
 		
-		if ($module_id > 0) {
-			echo '<li><a href="index.php?page=xform&amp;subpage=setup&amp;install=1&amp;module_id='.$module_id.'">'.$I18N->msg('xform_setup_update_following_modul',htmlspecialchars($module_name)).'</a></li>'; 
-		}	
+  if ($module_id > 0)
+    $content .= '<li><a href="index.php?page=xform&amp;subpage=setup&amp;install=1&amp;module_id='.$module_id.'">'.rex_i18n::msg('xform_setup_update_following_modul',htmlspecialchars($module_name)).'</a></li>'; 
 
-echo '
-	</ul>	
-	</div>
-</div>';
+$content .= '</ul>';
 
-
+## Print Site
+echo rex_view::contentBlock($content,'','tab');
 
 
 // ------------------------------- Noch alte Tabellen vorhanden
-
+/*
 if(OOPlugIn::isAvailable('xform','manager'))
 {
 	
@@ -147,7 +140,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 							$u->insert();						
 						}					
 
-						echo rex_view::info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
+						$content .= rex_view::info(rex_i18n::msg('xform_setup_table_copied',$gt['table_name']));
 					
 					}else
 					{
@@ -214,7 +207,7 @@ if(OOPlugIn::isAvailable('xform','manager'))
 							$u->insert();						
 						}					
 
-						echo rex_view::info($I18N->msg('xform_setup_table_copied',$gt['table_name']));
+						$content .= rex_view::info(rex_i18n::msg('xform_setup_table_copied',$gt['table_name']));
 					
 					}else
 					{
@@ -224,42 +217,42 @@ if(OOPlugIn::isAvailable('xform','manager'))
 			}
 		}
 	
-	}
+	} */
 	
 	
 	/*
 		$gf = rex_sql::factory();
 		$gf->setQuery('select * from rex_em_field');
-		echo '<pre>'; var_dump($gf->getArray()); echo '</pre>';
+		$content .= '<pre>'; var_dump($gf->getArray()); $content .= '</pre>';
 		
 	
 		$gf = rex_sql::factory();
 		$gf->setQuery('select * from rex_em_table');
-		echo '<pre>'; var_dump($gf->getArray()); echo '</pre>';
+		$content .= '<pre>'; var_dump($gf->getArray()); $content .= '</pre>';
 		
 		
 		$gf = rex_sql::factory();
 		$gf->setQuery('select * from rex_em_relation');
-		echo '<pre>'; var_dump($gf->getArray()); echo '</pre>';
+		$content .= '<pre>'; var_dump($gf->getArray()); $content .= '</pre>';
 	*/
 	
-	if(count($ots))
+/*	if(count($ots))
 	{
 	
-		echo '
+		$content .= '
 		<div class="rex-addon-output">
-			<h2 class="rex-hl2">'.$I18N->msg('xform_setup_oldtables').'</h2>
+			<h2 class="rex-hl2">'.rex_i18n::msg('xform_setup_oldtables').'</h2>
 			<div class="rex-addon-content">
-			<p>'.$I18N->msg('xform_setup_oldtables_description').'</p>
+			<p>'.rex_i18n::msg('xform_setup_oldtables_description').'</p>
 			<ul>';
 	
 		foreach($ots as $ot)
 		{
-			echo '<li><a href="index.php?page=xform&amp;subpage=setup&amp;func=copyoldtables&amp;table_name='.$ot.'">'.$I18N->msg('xform_setup_copytables',$ot).'</a></li>';
+			$content .= '<li><a href="index.php?page=xform&amp;subpage=setup&amp;func=copyoldtables&amp;table_name='.$ot.'">'.rex_i18n::msg('xform_setup_copytables',$ot).'</a></li>';
 		
 		}
 	
-		echo '
+		$content .= '
 			</ul>	
 			</div>
 		</div>';
@@ -268,12 +261,4 @@ if(OOPlugIn::isAvailable('xform','manager'))
 	}
 
 
-}
-
-
-
-
-
-
-
-?>
+} */
