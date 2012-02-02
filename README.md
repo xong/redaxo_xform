@@ -13,3 +13,11 @@ Installation
 * Rename the unzipped folder from redaxo_xform to xform
 * Move the folder to your REDAXO 5 System /redaxo/include/addons/
 * Install and activate the addon xform and the plugins setup, manager, email in the REDAXO 5 backend
+
+
+Development
+-------
+
+To register your own xform classes in your addon/plugin please use
+
+	rex_xform::addPath($addonname, $type, $path);
