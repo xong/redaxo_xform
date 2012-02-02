@@ -487,8 +487,7 @@ class rex_xform
 
   static function showHelp($script=false)
   {
-
-	$paths = rex_config::get('xform-classes','paths');
+	$paths = rex_addon::get('xform')->getProperty('paths');
 
     $return = "\n".'<ul class="xform root">';
     
@@ -576,7 +575,7 @@ class rex_xform
 
     $return = array();
 
-	$paths = rex_config::get('xform-classes','paths');
+	$paths = rex_addon::get('xform')->getProperty('paths');
 
 	// Value
 	foreach($paths["value"] as $k => $path) {
@@ -614,7 +613,20 @@ class rex_xform
     return $return;
 
   }
-
+  
+  /**
+   * Adding xform class-path to array
+   */
+  public static function addPath($name = 'xform', $type, $newpath)
+  {
+    $addon = rex_addon::get('xform');
+    
+    $paths = $addon->getProperty('paths');
+    $paths[$type][$name] = $newpath;
+    $addon->setProperty('paths', $paths);
+    
+    unset($addon);
+  }
 
 	static function getBackendCSS($params) {
 	

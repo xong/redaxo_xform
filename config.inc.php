@@ -10,24 +10,15 @@ $REX['PERM'][] = 'xform[]';
 
 if(rex::isBackend() && rex::getUser())
 {
-	$paths = rex_config::get('xform-classes','paths');
-	// TODO: immer $path auf array setzebn .. shutdown save verwenden
-	if(!is_array($paths)) { 
-		$paths = array();
-		$paths["value"] = array();
-		$paths["validate"] = array();
-		$paths["action"] = array();
-	}
-
-	$paths["value"]["xform"] = rex_path::addon("xform","lib/value/");
-	$paths["validate"]["xform"] = rex_path::addon("xform","lib/validate/");
-	$paths["action"]["xform"] = rex_path::addon("xform","lib/action/");
-	rex_config::set('xform-classes','paths',$paths);
-
+	## Register Paths
+	rex_xform::addPath('xform', 'value', rex_path::addon("xform","lib/value/"));
+	rex_xform::addPath('xform', 'validate', rex_path::addon("xform","lib/validate/"));
+	rex_xform::addPath('xform', 'action', rex_path::addon("xform","lib/action/"));
+	
 	$pages = array();
-	if(rex::getUser()->isAdmin())	{
+	if(rex::getUser()->isAdmin())
 		$pages[] = array ('description', rex_i18n::msg('xform_description'));
-	}
+
 	$this->setProperty('pages', $pages);
 	rex_extension::register('PAGE_HEADER', 'rex_xform::getBackendCSS'); // rex_xform::css
 }
