@@ -625,8 +625,6 @@ class rex_xform
     $paths = $addon->getProperty('paths');
     $paths[$type][$name] = $newpath;
     $addon->setProperty('paths', $paths);
-    
-    unset($addon);
   }
 
 	static function getBackendCSS($params) {

@@ -1,25 +1,21 @@
 <?php
+
 $content = '';
+$template_id = rex_request('template_id','int');
 
-$SF = true;
-
-$table = rex::getTablePrefix()."xform_email_template";
-$bezeichner = rex_i18n::msg("xform_email_template");
-$csuchfelder = array("name","mail_from","mail_subject","body");
-
-$func = rex_request("func","string","");
-$template_id = rex_request("template_id","int");
+## Print title
+echo rex_view::title('XForm');
 
 /*
  * adding/edit email templates
  */
-if($func == "add" || $func == "edit")
+if($func == 'add' || $func == 'edit')
 {
   $content .= '<h2>'.rex_i18n::msg('xform_email_add_template').'</h2>';
   $content .= '<p>Durch folgende Markierungen <b>###field###</b> kann man die in den Formularen eingegebenen Felder hier im E-Mail Template verwenden. Weiterhin sind
 	alle REDAXO Variablen wie $REX["SERVER"] als <b>###REX_SERVER###</b> verwendbar. Urlencoded, z.b. für Links, bekommt man diese Werte über <b>+++field+++</b></p>';
 
-  $form = rex_form::factory(rex::getTablePrefix()."xform_email_template", 'Template', 'id='. $template_id);
+  $form = rex_form::factory(rex::getTablePrefix().'xform_email_template', 'Template', 'id='. $template_id);
   
   if($func == 'edit')
     $form->addParam('template_id', $template_id);
@@ -45,21 +41,21 @@ if($func == "add" || $func == "edit")
   $field = &$form->addMedialistField('attachments');
   $field->setLabel(rex_i18n::msg("xform_email_attachments"));
 
-  $content .=  $form->get();
+  $content .= $form->get();
+  
+  ## Print form
+  echo rex_view::contentBlock($content);
 }
 else
 {
-  $content .= '<h2>'.rex_i18n::msg('xform_email_templates').'</h2>';
-  
   /*
    * remove email templates
    */
-  if($func == "delete")
+  if($func == 'delete')
   {
-    $query = "delete from $table where id='".$template_id."' ";
     $delsql = rex_sql::factory();
     $delsql->debugsql=0;
-    $delsql->setQuery($query);
+    $delsql->setQuery('DELETE FROM '.rex::getTablePrefix().'xform_email_template WHERE id = ?', array($template_id));
   
     $content .= rex_view::warning(rex_i18n::msg('xform_email_info_template_deleted'));
   }
@@ -67,9 +63,7 @@ else
   /*
    * list email templates
    */
-  $sql = "select * from $table ";
-  
-  $list = rex_list::factory($sql);
+  $list = rex_list::factory('SELECT * FROM '.rex::getTablePrefix().'xform_email_template');
   $list->setCaption(rex_i18n::msg('xform_email_header_template_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('xform_email_header_template_summary'));
 
@@ -101,9 +95,7 @@ else
   $list->setNoRowsMessage(rex_i18n::msg('xform_email_templates_not_found'));
 
   $content .= $list->get();
-}
 
-## Print Site
-echo rex_view::title("XForm");
-echo rex_view::contentBlock($content,'','tab');
-?>
+  ## Print list
+  echo rex_view::contentBlock($content,'','block');
+}

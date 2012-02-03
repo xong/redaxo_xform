@@ -1,10 +1,11 @@
 <?php
+
+## register paths
+rex_xform::addPath('manager', 'value', rex_path::plugin("xform","manager","lib/value/"));
+rex_xform::addPath('manager', 'action', rex_path::plugin("xform","manager","lib/action/"));
+
 if(rex::isBackend() && is_object(rex::getUser()))
 {
-  ## register paths
-  rex_xform::addPath('manager', 'value', rex_path::plugin("xform","manager","lib/value/"));
-  rex_xform::addPath('manager', 'action', rex_path::plugin("xform","manager","lib/action/"));
-
   $be_pages = $this->getProperty('pages');
 
   $t = new rex_xform_manager();
@@ -37,4 +38,3 @@ if(rex::isBackend() && is_object(rex::getUser()))
     $this->setProperty('pages', $be_pages);
   }
 }
-
