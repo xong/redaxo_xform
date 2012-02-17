@@ -8,4 +8,4 @@ requires:
     phpmailer:
       min-version: '1.3'
 pages:
-  - ['', 'translate:xform_overview']
+ - ['', 'translate:xform_overview']
