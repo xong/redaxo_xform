@@ -1,5 +1,4 @@
 <?php
-
 /**
  * XForm
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
@@ -13,11 +12,13 @@ rex_xform::addPath('xform', 'action', rex_path::addon("xform","lib/action/"));
 
 if(rex::isBackend() && rex::getUser())
 {
-  $pages = array();
+  $pages = $this->getProperty('pages');
+  
   if(rex::getUser()->isAdmin())
     $pages[] = array ('description', rex_i18n::msg('xform_description'));
 
   $this->setProperty('pages', $pages);
+  
 
   rex_extension::register('PAGE_HEADER', 'rex_xform::getBackendCSS'); // rex_xform::css
 }
