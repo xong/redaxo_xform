@@ -6,7 +6,7 @@
 
 $xform = new rex_xform;
 if ("REX_VALUE[7]" == 1) { $xform->setDebug(TRUE); }
-$form_data = 'REX_VALUE[3]';
+$form_data = preg_replace('~^(#|//).*$', '', 'REX_VALUE[3]');
 $form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
 $xform->setFormData($form_data);
 $xform->setRedaxoVars(REX_ARTICLE_ID,REX_CLANG_ID); 
